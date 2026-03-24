@@ -55,13 +55,37 @@ img { max-width: 100%; display: block; }
 .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
 .close-menu { display: none; }
 @media (max-width: 768px) {
-.nav-links { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: var(--bg-body); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s; border-left: 1px solid var(--border-color); z-index: 1002; }
+.nav-links { 
+    position: fixed; 
+    top: 0; 
+    right: -100%;  /* ← HIDDEN BY DEFAULT */
+    width: 70%; 
+    height: 100vh; 
+    background: var(--bg-body); 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    transition: 0.4s ease; 
+    border-left: 1px solid var(--border-color);
+    z-index: 1002;  /* ← ADDED */
+}
 .nav-links a { font-size: 1.5em; padding: 15px 0; }
-.nav-links.active { right: 0; }
-.hamburger { display: block; z-index: 1003; }
-/* CHANGE #1: Hide hamburger when menu is open */
-.nav-container:has(.nav-links.active) .hamburger { display: none; }
-.close-menu { position: absolute; top: 25px; right: 25px; background: none; border: none; color: var(--text-main); font-size: 1.5rem; cursor: pointer; padding: 5px; z-index: 1001; display: block; }
+.nav-links.active { right: 0; }  /* ← SHOWS WHEN ACTIVE */
+.hamburger { display: block; z-index: 1003; }  /* ← ADDED z-index */
+.close-menu { 
+    position: absolute; 
+    top: 25px; 
+    right: 25px; 
+    background: none; 
+    border: none; 
+    color: var(--text-main); 
+    font-size: 1.5rem; 
+    cursor: pointer; 
+    padding: 5px; 
+    z-index: 1003; 
+    display: none;  /* ← CHANGED FROM block TO none */
+}
+.nav-links.active .close-menu { display: block; }  /* ← SHOW ONLY WHEN MENU OPEN */
 }
 .hero { padding: 120px 0 80px; position: relative; overflow: hidden; background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 40px 40px; }
 .hero-content { max-width: 800px; position: relative; z-index: 2; }
