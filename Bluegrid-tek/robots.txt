@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bluegrid-tek.vercel.app/sitemap.xml
