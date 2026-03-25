@@ -25,8 +25,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root { --color-navy: #0A2540; --color-accent: #1A6FE8; --color-muted: #7A8FA6; --font-heading: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace; --bg-body: #FFFFFF; --bg-surface: #F4F6F9; --text-main: #0A2540; --text-muted: #7A8FA6; --border-color: #E0E6ED; --shadow: 0 10px 30px -10px rgba(10, 37, 64, 0.15); }
-[data-theme="dark"] { --bg-body: #0D0D0D; --bg-surface: #161616; --text-main: #E8EDF3; --text-muted: #7A8FA6; --border-color: #2A2A2A; --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
+:root { --color-navy: #1A1208; --color-accent: #C9963A; --color-muted: #8A7E6A; --font-heading: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace; --bg-body: #FAF8F3; --bg-surface: #F2EEE5; --text-main: #1A1208; --text-muted: #8A7E6A; --border-color: #DDD5C4; --shadow: 0 10px 30px -10px rgba(26, 18, 8, 0.15); }
+[data-theme="dark"] { --bg-body: #0C0B07; --bg-surface: #161410; --text-main: #F0EAD6; --text-muted: #8A7E6A; --border-color: #2C2820; --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { background-color: var(--bg-body); color: var(--text-main); font-family: var(--font-body); transition: background-color 0.4s ease, color 0.4s ease; line-height: 1.6; overflow-x: hidden; }
@@ -37,7 +37,7 @@ img { max-width: 100%; display: block; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 .btn { display: inline-block; padding: 14px 32px; border-radius: 4px; font-weight: 700; font-family: var(--font-heading); cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; }
 .btn-primary { background-color: var(--color-navy); color: #fff; }
-.btn-primary:hover { background-color: var(--color-accent); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(26, 111, 232, 0.3); }
+.btn-primary:hover { background-color: var(--color-accent); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(201, 150, 58, 0.35); }
 .btn-outline { border: 2px solid var(--color-navy); color: var(--color-navy); background: transparent; }
 [data-theme="dark"] .btn-outline { border-color: #fff; color: #fff; }
 .btn-outline:hover { background: var(--color-navy); color: #fff; border-color: var(--color-navy); }
@@ -96,25 +96,112 @@ img { max-width: 100%; display: block; }
 .nav-links.active .close-menu { display: block !important; }
 }
 
-.hero { padding: 120px 0 80px; position: relative; overflow: hidden; background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 40px 40px; }
-.hero-content { max-width: 800px; position: relative; z-index: 2; }
-.hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 20px; color: var(--color-navy); opacity: 0; animation: fadeUp 0.8s forwards 0.2s; }
-[data-theme="dark"] .hero h1 { color: #fff; }
-.hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s forwards 0.4s; }
-.hero-btns { display: flex; gap: 20px; opacity: 0; animation: fadeUp 0.8s forwards 0.6s; }
+/* ============================================ */
+/* CHANGE 1: HERO — BACKGROUND IMAGE + SYNE FONT */
+/* ============================================ */
+.hero {
+  padding: 140px 0 100px;
+  position: relative;
+  overflow: hidden;
+  background-image:
+    linear-gradient(to bottom right, rgba(26, 18, 8, 0.88) 0%, rgba(26, 18, 8, 0.70) 50%, rgba(201, 150, 58, 0.30) 100%),
+    url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+/* Subtle grid overlay on top of the photo */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-content { max-width: 820px; position: relative; z-index: 2; }
+
+/* Hero h1 always uses Syne (same as logo), forced white + letter-spacing for premium look */
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  margin-bottom: 24px;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  opacity: 0;
+  animation: fadeUp 0.8s forwards 0.2s;
+  line-height: 1.05;
+}
+/* Remove the dark/light colour swap since hero is always on a dark bg image */
+[data-theme="dark"] .hero h1 { color: #FFFFFF; }
+
+.hero p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: fadeUp 0.8s forwards 0.4s;
+  max-width: 600px;
+}
+.hero-btns { display: flex; gap: 20px; opacity: 0; animation: fadeUp 0.8s forwards 0.6s; flex-wrap: wrap; }
+
+/* Hero buttons styled for dark bg */
+.hero .btn-primary { background-color: var(--color-accent); color: #fff; }
+.hero .btn-primary:hover { background-color: #A67B28; }
+.hero .btn-outline { border-color: rgba(255,255,255,0.8); color: #fff; background: rgba(255,255,255,0.08); backdrop-filter: blur(6px); }
+.hero .btn-outline:hover { background: rgba(255,255,255,0.18); border-color: #fff; color: #fff; }
+
+/* ============================================ */
+/* HERO MOBILE RESPONSIVENESS */
+/* ============================================ */
+@media (max-width: 768px) {
+  .hero {
+    background-attachment: scroll;
+    min-height: 80vh;
+  }
+}
+
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
 .section { padding: 100px 0; }
 .section-header { margin-bottom: 60px; }
 .section-header h2 { font-size: 2.5rem; color: var(--color-navy); margin-bottom: 10px; }
 [data-theme="dark"] .section-header h2 { color: #fff; }
 .section-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-accent); display: block; margin-bottom: 12px; }
 .section-subheading { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; }
+
+/* ============================================ */
+/* CHANGE 2: SERVICE CARDS — WITH TOP IMAGES */
+/* ============================================ */
 .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-.service-card { background: var(--bg-surface); padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); transition: 0.3s; }
+.service-card {
+  background: var(--bg-surface);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  transition: 0.3s;
+  overflow: hidden; /* needed so the image corners respect border-radius */
+  padding: 0; /* image goes edge-to-edge at top, content padded below */
+}
 .service-card:hover { transform: translateY(-5px); border-color: var(--color-accent); box-shadow: var(--shadow); }
-.service-icon { font-size: 2.5rem; color: var(--color-accent); margin-bottom: 20px; }
-.service-card h3 { margin-bottom: 10px; font-size: 1.5rem; }
+.service-card-image {
+  width: 100%;
+  aspect-ratio: 16/8;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.service-card:hover .service-card-image { transform: scale(1.04); }
+.service-card-body { padding: 28px 32px 32px; }
+.service-icon { font-size: 2rem; color: var(--color-accent); margin-bottom: 14px; }
+.service-card h3 { margin-bottom: 8px; font-size: 1.4rem; }
 .service-card p { color: var(--text-muted); font-size: 0.95rem; }
+
 .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 .portfolio-card { background: var(--bg-surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); transition: 0.3s; max-width: 400px; }
 .portfolio-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
@@ -130,9 +217,9 @@ img { max-width: 100%; display: block; }
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
 .form-control { width: 100%; padding: 14px; background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-main); font-family: var(--font-body); transition: 0.3s; }
-.form-control:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(26, 111, 232, 0.2); }
+.form-control:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(201, 150, 58, 0.2); }
 .submit-btn { width: 100%; background: var(--color-accent); color: #fff; border: none; padding: 16px; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; }
-.submit-btn:hover { background: #155cb5; }
+.submit-btn:hover { background: #A67B28; }
 footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-align: center; }
 .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
 .footer-col h4 { margin-bottom: 20px; color: var(--color-navy); }
@@ -146,7 +233,7 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 60px; }
 .pricing-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 40px 32px; position: relative; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; display: flex; flex-direction: column; }
 .pricing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--color-accent); }
-.pricing-card-featured { border: 2px solid var(--color-accent); transform: translateY(-12px); box-shadow: 0 20px 40px -10px rgba(26, 111, 232, 0.2); }
+.pricing-card-featured { border: 2px solid var(--color-accent); transform: translateY(-12px); box-shadow: 0 20px 40px -10px rgba(201, 150, 58, 0.25); }
 .pricing-card-featured:hover { transform: translateY(-18px); }
 .pricing-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--color-navy); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; }
 [data-theme="dark"] .pricing-badge { background: var(--color-accent); color: var(--bg-body); }
@@ -159,25 +246,33 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 .pricing-features { list-style: none; padding: 0; margin: 0 0 20px 0; flex-grow: 1; }
 .pricing-features li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; color: var(--text-main); font-size: 0.95rem; }
 .pricing-features li i { color: var(--color-accent); margin-top: 4px; flex-shrink: 0; }
-.pricing-limitation, .pricing-note { display: flex; align-items: flex-start; gap: 8px; color: var(--text-muted); font-size: 0.85rem; font-style: italic; margin-bottom: 24px; padding: 12px; background: rgba(122, 143, 166, 0.1); border-radius: 4px; }
+.pricing-limitation, .pricing-note { display: flex; align-items: flex-start; gap: 8px; color: var(--text-muted); font-size: 0.85rem; font-style: italic; margin-bottom: 24px; padding: 12px; background: rgba(138, 126, 106, 0.1); border-radius: 4px; }
 .pricing-limitation i { color: var(--text-muted); margin-top: 3px; }
 .pricing-cta { width: 100%; text-align: center; margin-top: auto; }
 .trust-bar { display: flex; justify-content: center; gap: 40px; padding: 30px; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-color); }
 .trust-item { display: flex; align-items: center; gap: 12px; color: var(--text-main); font-weight: 500; }
 .trust-item i { color: var(--color-accent); font-size: 1.2rem; }
 @media (max-width: 1024px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ============================================ */
+/* CHANGE 3: PRICING MOBILE — BASIC PLAN FIRST  */
+/* Remove order:-1 from featured so Basic stays */
+/* at the top as it appears in HTML order.       */
+/* ============================================ */
 @media (max-width: 768px) {
 .pricing-grid { grid-template-columns: 1fr; }
-.pricing-card-featured { transform: translateY(0); order: -1; }
+/* REMOVED: .pricing-card-featured { order: -1; } — this was pushing Intermediate to top */
+.pricing-card-featured { transform: translateY(0); }
 .pricing-card-featured:hover { transform: translateY(-6px); }
 .trust-bar { flex-direction: column; gap: 20px; align-items: center; text-align: center; }
 .trust-item { flex-direction: column; gap: 8px; }
 }
+
 .faq-wrapper { max-width: 760px; margin: 0 auto; }
 .faq-box { border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 16px; overflow: hidden; background: var(--bg-surface); }
 .faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--text-main); transition: all 0.3s ease; }
-.faq-btn:hover { background: rgba(26, 111, 232, 0.05); }
-.faq-btn.active { background: rgba(26, 111, 232, 0.08); }
+.faq-btn:hover { background: rgba(201, 150, 58, 0.05); }
+.faq-btn.active { background: rgba(201, 150, 58, 0.08); }
 .faq-btn.active .faq-text { color: var(--color-accent); }
 .faq-text { flex: 1; padding-right: 16px; }
 .faq-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--color-accent); color: #fff; border-radius: 50%; flex-shrink: 0; transition: transform 0.3s ease; }
@@ -208,6 +303,7 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 </div>
 </nav>
 
+<!-- CHANGE 1: Hero section — background image applied via CSS, Syne font preserved -->
 <section id="home" class="hero">
 <div class="container hero-content">
 <h1>We Build Websites That Work For You</h1>
@@ -219,6 +315,7 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 </div>
 </section>
 
+<!-- CHANGE 2: Service cards with images added above content -->
 <section id="services" class="section">
 <div class="container">
 <div class="section-header">
@@ -226,12 +323,91 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 <p style="color: var(--text-muted)">Tailored solutions for every business need.</p>
 </div>
 <div class="services-grid">
-<div class="service-card"><i class="fas fa-store service-icon"></i><h3>E-Commerce Store</h3><p>Full-featured online stores with payment integration.</p></div>
-<div class="service-card"><i class="fas fa-building service-icon"></i><h3>Business Landing Page</h3><p>High-converting pages to showcase your brand.</p></div>
-<div class="service-card"><i class="fas fa-id-card service-icon"></i><h3>Portfolio Site</h3><p>Elegant displays for creatives and professionals.</p></div>
-<div class="service-card"><i class="fas fa-newspaper service-icon"></i><h3>Blog Platform</h3><p>Content management systems for publishers.</p></div>
-<div class="service-card"><i class="fas fa-calendar-check service-icon"></i><h3>Booking Platform</h3><p>Appointment scheduling and service booking.</p></div>
-<div class="service-card"><i class="fas fa-utensils service-icon"></i><h3>Restaurant Website</h3><p>Menu displays and reservation systems.</p></div>
+
+  <div class="service-card">
+    <img
+      class="service-card-image"
+      src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=300&fit=crop&q=80"
+      alt="E-Commerce Store"
+      loading="lazy"
+    >
+    <div class="service-card-body">
+      <i class="fas fa-store service-icon"></i>
+      <h3>E-Commerce Store</h3>
+      <p>Full-featured online stores with payment integration.</p>
+    </div>
+  </div>
+
+  <div class="service-card">
+    <img
+      class="service-card-image"
+      src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=300&fit=crop&q=80"
+      alt="Business Landing Page"
+      loading="lazy"
+    >
+    <div class="service-card-body">
+      <i class="fas fa-building service-icon"></i>
+      <h3>Business Landing Page</h3>
+      <p>High-converting pages to showcase your brand.</p>
+    </div>
+  </div>
+
+  <div class="service-card">
+    <img
+      class="service-card-image"
+      src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=300&fit=crop&q=80"
+      alt="Portfolio Site"
+      loading="lazy"
+    >
+    <div class="service-card-body">
+      <i class="fas fa-id-card service-icon"></i>
+      <h3>Portfolio Site</h3>
+      <p>Elegant displays for creatives and professionals.</p>
+    </div>
+  </div>
+
+  <div class="service-card">
+    <img
+      class="service-card-image"
+      src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=300&fit=crop&q=80"
+      alt="Blog Platform"
+      loading="lazy"
+    >
+    <div class="service-card-body">
+      <i class="fas fa-newspaper service-icon"></i>
+      <h3>Blog Platform</h3>
+      <p>Content management systems for publishers.</p>
+    </div>
+  </div>
+
+  <div class="service-card">
+    <img
+      class="service-card-image"
+      src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&h=300&fit=crop&q=80"
+      alt="Booking Platform"
+      loading="lazy"
+    >
+    <div class="service-card-body">
+      <i class="fas fa-calendar-check service-icon"></i>
+      <h3>Booking Platform</h3>
+      <p>Appointment scheduling and service booking.</p>
+    </div>
+  </div>
+
+  <div class="service-card">
+    <img
+      class="service-card-image"
+      src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=300&fit=crop&q=80"
+      alt="Restaurant Website"
+      loading="lazy"
+    >
+    <div class="service-card-body">
+      <i class="fas fa-utensils service-icon"></i>
+      <h3>Restaurant Website</h3>
+      <p>Menu displays and reservation systems.</p>
+    </div>
+  </div>
+
 </div>
 </div>
 </section>
@@ -258,6 +434,10 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 <h2>Choose the Right Plan for Your Business</h2>
 <p class="section-subheading">Every website is built to convert visitors into paying customers.</p>
 </div>
+<!-- CHANGE 3: HTML order is Basic → Intermediate → Advanced.
+     The old CSS had order:-1 on .pricing-card-featured which pulled
+     Intermediate to the top on mobile. That rule is now removed.
+     Basic will naturally appear first on mobile. -->
 <div class="pricing-grid">
 <div class="pricing-card">
 <div class="pricing-icon"><i class="fas fa-globe"></i></div>
@@ -380,20 +560,20 @@ footer { padding: 60px 0 20px; border-top: 1px solid var(--border-color); text-a
 <div class="footer-content">
 <div class="footer-col"><h4>Blue Grid</h4><p style="color: var(--text-muted); max-width: 250px;">Building digital excellence with precision and style.</p></div>
 <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="#home">Home</a></li><li><a href="#services">Services</a></li><li><a href="#portfolio">Portfolio</a></li></ul></div>
-<div class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/2348087202240"><i class="fab fa-whatsapp"></i> +234 808 720 2240</a></li><li><a href="mailto:bluegridwebdev@gmail.com"><i class="fas fa-envelope"></i> bluegridwebdev@gmail.com</a></li></ul></div>
+<div class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/2348087202240"><i class="fab fa-whatsapp"></i> +234 808 720 2240</a></li><li><a href="/cdn-cgi/l/email-protection#32505e475755405b5645575056574472555f535b5e1c515d5f"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="1c7e7069797b6e75786b797e78796a5c7b717d7570327f7371">[email&#160;protected]</span></a></li></ul></div>
 </div>
 <div class="copyright">&copy; 2025 Blue Grid. All rights reserved.</div>
 </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ============================================
 // SUPABASE CONFIGURATION (MUST MATCH admin.html)
 // ============================================
 const SUPABASE_URL = 'https://skwkaseyfxrcdikqybck.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrd2thc2V5ZnhyY2Rpa3F5YmNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjc5NTIsImV4cCI6MjA4OTg0Mzk1Mn0.JN2SKG3qnZBKQvZLimXn2C4jrnl2vY-_skB9nGrBI00';
 if (!window.supabase) {
-document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;color:#fff;background:#0A2540;text-align:center;padding:20px"><div><h2 style="margin-bottom:12px">&#9888; Failed to load Supabase</h2><p style="color:#7A8FA6">Check your internet connection and refresh the page.</p></div></div>';
+document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;color:#fff;background:#1A1208;text-align:center;padding:20px"><div><h2 style="margin-bottom:12px">&#9888; Failed to load Supabase</h2><p style="color:#8A7E6A">Check your internet connection and refresh the page.</p></div></div>';
 throw new Error('Supabase CDN failed to load');
 }
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
