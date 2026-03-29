@@ -1,0 +1,921 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Luxe Interiors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Supabase Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- GLOBAL VARIABLES (MATCHES INDEX.HTML) --- */
+        :root {
+            --color-black: #000000;
+            --color-cream: #F5F0EB;
+            --color-gold: #C9A96E;
+            --color-overlay: rgba(0,0,0,0.35);
+            --color-overlay-dark: rgba(0,0,0,0.45);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --nav-height: 70px;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--color-cream); /* LIGHT PAGE LIKE INDEX.HTML */
+            color: var(--color-black);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; }
+        a { text-decoration: none; color: inherit; transition: var(--transition-smooth); }
+        ul { list-style: none; }
+        img { width: 100%; display: block; object-fit: cover; }
+        button { cursor: pointer; border: none; font-family: var(--font-body); }
+
+        /* --- UTILITIES --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .text-center { text-align: center; }
+        .gold-text { color: var(--color-gold); }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
+        }
+        .btn-gold { background: var(--color-gold); color: var(--color-black); border: 1px solid var(--color-gold); }
+        .btn-gold:hover { background: transparent; color: var(--color-gold); }
+
+        /* ── SECTION 1: NAVBAR (Floating Pill) ── */
+        .nav-wrapper {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 93%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .nav-pill {
+            width: 100%;
+            height: 68px;
+            background: #000;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            pointer-events: all;
+            transition: height 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+                        width 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+            overflow: visible;
+            will-change: width, height;
+        }
+
+        /* LEFT LINKS */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding-left: 32px;
+            flex: 1;
+            transition: opacity 0.25s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.38s cubic-bezier(0.22,1,0.36,1),
+                        width 0.38s cubic-bezier(0.22,1,0.36,1);
+            transform-origin: left center;
+            will-change: opacity, transform;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+        .nav-links a:hover { color: #fff; }
+
+        /* CENTER LOGO */
+        .nav-logo-wrap {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .nav-logo {
+            height: 88px;
+            width: 88px;
+            border-radius: 50%;
+            background: #000;
+            border: 2.5px solid rgba(255,255,255,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 0 0 6px #000, 0 8px 32px rgba(0,0,0,0.6);
+            overflow: hidden;
+            position: relative;
+            will-change: height, width;
+        }
+        .logo-text-main {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.12em;
+            line-height: 1;
+            transition: all 0.35s ease;
+        }
+        .logo-text-sub {
+            font-size: 0.42rem;
+            font-weight: 300;
+            font-family: 'Montserrat', sans-serif;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-top: 4px;
+            transition: all 0.35s ease;
+        }
+        .logo-accent {
+            position: absolute;
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,169,110,0.7), transparent);
+            bottom: 26px;
+            transition: all 0.35s ease;
+        }
+
+        /* RIGHT CTA */
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            padding-right: 22px;
+            flex: 1;
+            justify-content: flex-end;
+            transition: opacity 0.25s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.38s cubic-bezier(0.22,1,0.36,1);
+            transform-origin: right center;
+            will-change: opacity, transform;
+        }
+        .cta-btn {
+            padding: 9px 22px;
+            border-radius: 100px;
+            background: linear-gradient(110deg, #FFD700, #FFA500);
+            color: #000;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .cta-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%;
+            width: 40%;
+            height: 100%;
+            background: rgba(255,255,255,0.25);
+            transform: skewX(-20deg);
+            animation: shine 3s ease-in-out infinite;
+        }
+        @keyframes shine {
+            0% { left: -60%; }
+            30%, 100% { left: 130%; }
+        }
+        .cta-btn:hover { transform: scale(1.03); }
+
+        /* SCROLLED STATE */
+        .nav-pill.scrolled {
+            height: 52px;
+            width: 180px;
+            margin: 0 auto;
+        }
+        .nav-pill.scrolled .nav-links {
+            opacity: 0;
+            transform: scaleX(0);
+            pointer-events: none;
+        }
+        .nav-pill.scrolled .nav-cta {
+            opacity: 0;
+            transform: scaleX(0);
+            pointer-events: none;
+        }
+        .nav-pill.scrolled .nav-logo {
+            height: 68px;
+            width: 68px;
+            border-color: rgba(255,255,255,0.18);
+        }
+        .nav-pill.scrolled .logo-text-main { font-size: 0.88rem; }
+        .nav-pill.scrolled .logo-text-sub { font-size: 0.36rem; opacity: 0.6; }
+        .nav-pill.scrolled .logo-accent { bottom: 20px; width: 22px; }
+
+        .nav-bg-bar {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 68px;
+            background: transparent;
+            border-radius: 100px;
+            z-index: 999;
+            pointer-events: none;
+            transition: background 0.38s cubic-bezier(0.22,1,0.36,1),
+                        height 0.38s cubic-bezier(0.22,1,0.36,1);
+        }
+
+        /* Mobile Nav */
+        .hamburger { display: none; color: var(--color-cream); font-size: 1.5rem; }
+        .mobile-menu {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--color-black);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transform: translateY(-100%);
+            transition: var(--transition-smooth);
+        }
+        .mobile-menu.active { transform: translateY(0); }
+        .mobile-menu a { color: var(--color-cream); font-size: 1.5rem; font-family: var(--font-heading); }
+        .close-menu { position: absolute; top: 30px; right: 30px; color: var(--color-cream); font-size: 2rem; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: block; position: absolute; right: 20px; }
+            .nav-wrapper { width: 95%; }
+            .nav-pill { padding: 0 20px; }
+            .nav-pill.scrolled { width: 160px; }
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            padding: 140px 0 60px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards;
+        }
+        .page-header h1 { font-size: 3.5rem; margin-bottom: 10px; color: var(--color-black); }
+        .page-header p { color: #666; font-size: 1.1rem; }
+        
+        @keyframes fadeUp { 
+            to { opacity: 1; transform: translateY(0); } 
+            from { opacity: 0; transform: translateY(20px); } 
+        }
+
+        /* --- FILTER BAR --- */
+        .filter-bar {
+            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+            margin-bottom: 50px; padding: 0 20px;
+        }
+        .filter-btn {
+            background: transparent; border: 1px solid #ccc; color: #666;
+            padding: 8px 20px; border-radius: 50px; cursor: pointer;
+            transition: var(--transition-smooth); font-size: 0.9rem;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--color-gold); border-color: var(--color-gold);
+            color: var(--color-black);
+        }
+
+        /* --- PROJECTS GRID --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding: 0 20px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .project-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .project-card.visible { opacity: 1; transform: translateY(0); }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .project-card:hover img { transform: scale(1.05); }
+        
+        /* Card Overlays */
+        .card-overlay-bottom {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 20px;
+            display: flex; justify-content: space-between; align-items: flex-end;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            z-index: 2;
+        }
+        .location-pill {
+            background: rgba(0,0,0,0.6); color: #fff;
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .type-pill {
+            background: rgba(201, 169, 110, 0.9); color: #000;
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600;
+        }
+        .view-trigger {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.65); color: #fff;
+            padding: 10px 30px; border-radius: 50px;
+            opacity: 0; pointer-events: none;
+            transition: var(--transition-smooth);
+            z-index: 3; font-weight: 600;
+        }
+        .project-card:hover .view-trigger { opacity: 1; }
+        
+        @media (max-width: 768px) {
+            .project-grid { grid-template-columns: 1fr; }
+            .view-trigger {
+                opacity: 1; pointer-events: auto;
+                top: auto; bottom: 80px;
+                transform: translateX(-50%);
+            }
+            .project-card:hover img { transform: none; }
+        }
+
+        /* --- SLIDE-UP PANEL (BLACK BACKGROUND) --- */
+        .panel-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 1001; opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .panel-backdrop.active { opacity: 1; pointer-events: all; }
+        
+        .detail-panel {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--color-black); /* BLACK PANEL */
+            color: var(--color-cream); /* LIGHT TEXT ON BLACK */
+            z-index: 1002;
+            transform: translateY(100%);
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 90vh;
+            display: flex; flex-direction: column;
+            border-radius: 16px 16px 0 0;
+        }
+        .detail-panel.active { transform: translateY(0); }
+        
+        .panel-close {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(255,255,255,0.2); color: #fff;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer; z-index: 10;
+        }
+        
+        .panel-content {
+            overflow-y: auto;
+            padding: 0 0 40px;
+        }
+        .panel-hero {
+            width: 100%; height: 75vh;
+            object-fit: cover;
+            border-radius: 0 0 16px 16px;
+        }
+        .panel-body { padding: 30px 20px; max-width: 800px; margin: 0 auto; }
+        
+        .panel-tags { display: flex; gap: 10px; margin-bottom: 20px; }
+        .panel-tag {
+            border: 1px solid var(--color-gold); color: var(--color-gold);
+            padding: 6px 16px; border-radius: 50px;
+            font-size: 0.85rem; text-transform: uppercase;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex; gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .carousel-track::-webkit-scrollbar { display: none; }
+        .carousel-img {
+            height: 140px;
+            min-width: 200px;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+        .carousel-img.active {
+            opacity: 1;
+            border-color: var(--color-gold);
+        }
+        .carousel-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: var(--color-gold); color: var(--color-black);
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 5;
+        }
+        .carousel-nav.prev { left: 10px; }
+        .carousel-nav.next { right: 10px; }
+        @media (max-width: 768px) { .carousel-nav { display: none; } }
+
+        .panel-section-title {
+            color: var(--color-gold); font-size: 1.8rem;
+            margin: 30px 0 15px;
+        }
+        .panel-text { color: #ccc; line-height: 1.8; margin-bottom: 30px; }
+
+        /* Before/After in Panel */
+        .ba-slider-container {
+            position: relative; width: 100%; height: 300px;
+            border-radius: 12px; overflow: hidden; margin: 20px 0;
+        }
+        .ba-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .ba-img-before { clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%); z-index: 1; }
+        .ba-handle {
+            position: absolute; top: 0; bottom: 0; left: 50%;
+            width: 4px; background: var(--color-gold);
+            cursor: col-resize; z-index: 10;
+        }
+        .ba-handle::after {
+            content: '↔'; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--color-black); color: #fff;
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+        }
+        .ba-label {
+            position: absolute;
+            top: 20px;
+            color: var(--color-cream);
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            z-index: 5;
+            pointer-events: none;
+        }
+        .ba-label.before { left: 20px; }
+        .ba-label.after { right: 20px; }
+
+        .panel-cta {
+            width: 100%; background: var(--color-gold);
+            color: var(--color-black); padding: 15px;
+            border-radius: 50px; font-weight: 700;
+            text-align: center; margin-top: 30px;
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER (EXACT MATCH WITH INDEX.HTML) --- */
+        footer {
+            background: var(--color-black);
+            color: var(--color-cream);
+            padding: 60px 0 20px;
+            margin-top: 50px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 { color: var(--color-gold); margin-bottom: 20px; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: #aaa; }
+        .footer-col ul li a:hover { color: var(--color-gold); }
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a { width: 40px; height: 40px; border: 1px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 768px) { 
+            .footer-grid { grid-template-columns: 1fr; text-align: center; } 
+            .social-icons { justify-content: center; } 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BG BAR (pill background strip when collapsed) -->
+    <div class="nav-bg-bar" id="bgBar"></div>
+
+    <!-- NAVBAR -->
+    <div class="nav-wrapper">
+        <div class="nav-pill" id="navPill">
+
+            <!-- LEFT LINKS -->
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="portfolio.html">Portfolio</a>
+                <a href="index.html#faq">FAQ</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+
+            <!-- CENTER LOGO -->
+            <div class="nav-logo-wrap">
+                <div class="nav-logo">
+                    <span class="logo-text-main">LUXE.</span>
+                    <span class="logo-accent"></span>
+                    <span class="logo-text-sub">Interiors</span>
+                </div>
+            </div>
+
+            <!-- RIGHT CTA -->
+            <div class="nav-cta">
+            <a href="index.html#contact" class="btn btn-gold">Book Consultation</a>
+        </div>
+
+            <!-- HAMBURGER (mobile) -->
+            <div class="hamburger" id="hamburger">☰</div>
+
+        </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="close-menu" id="closeMenu">✕</div>
+        <a href="index.html#home" class="mobile-link">Home</a>
+        <a href="index.html#home#about" class="mobile-link">About</a>
+        <a href="portfolio.html" class="mobile-link">Portfolio</a>
+        <a href="index.html#home#faq" class="mobile-link">FAQ</a>
+        <a href="index.html#home#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Our Projects</h1>
+            <p>Every space tells a story. Here are ours.</p>
+        </div>
+    </header>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Residential">Residential</button>
+        <button class="filter-btn" data-filter="Commercial">Commercial</button>
+        <button class="filter-btn" data-filter="Hospitality">Hospitality</button>
+    </div>
+
+    <!-- PROJECTS GRID -->
+    <div class="project-grid" id="projectGrid">
+        <!-- Projects injected via JS -->
+    </div>
+
+    <!-- SLIDE-UP PANEL -->
+    <div class="panel-backdrop" id="panelBackdrop"></div>
+    <div class="detail-panel" id="detailPanel">
+        <div class="panel-close" id="panelClose">✕</div>
+        <div class="panel-content">
+            <img src="" alt="" class="panel-hero" id="pHero">
+            <div class="panel-body">
+                <div class="panel-tags" id="pTags"></div>
+                <h2 id="pTitle" style="font-size: 2.5rem; margin-bottom: 10px;"></h2>
+                <p id="pLocation" style="color: #888; margin-bottom: 30px;"></p>
+                
+                <h3 class="panel-section-title">Gallery</h3>
+                <div class="carousel-container">
+                    <div class="carousel-nav prev" id="carouselPrev">❮</div>
+                    <div class="carousel-track" id="carouselTrack"></div>
+                    <div class="carousel-nav next" id="carouselNext">❯</div>
+                </div>
+
+                <h3 class="panel-section-title">About This Project</h3>
+                <div class="panel-text" id="pDesc"></div>
+
+                <h3 class="panel-section-title">Before & After</h3>
+                <div class="ba-slider-container" id="baSlider">
+                    <img src="" class="ba-img" id="baAfter">
+                    <img src="" class="ba-img ba-img-before" id="baBefore">
+                    <div class="ba-label before">Before</div>
+                    <div class="ba-label after">After</div>
+                    <div class="ba-handle" id="baHandle"></div>
+                </div>
+
+                <a href="index.html#contact" class="panel-cta" id="panelCta">Start Your Project →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>LUXE.</h4>
+                    <p style="color: #aaa; font-size: 0.9rem;">Premium interior design studio crafting timeless spaces for modern living.</p>
+                    <div class="social-icons">
+                        <a href="#">IG</a>
+                        <a href="#">PN</a>
+                        <a href="#">LI</a>
+                        <a href="#">WA</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Residential</a></li>
+                        <li><a href="#">Commercial</a></li>
+                        <li><a href="#">Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:hello@luxeinteriors.com">hello@luxeinteriors.com</a></li>
+                        <li><a href="tel:+2348087202240">+234 808 720 2240</a></li>
+                        <li>Lagos, Nigeria</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Luxe Interiors. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // ==================== SUPABASE CONFIGURATION ====================
+    const SUPABASE_URL = 'https://cenclpqcdjqgrtedqcmf.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlbmNscHFjZGpxZ3J0ZWRxY21mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MTY5MTQsImV4cCI6MjA5MDE5MjkxNH0.abHl1E8VAoVpOdjIbT-8p6Eb32Bn1TfTn3zY-cyGREg';
+    
+    // Initialize Supabase client
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ==================== LOAD PROJECTS FROM SUPABASE ====================
+    let projects = [];
+
+    async function loadProjects() {
+        const projectGrid = document.getElementById('projectGrid');
+        projectGrid.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#666; font-size:1.1rem;">Loading projects...</div>';
+        
+        // Fetch from Supabase
+        const { data, error } = await supabaseClient
+            .from('projects')
+            .select('*')
+            .order('created_at', { ascending: false });
+        
+        if (error) {
+            console.error('Error fetching projects:', error.message);
+            projectGrid.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#666;">Error loading projects. Please try again later.</div>';
+            return;
+        }
+        
+        projects = data || [];
+        
+        // Fallback to localStorage if Supabase is empty
+        if (projects.length === 0) {
+            const localProjects = JSON.parse(localStorage.getItem('id_projects')) || [];
+            if (localProjects.length > 0) {
+                projects = localProjects;
+            }
+        }
+        
+        if (projects.length === 0) {
+            projectGrid.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#666;">No projects yet. Check back soon!</div>';
+            return;
+        }
+        
+        renderProjects();
+    }
+
+    // --- RENDER PROJECTS ---
+    const projectGrid = document.getElementById('projectGrid');
+    
+    function renderProjects(filter = 'all') {
+        projectGrid.innerHTML = '';
+        const filtered = filter === 'all' ? projects : projects.filter(p => p.type === filter);
+        
+        if (filtered.length === 0) {
+            projectGrid.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#666;">No projects found in this category.</div>';
+            return;
+        }
+        
+        filtered.forEach((p, index) => {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.style.transitionDelay = `${index * 0.08}s`;
+            card.innerHTML = `
+                <img src="${p.hero || 'https://via.placeholder.com/400x500'}" alt="${p.title || 'Project'}">
+                <div class="view-trigger">View Project</div>
+                <div class="card-overlay-bottom">
+                    <span class="location-pill">${p.location || 'Unknown'}</span>
+                    <span class="type-pill">${p.type || 'Unknown'}</span>
+                </div>
+            `;
+            card.addEventListener('click', () => openPanel(p));
+            projectGrid.appendChild(card);
+            
+            setTimeout(() => card.classList.add('visible'), 100);
+        });
+    }
+
+
+    
+
+    // --- FILTER LOGIC ---
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProjects(btn.dataset.filter);
+        });
+    });
+
+    // --- PANEL LOGIC ---
+    const panel = document.getElementById('detailPanel');
+    const backdrop = document.getElementById('panelBackdrop');
+    const closePanelBtn = document.getElementById('panelClose');
+    const panelCta = document.getElementById('panelCta');
+
+    function openPanel(project) {
+        document.getElementById('pHero').src = project.hero || 'https://via.placeholder.com/800x600';
+        document.getElementById('pTitle').innerText = project.title || 'Untitled Project';
+        document.getElementById('pLocation').innerText = project.location || 'Unknown';
+        document.getElementById('pDesc').innerText = project.description || 'No description available.';
+        document.getElementById('pTags').innerHTML = `
+            <span class="panel-tag">${project.type || 'Unknown'}</span>
+            <span class="panel-tag">${project.location || 'Unknown'}</span>
+        `;
+        document.getElementById('baBefore').src = project.before_image || project.hero || 'https://via.placeholder.com/600x400';
+        document.getElementById('baAfter').src = project.after_image || project.hero || 'https://via.placeholder.com/600x400';
+
+        // Render Carousel
+        const track = document.getElementById('carouselTrack');
+        const gallery = Array.isArray(project.gallery) ? project.gallery : (project.gallery || '').split(',').filter(s => s.trim());
+        
+        if (gallery.length > 0) {
+            track.innerHTML = gallery.map(img => `<img src="${img}" class="carousel-img" onclick="changeHero('${img}')">`).join('');
+            if(track.firstChild) track.firstChild.classList.add('active');
+        } else {
+            track.innerHTML = '<div style="color:#666; padding:20px;">No gallery images</div>';
+        }
+
+        panel.classList.add('active');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePanel() {
+        panel.classList.remove('active');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    closePanelBtn.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+    panelCta.addEventListener('click', closePanel);
+
+    // --- CAROUSEL LOGIC ---
+    window.changeHero = (src) => {
+        const heroImg = document.getElementById('pHero');
+        heroImg.style.opacity = '0';
+        setTimeout(() => {
+            heroImg.src = src;
+            heroImg.style.opacity = '1';
+        }, 300);
+        
+        document.querySelectorAll('.carousel-img').forEach(img => {
+            img.classList.toggle('active', img.src === src);
+        });
+    };
+
+    const track = document.getElementById('carouselTrack');
+    document.getElementById('carouselPrev').addEventListener('click', () => track.scrollBy({ left: -200, behavior: 'smooth' }));
+    document.getElementById('carouselNext').addEventListener('click', () => track.scrollBy({ left: 200, behavior: 'smooth' }));
+
+    // Touch Swipe for Carousel
+    let touchStartX = 0;
+    let touchEndX = 0;
+    track.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+    track.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) track.scrollBy({ left: 200, behavior: 'smooth' });
+        if (touchEndX - touchStartX > 50) track.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    // --- BEFORE/AFTER SLIDER IN PANEL ---
+    const baSlider = document.getElementById('baSlider');
+    const baBeforeImg = document.getElementById('baBefore');
+    const baHandle = document.getElementById('baHandle');
+    let isDown = false;
+
+    const moveBa = (x) => {
+        const rect = baSlider.getBoundingClientRect();
+        let pos = ((x - rect.left) / rect.width) * 100;
+        if (pos < 0) pos = 0; if (pos > 100) pos = 100;
+        baBeforeImg.style.clipPath = `polygon(${pos}% 0, 100% 0, 100% 100%, ${pos}% 100%)`;
+        baHandle.style.left = `${pos}%`;
+    };
+
+    baSlider.addEventListener('mousedown', () => isDown = true);
+    baSlider.addEventListener('touchstart', () => isDown = true);
+    window.addEventListener('mouseup', () => isDown = false);
+    window.addEventListener('touchend', () => isDown = false);
+    baSlider.addEventListener('mousemove', (e) => { if (!isDown) return; moveBa(e.clientX); });
+    baSlider.addEventListener('touchmove', (e) => { if (!isDown) return; moveBa(e.touches[0].clientX); });
+
+    // --- NAVBAR SCROLL LOGIC ---
+        const pill = document.getElementById('navPill');
+        const bgBar = document.getElementById('bgBar');
+
+        let lastY = window.scrollY;
+        let collapsed = false;
+        let ticking = false;
+
+        function applyState(shouldCollapse) {
+            if (shouldCollapse === collapsed) return;
+            collapsed = shouldCollapse;
+            if (collapsed) {
+                pill.classList.add('scrolled');
+                bgBar.classList.add('scrolled');
+            } else {
+                pill.classList.remove('scrolled');
+                bgBar.classList.remove('scrolled');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const y = window.scrollY;
+                    const diff = y - lastY;
+                    if (y < 10) {
+                        applyState(false);
+                    } else if (diff > 2) {
+                        applyState(true);
+                    } else if (diff < -2) {
+                        applyState(false);
+                    }
+                    lastY = y;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Mobile Menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburger.addEventListener('click', () => mobileMenu.classList.add('active'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+        mobileLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('active')));
+
+    // Init - Load projects from Supabase
+    loadProjects();
+</script>
+</body>
+</html>

@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Luxe Interiors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        :root {
+            --bg-dark: #0D0D0D;
+            --bg-panel: #1A1A1A;
+            --text-main: #F5F0EB;
+            --text-muted: #888;
+            --accent: #C9A96E;
+            --danger: #ff4d4d;
+            --success: #25D366;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'DM Sans', sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-main); 
+            min-height: 100vh;
+        }
+        
+        /* ==================== LOGIN PAGE ==================== */
+        .login-page {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .login-page.hidden { display: none; }
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            background: var(--bg-panel);
+            border-radius: 16px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        .login-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .login-input:focus { outline: none; border-color: var(--accent); }
+        
+        /* Password Input Wrapper (for eye icon) */
+        .password-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .password-input-wrapper .login-input {
+            padding-right: 50px; /* Space for eye icon */
+        }
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .password-toggle:hover {
+            color: var(--accent);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .login-btn:hover { background: #d4b578; }
+        .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .login-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+        .login-error.show { display: block; }
+        .login-success {
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+        .login-success.show { display: block; }
+        .login-loading {
+            display: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        .login-loading.show { display: block; }
+        .forgot-password-link {
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        .forgot-password-link:hover { text-decoration: underline; }
+        .back-to-login {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        .back-to-login:hover { color: var(--text-main); }
+
+        /* Forgot Password Form */
+        .forgot-password-form { display: none; }
+        .forgot-password-form.show { display: flex; }
+        .login-form.hidden { display: none; }
+
+        /* ==================== DASHBOARD ==================== */
+        .dashboard-wrapper { display: none; }
+        .dashboard-wrapper.show { display: flex; }
+        
+        .sidebar {
+            width: 250px;
+            background: var(--bg-panel);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            border-right: 1px solid #333;
+            transition: transform 0.3s;
+            z-index: 100;
+        }
+        .brand { 
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: var(--accent); 
+            margin-bottom: 40px; 
+            display: block; 
+            text-align: center; 
+        }
+        .nav-item {
+            display: block;
+            padding: 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .nav-item:hover, .nav-item.active { background: rgba(201, 169, 110, 0.1); color: var(--accent); }
+        .logout-btn {
+            margin-top: 50px;
+            border: 1px solid #333;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .logout-btn:hover {
+            background: rgba(255, 77, 77, 0.1);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 40px;
+            width: calc(100% - 250px);
+        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .header h1 { font-size: 2rem; font-family: 'Cormorant Garamond', serif; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-email { color: var(--text-muted); font-size: 0.85rem; }
+        .user-avatar { 
+            width: 40px; height: 40px; background: var(--accent); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; 
+        }
+
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: var(--bg-panel); padding: 25px; border-radius: 10px; border: 1px solid #333; }
+        .stat-card h3 { font-size: 2.5rem; color: var(--accent); margin-bottom: 5px; font-family: 'Cormorant Garamond', serif; }
+        .stat-card p { color: var(--text-muted); }
+
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .data-table th { text-align: left; padding: 15px; color: var(--text-muted); border-bottom: 1px solid #333; }
+        .data-table td { padding: 15px; border-bottom: 1px solid #333; }
+        .data-table img { width: 50px; height: 50px; border-radius: 5px; object-fit: cover; }
+        .btn-sm { padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; margin-right: 5px; }
+        .btn-edit { background: var(--accent); color: #000; border: none; }
+        .btn-delete { background: var(--danger); color: #fff; border: none; }
+        .btn-add { background: var(--accent); color: #000; padding: 10px 20px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 20px; display: inline-block; }
+        .btn-add:hover { background: #d4b578; }
+
+        .form-panel { background: var(--bg-panel); padding: 30px; border-radius: 10px; max-width: 800px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; font-family: 'DM Sans', sans-serif;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+        
+        /* ==================== DRAG & DROP UPLOAD ZONES ==================== */
+        .upload-zone {
+            border: 2px dashed #333;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #000;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--accent);
+            background: rgba(201, 169, 110, 0.05);
+        }
+        .upload-zone.has-image {
+            border-style: solid;
+            border-color: var(--accent);
+            padding: 10px;
+        }
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .upload-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .upload-hint {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        .upload-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            display: none;
+        }
+        .upload-preview.show {
+            display: block;
+        }
+        .upload-remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .upload-remove.show {
+            display: flex;
+        }
+        .gallery-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .gallery-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .gallery-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 100%; }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; width: 100%; padding: 20px; }
+            .hamburger { display: block; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .user-email { display: none; }
+            .gallery-preview-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== LOGIN PAGE ==================== -->
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <div class="login-logo">LUXE ADMIN</div>
+            <p class="login-subtitle">Sign in to manage your projects</p>
+            
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <input type="email" class="login-input" id="loginEmail" placeholder="Email address" required>
+                
+                <!-- Password Field with Eye Icon -->
+                <div class="password-input-wrapper">
+                    <input type="password" class="login-input" id="loginPassword" placeholder="Password" required>
+                    <button type="button" class="password-toggle" id="passwordToggle" onclick="togglePasswordVisibility()">
+                        👁️
+                    </button>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+                <p class="login-error" id="loginError"></p>
+                <p class="login-success" id="loginSuccess"></p>
+                <p class="login-loading" id="loginLoading">Signing in...</p>
+                <a href="#" class="forgot-password-link" id="forgotPasswordLink">Forgot Password?</a>
+            </form>
+            
+            <!-- Forgot Password Form -->
+            <form class="forgot-password-form" id="forgotPasswordForm">
+                <input type="email" class="login-input" id="resetEmail" placeholder="Enter your email" required>
+                <button type="submit" class="login-btn" id="resetBtn">Send Reset Link</button>
+                <p class="login-error" id="resetError"></p>
+                <p class="login-success" id="resetSuccess"></p>
+                <p class="login-loading" id="resetLoading">Sending...</p>
+                <a href="#" class="back-to-login" id="backToLogin">← Back to Login</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== DASHBOARD ==================== -->
+    <div class="dashboard-wrapper" id="dashboardWrapper">
+        
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <span class="brand">LUXE ADMIN</span>
+            <a class="nav-item active" onclick="showSection('dashboard')">Dashboard</a>
+            <a class="nav-item" onclick="showSection('projects')">Projects</a>
+            <a class="nav-item" onclick="showSection('testimonials')">Testimonials</a>
+            <a class="nav-item" onclick="showSection('inquiries')">Inquiries</a>
+            <a href="index.html" target="_blank" class="nav-item" style="margin-top: 30px; border: 1px solid #333; text-align: center;">View Site</a>
+            <a class="nav-item logout-btn" onclick="logout()">Logout</a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('active')">☰</div>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="user-info">
+                    <span class="user-email" id="userEmail">admin@luxe.com</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+
+            <!-- Dashboard Home -->
+            <div id="dashboard" class="section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="statProjects">0</h3>
+                        <p>Total Projects</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="statTestimonials">0</h3>
+                        <p>Total Testimonials</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>0</h3>
+                        <p>Pending Inquiries</p>
+                    </div>
+                </div>
+                <div class="form-panel">
+                    <h3>Recent Activity</h3>
+                    <p style="color: #666; margin-top: 10px;">System ready. Data syncing with Supabase.</p>
+                </div>
+            </div>
+
+            <!-- Projects Manager -->
+            <div id="projects" class="section">
+                <button class="btn-add" onclick="openProjectForm()">+ Add New Project</button>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Project Form -->
+            <div id="projectFormSection" class="section">
+                <button class="btn-sm" onclick="showSection('projects')" style="background: #333; color: #fff; margin-bottom: 20px;">← Back</button>
+                <div class="form-panel">
+                    <h3 id="formTitle" style="margin-bottom: 20px;">Add Project</h3>
+                    <input type="hidden" id="pId">
+                    <div class="form-group">
+                        <label>Project Name</label>
+                        <input type="text" id="pTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="pLocation">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="pType">
+                            <option>Residential</option>
+                            <option>Commercial</option>
+                            <option>Hospitality</option>
+                        </select>
+                    </div>
+                    
+                    <!-- HERO IMAGE UPLOAD -->
+                    <div class="form-group">
+                        <label>Hero Image</label>
+                        <div class="upload-zone" id="heroUploadZone" onclick="document.getElementById('heroFileInput').click()">
+                            <input type="file" id="heroFileInput" accept="image/*" hidden onchange="handleHeroUpload(event)">
+                            <div class="upload-icon">📷</div>
+                            <p class="upload-text">Drag & drop or click to upload</p>
+                            <p class="upload-hint">Recommended: 1920×1080px (JPG, PNG)</p>
+                            <img class="upload-preview" id="heroPreview">
+                            <button class="upload-remove" id="heroRemoveBtn" onclick="removeHeroImage(event)">×</button>
+                        </div>
+                        <input type="hidden" id="pHero">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="pDesc" rows="4"></textarea>
+                    </div>
+                    
+                    <!-- GALLERY IMAGES UPLOAD (MULTIPLE) -->
+                    <div class="form-group">
+                        <label>Gallery Images</label>
+                        <div class="upload-zone" id="galleryUploadZone" onclick="document.getElementById('galleryFileInput').click()">
+                            <input type="file" id="galleryFileInput" accept="image/*" multiple hidden onchange="handleGalleryUpload(event)">
+                            <div class="upload-icon">🖼️</div>
+                            <p class="upload-text">Drag & drop or click to upload multiple images</p>
+                            <p class="upload-hint">Recommended: 1200×800px (JPG, PNG)</p>
+                        </div>
+                        <div class="gallery-preview-grid" id="galleryPreviewGrid"></div>
+                        <input type="hidden" id="pGallery">
+                    </div>
+                    
+                    <!-- BEFORE IMAGE UPLOAD -->
+                    <div class="form-group">
+                        <label>Before Image</label>
+                        <div class="upload-zone" id="beforeUploadZone" onclick="document.getElementById('beforeFileInput').click()">
+                            <input type="file" id="beforeFileInput" accept="image/*" hidden onchange="handleBeforeUpload(event)">
+                            <div class="upload-icon">📷</div>
+                            <p class="upload-text">Drag & drop or click to upload</p>
+                            <p class="upload-hint">Recommended: Same dimensions as After image</p>
+                            <img class="upload-preview" id="beforePreview">
+                            <button class="upload-remove" id="beforeRemoveBtn" onclick="removeBeforeImage(event)">×</button>
+                        </div>
+                        <input type="hidden" id="pBefore">
+                    </div>
+                    
+                    <!-- AFTER IMAGE UPLOAD -->
+                    <div class="form-group">
+                        <label>After Image</label>
+                        <div class="upload-zone" id="afterUploadZone" onclick="document.getElementById('afterFileInput').click()">
+                            <input type="file" id="afterFileInput" accept="image/*" hidden onchange="handleAfterUpload(event)">
+                            <div class="upload-icon">📷</div>
+                            <p class="upload-text">Drag & drop or click to upload</p>
+                            <p class="upload-hint">Recommended: Same dimensions as Before image</p>
+                            <img class="upload-preview" id="afterPreview">
+                            <button class="upload-remove" id="afterRemoveBtn" onclick="removeAfterImage(event)">×</button>
+                        </div>
+                        <input type="hidden" id="pAfter">
+                    </div>
+                    
+                    <button class="btn-add" onclick="saveProject()">Save Project</button>
+                </div>
+            </div>
+
+            <!-- Testimonials Manager -->
+            <div id="testimonials" class="section">
+                <button class="btn-add" onclick="openTestimonialForm()">+ Add Testimonial</button>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Type</th>
+                            <th>Rating</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Testimonial Form -->
+            <div id="testimonialFormSection" class="section">
+                <button class="btn-sm" onclick="showSection('testimonials')" style="background: #333; color: #fff; margin-bottom: 20px;">← Back</button>
+                <div class="form-panel">
+                    <h3 style="margin-bottom: 20px;">Manage Testimonial</h3>
+                    <input type="hidden" id="tIndex">
+                    <div class="form-group">
+                        <label>Client Name</label>
+                        <input type="text" id="tName">
+                    </div>
+                    <div class="form-group">
+                        <label>Project Type</label>
+                        <input type="text" id="tType">
+                    </div>
+                    <div class="form-group">
+                        <label>Rating (1-5)</label>
+                        <input type="number" id="tRating" min="1" max="5">
+                    </div>
+                    <div class="form-group">
+                        <label>Text</label>
+                        <textarea id="tText" rows="4"></textarea>
+                    </div>
+                    <button class="btn-add" onclick="saveTestimonial()">Save</button>
+                </div>
+            </div>
+
+            <!-- Inquiries Placeholder -->
+            <div id="inquiries" class="section">
+                <div class="form-panel">
+                    <h3>Inquiries</h3>
+                    <p style="color: #666; margin: 20px 0;">Since the frontend uses WhatsApp redirect, inquiries do not store in database. This is a placeholder for future integration.</p>
+                    <div style="background: #000; padding: 15px; border-radius: 5px; border: 1px solid #333;">
+                        <strong>Sample Inquiry</strong><br>
+                        <span style="color: #666; font-size: 0.9rem;">John Doe - Residential - ₦20M</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 
+    INSTRUCTIONS:
+    In your admin.html, delete everything between <script> and </script> at the bottom
+    and replace it with the contents of this <script> block below.
+    Do NOT change anything else in the file.
+-->
+
+<script>
+    // ==================== SUPABASE — SINGLE INIT ====================
+    const supabaseClient = window.supabase.createClient(
+        'https://cenclpqcdjqgrtedqcmf.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlbmNscHFjZGpxZ3J0ZWRxY21mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MTY5MTQsImV4cCI6MjA5MDE5MjkxNH0.abHl1E8VAoVpOdjIbT-8p6Eb32Bn1TfTn3zY-cyGREg',
+        {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
+        }
+    );
+
+    // ==================== AUTH STATE ====================
+    let currentUser = null;
+
+    async function checkAuth() {
+    try {
+        // If this is a password recovery link, let onAuthStateChange handle it
+        const hash = window.location.hash;
+        if (hash.includes('type=recovery') || hash.includes('access_token')) {
+            return;
+        }
+
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+        if (session) {
+            currentUser = session.user;
+            showDashboard();
+        } else {
+            showLogin();
+        }
+    } catch (err) {
+        console.error('Auth check error:', err.message);
+        showLogin();
+    }
+}
+
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY') {
+        showPasswordResetForm(session);
+    } else if (session) {
+        currentUser = session.user;
+        showDashboard();
+    } else {
+        currentUser = null;
+        showLogin();
+    }
+});
+
+
+function showPasswordResetForm(session) {
+    // Show login page shell but with reset form only
+    loginPage.classList.remove('hidden');
+    dashboardWrapper.classList.remove('show');
+    loginForm.classList.add('hidden');
+    forgotPasswordForm.classList.remove('show');
+
+    // Remove any existing reset complete form
+    const existing = document.getElementById('resetCompleteForm');
+    if (existing) existing.remove();
+
+    const resetCompleteForm = document.createElement('form');
+    resetCompleteForm.className = 'login-form';
+    resetCompleteForm.id = 'resetCompleteForm';
+    resetCompleteForm.innerHTML = `
+        <h3 style="color: var(--accent); margin-bottom: 15px; font-family: 'Cormorant Garamond', serif;">Set New Password</h3>
+        <input type="password" class="login-input" id="newPassword" placeholder="New password" required minlength="6">
+        <input type="password" class="login-input" id="confirmPassword" placeholder="Confirm new password" required minlength="6">
+        <button type="submit" class="login-btn" id="updatePasswordBtn">Update Password</button>
+        <p class="login-error" id="updatePasswordError"></p>
+        <p class="login-success" id="updatePasswordSuccess"></p>
+        <p class="login-loading" id="updatePasswordLoading" style="display:none;">Updating...</p>
+    `;
+    document.querySelector('.login-container').insertBefore(
+        resetCompleteForm,
+        document.getElementById('forgotPasswordForm')
+    );
+
+    resetCompleteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newPassword     = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const updateBtn       = document.getElementById('updatePasswordBtn');
+        const updateError     = document.getElementById('updatePasswordError');
+        const updateSuccess   = document.getElementById('updatePasswordSuccess');
+        const updateLoading   = document.getElementById('updatePasswordLoading');
+
+        updateError.classList.remove('show');
+        updateSuccess.classList.remove('show');
+
+        if (newPassword !== confirmPassword) {
+            updateError.textContent = 'Passwords do not match!';
+            updateError.classList.add('show');
+            return;
+        }
+        if (newPassword.length < 6) {
+            updateError.textContent = 'Password must be at least 6 characters.';
+            updateError.classList.add('show');
+            return;
+        }
+
+        updateBtn.disabled = true;
+        updateLoading.style.display = 'block';
+
+        const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+
+        if (error) {
+            updateError.textContent = error.message;
+            updateError.classList.add('show');
+            updateBtn.disabled = false;
+            updateLoading.style.display = 'none';
+        } else {
+            updateSuccess.textContent = 'Password updated! Redirecting to login...';
+            updateSuccess.classList.add('show');
+            await supabaseClient.auth.signOut();
+            window.location.hash = '';
+            setTimeout(() => {
+                resetCompleteForm.remove();
+                loginForm.classList.remove('hidden');
+                updateBtn.disabled = false;
+                updateLoading.style.display = 'none';
+            }, 2000);
+        }
+    });
+}
+
+    // ==================== PASSWORD VISIBILITY TOGGLE ====================
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('loginPassword');
+        const passwordToggle = document.getElementById('passwordToggle');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordToggle.textContent = '🙈';
+        } else {
+            passwordInput.type = 'password';
+            passwordToggle.textContent = '👁️';
+        }
+    }
+
+    // ==================== DOM REFS ====================
+    const loginForm           = document.getElementById('loginForm');
+    const forgotPasswordForm  = document.getElementById('forgotPasswordForm');
+    const loginPage           = document.getElementById('loginPage');
+    const dashboardWrapper    = document.getElementById('dashboardWrapper');
+    const loginError          = document.getElementById('loginError');
+    const loginSuccess        = document.getElementById('loginSuccess');
+    const loginLoading        = document.getElementById('loginLoading');
+    const loginBtn            = document.getElementById('loginBtn');
+    const forgotPasswordLink  = document.getElementById('forgotPasswordLink');
+    const backToLogin         = document.getElementById('backToLogin');
+    const resetError          = document.getElementById('resetError');
+    const resetSuccess        = document.getElementById('resetSuccess');
+    const resetLoading        = document.getElementById('resetLoading');
+    const resetBtn            = document.getElementById('resetBtn');
+
+    // ==================== LOGIN ====================
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email    = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        loginBtn.disabled = true;
+        loginLoading.classList.add('show');
+        loginError.classList.remove('show');
+        loginSuccess.classList.remove('show');
+
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+        if (error) {
+            loginError.textContent = error.message;
+            loginError.classList.add('show');
+            loginBtn.disabled = false;
+            loginLoading.classList.remove('show');
+        }
+        // On success, onAuthStateChange fires automatically → showDashboard()
+    });
+
+    // ==================== FORGOT PASSWORD ====================
+    forgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.classList.add('hidden');
+        forgotPasswordForm.classList.add('show');
+        loginError.classList.remove('show');
+        resetError.classList.remove('show');
+        resetSuccess.classList.remove('show');
+    });
+
+    backToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        forgotPasswordForm.classList.remove('show');
+        loginForm.classList.remove('hidden');
+        resetError.classList.remove('show');
+        resetSuccess.classList.remove('show');
+    });
+
+    forgotPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('resetEmail').value;
+
+        resetBtn.disabled = true;
+        resetLoading.classList.add('show');
+        resetError.classList.remove('show');
+        resetSuccess.classList.remove('show');
+
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.href.split('#')[0]
+        });
+
+        if (error) {
+            resetError.textContent = error.message;
+            resetError.classList.add('show');
+        } else {
+            resetSuccess.textContent = 'Password reset link sent! Check your email.';
+            resetSuccess.classList.add('show');
+        }
+        resetBtn.disabled = false;
+        resetLoading.classList.remove('show');
+    });
+
+    async function handlePasswordReset() {
+        const hash = window.location.hash;
+        if (!hash.includes('access_token') && !hash.includes('type=recovery')) return;
+
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error || !session) {
+            alert('Invalid or expired reset link. Please request a new one.');
+            window.location.hash = '';
+            showLogin();
+            return;
+        }
+
+        showLogin();
+        document.getElementById('loginForm').classList.add('hidden');
+
+        const resetCompleteForm = document.createElement('form');
+        resetCompleteForm.className = 'login-form';
+        resetCompleteForm.id = 'resetCompleteForm';
+        resetCompleteForm.innerHTML = `
+            <h3 style="color: var(--accent); margin-bottom: 15px; font-family: 'Cormorant Garamond', serif;">Set New Password</h3>
+            <input type="password" class="login-input" id="newPassword" placeholder="New password" required minlength="6">
+            <input type="password" class="login-input" id="confirmPassword" placeholder="Confirm new password" required minlength="6">
+            <button type="submit" class="login-btn" id="updatePasswordBtn">Update Password</button>
+            <p class="login-error" id="updatePasswordError"></p>
+            <p class="login-success" id="updatePasswordSuccess"></p>
+            <p class="login-loading" id="updatePasswordLoading">Updating...</p>
+        `;
+        document.querySelector('.login-container').insertBefore(resetCompleteForm, document.getElementById('forgotPasswordForm'));
+
+        resetCompleteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPassword     = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const updateBtn       = document.getElementById('updatePasswordBtn');
+            const updateError     = document.getElementById('updatePasswordError');
+            const updateSuccess   = document.getElementById('updatePasswordSuccess');
+            const updateLoading   = document.getElementById('updatePasswordLoading');
+
+            if (newPassword !== confirmPassword) {
+                updateError.textContent = 'Passwords do not match!';
+                updateError.classList.add('show');
+                return;
+            }
+            if (newPassword.length < 6) {
+                updateError.textContent = 'Password must be at least 6 characters';
+                updateError.classList.add('show');
+                return;
+            }
+
+            updateBtn.disabled = true;
+            updateLoading.classList.add('show');
+            updateError.classList.remove('show');
+            updateSuccess.classList.remove('show');
+
+            const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+
+            if (error) {
+                updateError.textContent = error.message;
+                updateError.classList.add('show');
+                updateBtn.disabled = false;
+                updateLoading.classList.remove('show');
+            } else {
+                updateSuccess.textContent = 'Password updated! Redirecting to login...';
+                updateSuccess.classList.add('show');
+                await supabaseClient.auth.signOut();
+                window.location.hash = '';
+                setTimeout(() => {
+                    resetCompleteForm.remove();
+                    document.getElementById('loginForm').classList.remove('hidden');
+                    updateBtn.disabled = false;
+                    updateLoading.classList.remove('show');
+                }, 2000);
+            }
+        });
+    }
+
+    async function logout() {
+        await supabaseClient.auth.signOut();
+        currentUser = null;
+        showLogin();
+    }
+
+    function showLogin() {
+        loginPage.classList.remove('hidden');
+        dashboardWrapper.classList.remove('show');
+        handlePasswordReset();
+    }
+
+    async function showDashboard() {
+        loginPage.classList.add('hidden');
+        dashboardWrapper.classList.add('show');
+        if (currentUser) {
+            document.getElementById('userEmail').textContent = currentUser.email;
+            document.querySelector('.user-avatar').textContent = currentUser.email.charAt(0).toUpperCase();
+        }
+        await loadAllData();
+    }
+
+    // ==================== NAVIGATION ====================
+    async function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+
+        const navs = document.querySelectorAll('.nav-item');
+        if (id === 'dashboard')           navs[0].classList.add('active');
+        if (id === 'projects')            navs[1].classList.add('active');
+        if (id === 'testimonials')        navs[2].classList.add('active');
+        if (id === 'inquiries')           navs[3].classList.add('active');
+
+        document.getElementById('pageTitle').innerText =
+            id.includes('Form') ? 'Manage' : id.charAt(0).toUpperCase() + id.slice(1);
+
+        if (id === 'dashboard')    await loadStats();
+        if (id === 'projects')     await loadProjects();
+        if (id === 'testimonials') await loadTestimonials();
+
+        document.getElementById('sidebar').classList.remove('active');
+    }
+
+    // ==================== DATA LAYER ====================
+    let projects     = [];
+    let testimonials = [];
+
+    async function fetchProjects() {
+        const { data, error } = await supabaseClient
+            .from('projects')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) { console.error('fetchProjects:', error.message); return []; }
+        return data || [];
+    }
+
+    async function fetchTestimonials() {
+        const { data, error } = await supabaseClient
+            .from('testimonials')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) { console.error('fetchTestimonials:', error.message); return []; }
+        return data || [];
+    }
+
+    async function loadAllData() {
+        projects     = await fetchProjects();
+        testimonials = await fetchTestimonials();
+        loadStats();
+    }
+
+    async function loadStats() {
+        const p = await fetchProjects();
+        const t = await fetchTestimonials();
+        document.getElementById('statProjects').innerText     = p.length;
+        document.getElementById('statTestimonials').innerText = t.length;
+    }
+
+    async function loadProjects() {
+        const tbody = document.getElementById('projectTableBody');
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Loading...</td></tr>';
+        projects = await fetchProjects();
+        if (projects.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#666;">No projects yet. Click "Add New Project" to create one.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = projects.map(p => `
+            <tr>
+                <td><img src="${p.hero || 'https://via.placeholder.com/50'}" alt=""></td>
+                <td>${p.title    || 'Untitled'}</td>
+                <td>${p.location || '-'}</td>
+                <td>${p.type     || '-'}</td>
+                <td>
+                    <button class="btn-sm btn-edit"   onclick="editProject('${p.id}')">Edit</button>
+                    <button class="btn-sm btn-delete" onclick="deleteProject('${p.id}')">Delete</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    async function loadTestimonials() {
+        const tbody = document.getElementById('testimonialTableBody');
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
+        testimonials = await fetchTestimonials();
+        if (testimonials.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#666;">No testimonials yet.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = testimonials.map(t => `
+            <tr>
+                <td>${t.name   || 'Anonymous'}</td>
+                <td>${t.type   || '-'}</td>
+                <td>${'★'.repeat(t.rating || 0)}</td>
+                <td>
+                    <button class="btn-sm btn-edit"   onclick="editTestimonial('${t.id}')">Edit</button>
+                    <button class="btn-sm btn-delete" onclick="deleteTestimonial('${t.id}')">Delete</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // ==================== DRAG & DROP HELPERS ====================
+    let galleryImages = [];
+
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload  = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    function setupDragDrop(zoneId, fileInputId, callback) {
+        const zone = document.getElementById(zoneId);
+        zone.addEventListener('dragover',  (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', ()  => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length > 0) callback(e.dataTransfer.files[0]);
+        });
+    }
+
+    async function handleHeroUpload(event) {
+        const file = event.target ? event.target.files[0] : event;
+        if (!file) return;
+        const base64 = await fileToBase64(file);
+        document.getElementById('pHero').value = base64;
+        const preview = document.getElementById('heroPreview');
+        preview.src = base64;
+        preview.classList.add('show');
+        document.getElementById('heroRemoveBtn').classList.add('show');
+        document.getElementById('heroUploadZone').classList.add('has-image');
+    }
+
+    function removeHeroImage(event) {
+        event.stopPropagation();
+        document.getElementById('pHero').value = '';
+        document.getElementById('heroPreview').src = '';
+        document.getElementById('heroPreview').classList.remove('show');
+        document.getElementById('heroRemoveBtn').classList.remove('show');
+        document.getElementById('heroUploadZone').classList.remove('has-image');
+        document.getElementById('heroFileInput').value = '';
+    }
+
+    async function handleGalleryUpload(event) {
+        const files = event.target.files;
+        for (const file of files) {
+            const base64 = await fileToBase64(file);
+            galleryImages.push(base64);
+            const grid = document.getElementById('galleryPreviewGrid');
+            const item = document.createElement('div');
+            item.className = 'gallery-preview-item';
+            item.innerHTML = `
+                <img src="${base64}" alt="Gallery">
+                <button class="remove-btn" onclick="removeGalleryImage(${galleryImages.length - 1})">×</button>
+            `;
+            grid.appendChild(item);
+        }
+        document.getElementById('pGallery').value = galleryImages.join(',');
+    }
+
+    function removeGalleryImage(index) {
+        galleryImages.splice(index, 1);
+        document.getElementById('pGallery').value = galleryImages.join(',');
+        const grid = document.getElementById('galleryPreviewGrid');
+        grid.innerHTML = '';
+        galleryImages.forEach((img, i) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-preview-item';
+            item.innerHTML = `
+                <img src="${img}" alt="Gallery">
+                <button class="remove-btn" onclick="removeGalleryImage(${i})">×</button>
+            `;
+            grid.appendChild(item);
+        });
+    }
+
+    async function handleBeforeUpload(event) {
+        const file = event.target ? event.target.files[0] : event;
+        if (!file) return;
+        const base64 = await fileToBase64(file);
+        document.getElementById('pBefore').value = base64;
+        const preview = document.getElementById('beforePreview');
+        preview.src = base64;
+        preview.classList.add('show');
+        document.getElementById('beforeRemoveBtn').classList.add('show');
+        document.getElementById('beforeUploadZone').classList.add('has-image');
+    }
+
+    function removeBeforeImage(event) {
+        event.stopPropagation();
+        document.getElementById('pBefore').value = '';
+        document.getElementById('beforePreview').src = '';
+        document.getElementById('beforePreview').classList.remove('show');
+        document.getElementById('beforeRemoveBtn').classList.remove('show');
+        document.getElementById('beforeUploadZone').classList.remove('has-image');
+        document.getElementById('beforeFileInput').value = '';
+    }
+
+    async function handleAfterUpload(event) {
+        const file = event.target ? event.target.files[0] : event;
+        if (!file) return;
+        const base64 = await fileToBase64(file);
+        document.getElementById('pAfter').value = base64;
+        const preview = document.getElementById('afterPreview');
+        preview.src = base64;
+        preview.classList.add('show');
+        document.getElementById('afterRemoveBtn').classList.add('show');
+        document.getElementById('afterUploadZone').classList.add('has-image');
+    }
+
+    function removeAfterImage(event) {
+        event.stopPropagation();
+        document.getElementById('pAfter').value = '';
+        document.getElementById('afterPreview').src = '';
+        document.getElementById('afterPreview').classList.remove('show');
+        document.getElementById('afterRemoveBtn').classList.remove('show');
+        document.getElementById('afterUploadZone').classList.remove('has-image');
+        document.getElementById('afterFileInput').value = '';
+    }
+
+    function setupUploadZones() {
+        setupDragDrop('heroUploadZone',   'heroFileInput',   handleHeroUpload);
+        setupDragDrop('beforeUploadZone', 'beforeFileInput', handleBeforeUpload);
+        setupDragDrop('afterUploadZone',  'afterFileInput',  handleAfterUpload);
+
+        const galleryZone = document.getElementById('galleryUploadZone');
+        galleryZone.addEventListener('dragover',  (e) => { e.preventDefault(); galleryZone.classList.add('drag-over'); });
+        galleryZone.addEventListener('dragleave', ()  => galleryZone.classList.remove('drag-over'));
+        galleryZone.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            galleryZone.classList.remove('drag-over');
+            for (const file of e.dataTransfer.files) {
+                const base64 = await fileToBase64(file);
+                galleryImages.push(base64);
+                const grid = document.getElementById('galleryPreviewGrid');
+                const item = document.createElement('div');
+                item.className = 'gallery-preview-item';
+                item.innerHTML = `
+                    <img src="${base64}" alt="Gallery">
+                    <button class="remove-btn" onclick="removeGalleryImage(${galleryImages.length - 1})">×</button>
+                `;
+                grid.appendChild(item);
+            }
+            document.getElementById('pGallery').value = galleryImages.join(',');
+        });
+    }
+
+    // ==================== PROJECT FORM ====================
+    function openProjectForm() {
+        document.getElementById('pId').value       = '';
+        document.getElementById('pTitle').value    = '';
+        document.getElementById('pLocation').value = '';
+        document.getElementById('pType').value     = 'Residential';
+        document.getElementById('pHero').value     = '';
+        document.getElementById('pDesc').value     = '';
+        document.getElementById('pGallery').value  = '';
+        document.getElementById('pBefore').value   = '';
+        document.getElementById('pAfter').value    = '';
+
+        galleryImages = [];
+        document.getElementById('galleryPreviewGrid').innerHTML = '';
+
+        ['hero', 'before', 'after'].forEach(key => {
+            document.getElementById(`${key}Preview`).src = '';
+            document.getElementById(`${key}Preview`).classList.remove('show');
+            document.getElementById(`${key}RemoveBtn`).classList.remove('show');
+            document.getElementById(`${key}UploadZone`).classList.remove('has-image');
+            document.getElementById(`${key}FileInput`).value = '';
+        });
+        document.getElementById('galleryFileInput').value = '';
+
+        document.getElementById('formTitle').innerText = 'Add Project';
+        setupUploadZones();
+        showSection('projectFormSection');
+    }
+
+    function editProject(id) {
+        const p = projects.find(proj => proj.id == id);
+        if (!p) return;
+
+        document.getElementById('pId').value       = p.id;
+        document.getElementById('pTitle').value    = p.title       || '';
+        document.getElementById('pLocation').value = p.location    || '';
+        document.getElementById('pType').value     = p.type        || 'Residential';
+        document.getElementById('pHero').value     = p.hero        || '';
+        document.getElementById('pDesc').value     = p.description || '';
+        document.getElementById('pBefore').value   = p.before_image || '';
+        document.getElementById('pAfter').value    = p.after_image  || '';
+
+        // Gallery
+        galleryImages = Array.isArray(p.gallery)
+            ? [...p.gallery]
+            : (p.gallery || '').split(',').filter(s => s.trim());
+        document.getElementById('pGallery').value = galleryImages.join(',');
+        const grid = document.getElementById('galleryPreviewGrid');
+        grid.innerHTML = '';
+        galleryImages.forEach((img, i) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-preview-item';
+            item.innerHTML = `
+                <img src="${img}" alt="Gallery">
+                <button class="remove-btn" onclick="removeGalleryImage(${i})">×</button>
+            `;
+            grid.appendChild(item);
+        });
+
+        // Hero preview
+        if (p.hero) {
+            const heroPreview = document.getElementById('heroPreview');
+            heroPreview.src = p.hero;
+            heroPreview.classList.add('show');
+            document.getElementById('heroRemoveBtn').classList.add('show');
+            document.getElementById('heroUploadZone').classList.add('has-image');
+        }
+
+        // Before preview
+        if (p.before_image) {
+            const beforePreview = document.getElementById('beforePreview');
+            beforePreview.src = p.before_image;
+            beforePreview.classList.add('show');
+            document.getElementById('beforeRemoveBtn').classList.add('show');
+            document.getElementById('beforeUploadZone').classList.add('has-image');
+        }
+
+        // After preview
+        if (p.after_image) {
+            const afterPreview = document.getElementById('afterPreview');
+            afterPreview.src = p.after_image;
+            afterPreview.classList.add('show');
+            document.getElementById('afterRemoveBtn').classList.add('show');
+            document.getElementById('afterUploadZone').classList.add('has-image');
+        }
+
+        document.getElementById('formTitle').innerText = 'Edit Project';
+        setupUploadZones();
+        showSection('projectFormSection');
+    }
+
+    // ==================== SUPABASE STORAGE ====================
+    async function uploadImageToStorage(file, folder, projectId) {
+        if (!file) return null;
+        const fileExt  = file.name.split('.').pop();
+        const fileName = `${folder}/${projectId}-${Date.now()}.${fileExt}`;
+
+        const { error } = await supabaseClient.storage
+            .from('project-images')
+            .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+        if (error) {
+            console.error('Upload error:', error.message);
+            alert('Upload failed: ' + error.message);
+            return null;
+        }
+
+        const { data: { publicUrl } } = supabaseClient.storage
+            .from('project-images')
+            .getPublicUrl(fileName);
+
+        return publicUrl;
+    }
+
+    async function uploadGalleryImages(files, projectId) {
+        const urls = [];
+        const total = files.length;
+        for (let i = 0; i < total; i++) {
+            updateProgress(40 + Math.round((i / total) * 20), `Uploading gallery image ${i + 1}/${total}...`);
+            const url = await uploadImageToStorage(files[i], 'gallery', projectId);
+            if (url) urls.push(url);
+        }
+        return urls;
+    }
+
+    async function deleteImagesFromStorage(imageUrls) {
+        if (!imageUrls || !imageUrls.length) return;
+        for (const url of imageUrls) {
+            const parts = url.split('/storage/v1/object/public/project-images/');
+            if (parts.length > 1) {
+                await supabaseClient.storage.from('project-images').remove([parts[1]]);
+            }
+        }
+    }
+
+    // ==================== PROGRESS MODAL ====================
+    function showProgressModal() {
+        const existing = document.getElementById('uploadProgressModal');
+        if (existing) existing.remove();
+        const modal = document.createElement('div');
+        modal.id = 'uploadProgressModal';
+        modal.style.cssText = `
+            position:fixed;inset:0;background:rgba(0,0,0,0.85);
+            display:flex;align-items:center;justify-content:center;z-index:3000;
+        `;
+        modal.innerHTML = `
+            <div style="background:var(--bg-panel);padding:40px;border-radius:16px;border:1px solid #333;text-align:center;max-width:400px;width:90%;">
+                <h3 style="font-family:'Cormorant Garamond',serif;color:var(--accent);margin-bottom:20px;font-size:1.5rem;">Uploading Project</h3>
+                <div style="background:#000;border-radius:10px;height:8px;overflow:hidden;margin-bottom:15px;">
+                    <div id="progressBar" style="background:var(--accent);height:100%;width:0%;transition:width 0.3s ease;"></div>
+                </div>
+                <p id="progressText" style="color:var(--text-muted);font-size:0.9rem;">Preparing...</p>
+                <p id="progressPercent" style="color:var(--accent);font-size:1.2rem;font-weight:700;margin-top:10px;">0%</p>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    function updateProgress(percent, text) {
+        const bar     = document.getElementById('progressBar');
+        const pText   = document.getElementById('progressText');
+        const pPct    = document.getElementById('progressPercent');
+        if (bar)   bar.style.width        = percent + '%';
+        if (pText) pText.textContent       = text;
+        if (pPct)  pPct.textContent        = Math.round(percent) + '%';
+    }
+
+    function hideProgressModal() {
+        const modal = document.getElementById('uploadProgressModal');
+        if (modal) modal.remove();
+    }
+
+    // ==================== SAVE PROJECT ====================
+    async function saveProject() {
+        const id        = document.getElementById('pId').value;
+        const projectId = id;
+
+        showProgressModal();
+        updateProgress(5, 'Preparing upload...');
+
+        const saveBtn = document.querySelector('#projectFormSection .btn-add');
+        saveBtn.disabled  = true;
+        saveBtn.textContent = 'Uploading...';
+
+        const heroFile    = document.getElementById('heroFileInput').files[0];
+        const beforeFile  = document.getElementById('beforeFileInput').files[0];
+        const afterFile   = document.getElementById('afterFileInput').files[0];
+        const galleryFiles = document.getElementById('galleryFileInput').files;
+
+        let heroUrl    = document.getElementById('pHero').value;
+        let beforeUrl  = document.getElementById('pBefore').value;
+        let afterUrl   = document.getElementById('pAfter').value;
+        let galleryUrls = galleryImages.filter(s => s.startsWith('http')); // keep existing remote URLs
+
+        // Upload new files to Supabase Storage
+        if (heroFile) {
+            updateProgress(15, 'Uploading hero image...');
+            const url = await uploadImageToStorage(heroFile, 'hero', projectId);
+            if (url) heroUrl = url;
+        }
+
+        if (beforeFile) {
+            updateProgress(30, 'Uploading before image...');
+            const url = await uploadImageToStorage(beforeFile, 'before-after', projectId + '-before');
+            if (url) beforeUrl = url;
+        }
+
+        if (afterFile) {
+            updateProgress(45, 'Uploading after image...');
+            const url = await uploadImageToStorage(afterFile, 'before-after', projectId + '-after');
+            if (url) afterUrl = url;
+        }
+
+        if (galleryFiles && galleryFiles.length > 0) {
+            updateProgress(60, 'Uploading gallery images...');
+            const uploaded = await uploadGalleryImages(Array.from(galleryFiles), projectId);
+            // Merge with any pre-existing remote gallery URLs that weren't replaced
+            if (uploaded.length > 0) {
+                galleryUrls = [...galleryUrls, ...uploaded];
+            }
+        } else {
+            // Keep all existing gallery (base64 previews → already remote if editing)
+            galleryUrls = galleryImages.filter(s => s.startsWith('http'));
+        }
+
+        updateProgress(80, 'Saving to database...');
+
+        const newProject = {
+            title:        document.getElementById('pTitle').value,
+            location:     document.getElementById('pLocation').value,
+            type:         document.getElementById('pType').value,
+            hero:         heroUrl,
+            description:  document.getElementById('pDesc').value,
+            gallery:      galleryUrls,
+            before_image: beforeUrl,
+            after_image:  afterUrl,
+            updated_at:   new Date().toISOString()
+        };
+
+        let dbError;
+        if (id) {
+            const { error } = await supabaseClient.from('projects').update(newProject).eq('id', id);
+            dbError = error;
+        } else {
+            const { error } = await supabaseClient.from('projects').insert([newProject]);
+            dbError = error;
+        }
+
+        if (dbError) {
+            alert('Error saving project: ' + dbError.message);
+            hideProgressModal();
+            saveBtn.disabled    = false;
+            saveBtn.textContent = 'Save Project';
+            return;
+        }
+
+        // localStorage fallback sync
+        let stored = JSON.parse(localStorage.getItem('id_projects')) || [];
+        if (id) {
+            const idx = stored.findIndex(p => p.id === id);
+            if (idx >= 0) stored[idx] = newProject; else stored.push(newProject);
+        } else {
+            stored.push(newProject);
+        }
+        localStorage.setItem('id_projects', JSON.stringify(stored));
+
+        updateProgress(100, 'Success!');
+        setTimeout(() => {
+            hideProgressModal();
+            saveBtn.disabled    = false;
+            saveBtn.textContent = 'Save Project';
+            showSection('projects');
+            loadProjects();
+        }, 800);
+    }
+
+    // ==================== DELETE PROJECT ====================
+    async function deleteProject(id) {
+        if (!confirm('Delete this project? This will also remove all uploaded images.')) return;
+
+        const project = projects.find(p => p.id === id);
+        if (project) {
+            const allImages = [
+                project.hero,
+                project.before_image,
+                project.after_image,
+                ...(project.gallery || [])
+            ].filter(url => url && url.includes('supabase.co'));
+            await deleteImagesFromStorage(allImages);
+        }
+
+        const { error } = await supabaseClient.from('projects').delete().eq('id', id);
+        if (error) { alert('Error deleting project: ' + error.message); return; }
+
+        let stored = JSON.parse(localStorage.getItem('id_projects')) || [];
+        stored = stored.filter(p => p.id !== id);
+        localStorage.setItem('id_projects', JSON.stringify(stored));
+
+        loadProjects();
+    }
+
+    // ==================== TESTIMONIAL FORM ====================
+    function openTestimonialForm() {
+        document.getElementById('tIndex').value  = '';
+        document.getElementById('tName').value   = '';
+        document.getElementById('tType').value   = '';
+        document.getElementById('tRating').value = '';
+        document.getElementById('tText').value   = '';
+        showSection('testimonialFormSection');
+    }
+
+    function editTestimonial(id) {
+        const t = testimonials.find(t => t.id === id);
+        if (!t) return;
+        document.getElementById('tIndex').value  = t.id;
+        document.getElementById('tName').value   = t.name   || '';
+        document.getElementById('tType').value   = t.type   || '';
+        document.getElementById('tRating').value = t.rating || '';
+        document.getElementById('tText').value   = t.text   || '';
+        showSection('testimonialFormSection');
+    }
+
+    async function saveTestimonial() {
+        const id = document.getElementById('tIndex').value;
+        const data = {
+            name:   document.getElementById('tName').value,
+            type:   document.getElementById('tType').value,
+            rating: parseInt(document.getElementById('tRating').value),
+            text:   document.getElementById('tText').value
+        };
+
+        const saveBtn = document.querySelector('#testimonialFormSection .btn-add');
+        saveBtn.disabled    = true;
+        saveBtn.textContent = 'Saving...';
+
+        let dbError;
+        if (id) {
+            data.id = id;
+            const { error } = await supabaseClient.from('testimonials').upsert(data);
+            dbError = error;
+        } else {
+            const { error } = await supabaseClient.from('testimonials').insert([data]);
+            dbError = error;
+        }
+
+        if (dbError) {
+            alert('Error saving testimonial: ' + dbError.message);
+            saveBtn.disabled    = false;
+            saveBtn.textContent = 'Save';
+            return;
+        }
+
+        saveBtn.disabled    = false;
+        saveBtn.textContent = 'Save';
+        showSection('testimonials');
+        loadTestimonials();
+    }
+
+    async function deleteTestimonial(id) {
+        if (!confirm('Delete this testimonial?')) return;
+        const { error } = await supabaseClient.from('testimonials').delete().eq('id', id);
+        if (error) { alert('Error deleting testimonial: ' + error.message); return; }
+        loadTestimonials();
+    }
+
+    // ==================== INIT ====================
+    checkAuth();
+</script>
+</body>
+</html>
