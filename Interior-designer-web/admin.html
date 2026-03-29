@@ -618,6 +618,8 @@
 -->
 
 <script>
+    const _initialHash = window.location.hash;
+    let isPasswordRecovery = _initialHash.includes('type=recovery') || _initialHash.includes('access_token');
     // ==================== SUPABASE — SINGLE INIT ====================
     const supabaseClient = window.supabase.createClient(
         'https://cenclpqcdjqgrtedqcmf.supabase.co',
@@ -638,7 +640,7 @@
     try {
         // If this is a password recovery link, let onAuthStateChange handle it
         const hash = window.location.hash;
-        if (hash.includes('type=recovery') || hash.includes('access_token')) {
+        if (_initialHash.includes('type=recovery') || _initialHash.includes('access_token')) {
             return;
         }
 
@@ -658,11 +660,13 @@
 
     supabaseClient.auth.onAuthStateChange((event, session) => {
     if (event === 'PASSWORD_RECOVERY') {
+        isPasswordRecovery = true;
         showPasswordResetForm(session);
-    } else if (session) {
+    } else if (session && !isPasswordRecovery) {
         currentUser = session.user;
         showDashboard();
-    } else {
+    } else if (!session) {
+        isPasswordRecovery = false;
         currentUser = null;
         showLogin();
     }
@@ -734,7 +738,8 @@ function showPasswordResetForm(session) {
             updateSuccess.textContent = 'Password updated! Redirecting to login...';
             updateSuccess.classList.add('show');
             await supabaseClient.auth.signOut();
-            window.location.hash = '';
+              isPasswordRecovery = false;
+              window.location.hash = '';
             setTimeout(() => {
                 resetCompleteForm.remove();
                 loginForm.classList.remove('hidden');
@@ -824,8 +829,8 @@ function showPasswordResetForm(session) {
         resetSuccess.classList.remove('show');
 
         const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.href.split('#')[0]
-        });
+    redirectTo: 'https://nativeexecellence.vercel.app/admin.html'
+});
 
         if (error) {
             resetError.textContent = error.message;
