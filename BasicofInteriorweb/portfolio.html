@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio | DEMO Interiors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <!--
+  ============================================================
+   HOW TO UPDATE IMAGES
+  ============================================================
+   1. Create a folder called "images" next to this file.
+   2. Inside it, create one folder per project:
+
+        images/
+          oniru-residence/
+            cover.jpg        ← shown on the card
+            2.jpg
+            3.jpg
+            4.jpg
+          victoria-office/
+            cover.jpg
+            2.jpg
+            ...
+
+   3. In the HTML below, find each PROJECT comment block.
+      Replace the src="images/..." on the <img> tag with your file path.
+
+   4. In the JavaScript at the bottom, find the `projects` array.
+      Replace the images: [...] list for each project with your paths.
+
+   5. Images can be ANY size or ratio. Cards always crop neatly.
+      Lightbox always shows the full image without distortion.
+  ============================================================
+  -->
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0b0b0b;
+      --bg2:    #111111;
+      --bg3:    #161616;
+      --gold:   #c9a96e;
+      --cream:  #f5f0e8;
+      --muted:  #888;
+      --border: rgba(201,169,110,0.18);
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Jost', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; background: var(--bg); overflow-x: hidden; }
+    body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 70px; background: rgba(11,11,11,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; letter-spacing: 0.04em; color: var(--gold); }
+    .nav-logo span { color: var(--cream); font-weight: 300; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--gold); color: var(--gold); padding: 9px 22px; transition: background 0.2s, color 0.2s; }
+    .nav-cta:hover { background: var(--gold); color: var(--bg); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 24px; height: 1px; background: var(--cream); }
+    .mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; z-index: 199; background: rgba(11,11,11,0.98); padding: 2rem 5vw; flex-direction: column; gap: 1.5rem; border-bottom: 1px solid var(--border); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ── PAGE HEADER ── */
+    .page-header { padding: 140px 5vw 80px; border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .page-header-inner { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; }
+    .page-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    .page-title { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; }
+    .page-title em { font-style: italic; color: var(--gold); }
+    .page-count { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar { padding: 1.6rem 5vw; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 8px 20px; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+    /* ── GRID ── */
+    .projects-section { padding: 60px 5vw 100px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    @media (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .projects-grid { grid-template-columns: 1fr; } }
+
+    /* ── CARD ── */
+    .project-card { display: flex; flex-direction: column; }
+
+    /*
+      Fixed 4:3 box — no matter what size your photo is,
+      it will always fill this space cleanly via object-fit: cover.
+      Nothing stretches. Nothing breaks.
+    */
+    .project-thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--bg3);  /* fallback colour if image is missing */
+    }
+    /* "No image" label shown if file path is wrong or image hasn't been added yet */
+    .project-thumb::before {
+      content: 'Image not found';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.3);
+    }
+    .project-thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;       /* crops to fill — never stretches */
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease;
+      z-index: 1;              /* sits above the ::before fallback text */
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.05); }
+
+    .thumb-overlay { position: absolute; inset: 0; z-index: 2; background: rgba(0,0,0,0); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+    .project-card:hover .thumb-overlay { background: rgba(0,0,0,0.38); }
+    .thumb-icon { opacity: 0; transition: opacity 0.3s; width: 48px; height: 48px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 1.2rem; }
+    .project-card:hover .thumb-icon { opacity: 1; }
+    .thumb-tag { position: absolute; top: 1rem; left: 1rem; z-index: 3; background: rgba(11,11,11,0.82); border: 1px solid var(--border); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); padding: 4px 10px; }
+
+    /* ── DETAILS BELOW CARD ── */
+    .project-details { padding: 1.4rem 0 0; border-top: 1px solid var(--border); }
+    .project-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .project-location-tag { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+    .project-year { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); }
+    .project-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.25; }
+    .project-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--border); color: var(--muted); padding: 3px 10px; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(5,5,5,0.97); flex-direction: column; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+
+    .lb-header { position: absolute; top: 0; left: 0; right: 0; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border); background: rgba(11,11,11,0.7); backdrop-filter: blur(8px); }
+    .lb-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 300; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lb-counter { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--muted); flex-shrink: 0; }
+    .lb-close { background: none; border: 1px solid var(--border); color: var(--cream); width: 36px; height: 36px; flex-shrink: 0; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, color 0.2s; }
+    .lb-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    .lb-stage { position: relative; width: 100%; max-width: 1100px; display: flex; align-items: center; justify-content: center; padding: 90px 80px 110px; }
+
+    /*
+      object-fit: contain in the lightbox means the FULL image is always
+      visible — portrait, landscape, square — nothing gets cropped here.
+    */
+    .lb-img-wrap { width: 100%; max-height: 70vh; display: flex; align-items: center; justify-content: center; }
+    .lb-img-wrap img { max-width: 100%; max-height: 70vh; width: auto; height: auto; object-fit: contain; display: block; transition: opacity 0.22s; }
+    .lb-img-wrap img.fading { opacity: 0; }
+
+    .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(11,11,11,0.6); border: 1px solid var(--border); color: var(--cream); width: 48px; height: 48px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 2; }
+    .lb-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(11,11,11,0.95); }
+    .lb-prev { left: 1rem; }
+    .lb-next { right: 1rem; }
+
+    .lb-footer { position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid var(--border); background: rgba(11,11,11,0.7); backdrop-filter: blur(8px); padding: 0.9rem 2rem; }
+    .lb-thumbnails { display: flex; gap: 0.6rem; justify-content: center; overflow-x: auto; padding-bottom: 2px; }
+    .lb-thumbnails::-webkit-scrollbar { height: 3px; }
+    .lb-thumbnails::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    /* Thumbnails: fixed box, object-fit cover — same uniform look regardless of image ratio */
+    .lb-thumb { width: 64px; height: 46px; flex-shrink: 0; object-fit: cover; object-position: center; cursor: pointer; opacity: 0.4; border: 1px solid transparent; transition: opacity 0.2s, border-color 0.2s; display: block; }
+    .lb-thumb.active { opacity: 1; border-color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer { background: #060606; border-top: 1px solid var(--border); padding: 60px 5vw 30px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; margin-top: 0.8rem; max-width: 260px; }
+    .footer-col h5 { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul li a { font-size: 0.82rem; color: var(--muted); transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--cream); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.72rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .lb-stage { padding: 80px 44px 100px; }
+      .lb-btn { width: 38px; height: 38px; font-size: 0.9rem; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .lb-stage { padding: 80px 10px 100px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">DEMO <span>Interiors</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+    <li><a href="index.html#faq">FAQ</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Book Consultation</a>
+  <button class="hamburger" id="menuBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Home</a>
+  <a href="index.html#about" onclick="closeMenu()">About</a>
+  <a href="portfolio.html" onclick="closeMenu()">Portfolio</a>
+  <a href="index.html#faq" onclick="closeMenu()">FAQ</a>
+  <a href="index.html#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <p class="page-label">Our Work</p>
+      <h1 class="page-title">Selected <em>Projects</em></h1>
+    </div>
+    <p class="page-count">9 Projects &nbsp;·&nbsp; Lagos, Nigeria</p>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="residential">Residential</button>
+  <button class="filter-btn" data-filter="commercial">Commercial</button>
+  <button class="filter-btn" data-filter="hospitality">Hospitality</button>
+</div>
+
+
+
+
+
+
+<!-- ===== project images section ===== -->
+<section class="projects-section">
+  <div class="projects-grid">
+
+
+    <!-- PROJECT: Oniru Peninsula Residence | index 0 | category: residential -->
+    <div class="project-card" data-category="residential">
+      <div class="project-thumb" onclick="openLightbox(0)">
+        <span class="thumb-tag">Residential</span>
+        <!-- ↓ REPLACE src with your image: images/oniru-residence/cover.jpg -->
+        <img src="img/img.jpg" alt="Oniru Peninsula Residence"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Oniru, Lagos</span>
+          <span class="project-year">2024</span>
+        </div>
+        <h2 class="project-title">Oniru Peninsula Residence</h2>
+        <p class="project-desc">A sweeping five-bedroom penthouse redesigned from the ground up. The brief called for a balance of raw texture and refined luxury — achieved through layered linen, natural travertine, and bespoke furniture curation.</p>
+        <div class="project-tags">
+          <span class="tag">Interior Design</span>
+          <span class="tag">Furniture</span>
+          <span class="tag">Lighting</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Victoria Island Office | index 1 | category: commercial -->
+    <div class="project-card" data-category="commercial">
+      <div class="project-thumb" onclick="openLightbox(1)">
+        <span class="thumb-tag">Commercial</span>
+        <!-- ↓ REPLACE src: images/victoria-office/cover.jpg -->
+        <img src="img/img2.jpg" alt="Victoria Island Office"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Victoria Island, Lagos</span>
+          <span class="project-year">2024</span>
+        </div>
+        <h2 class="project-title">Victoria Island Office</h2>
+        <p class="project-desc">A 1,200sqm executive workspace designed to reflect the client's brand identity. Open collaboration zones sit alongside private executive suites, united by a palette of charcoal, brass, and warm white oak.</p>
+        <div class="project-tags">
+          <span class="tag">Commercial</span>
+          <span class="tag">Space Planning</span>
+          <span class="tag">Branding</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Ikoyi Minimalist Studio | index 2 | category: residential -->
+    <div class="project-card" data-category="residential">
+      <div class="project-thumb" onclick="openLightbox(2)">
+        <span class="thumb-tag">Residential</span>
+        <!-- ↓ REPLACE src: images/ikoyi-studio/cover.jpg -->
+        <img src="img/img3.jpg" alt="Ikoyi Minimalist Studio"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Ikoyi, Lagos</span>
+          <span class="project-year">2023</span>
+        </div>
+        <h2 class="project-title">Ikoyi Minimalist Studio</h2>
+        <p class="project-desc">Stripped of excess, this studio apartment proves that restraint is its own form of luxury. Every piece earns its place — from the arched reading nook to the marble-wrapped kitchen island.</p>
+        <div class="project-tags">
+          <span class="tag">Minimalist</span>
+          <span class="tag">Studio</span>
+          <span class="tag">Bespoke</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Lekki Boutique Suite | index 3 | category: hospitality -->
+    <div class="project-card" data-category="hospitality">
+      <div class="project-thumb" onclick="openLightbox(3)">
+        <span class="thumb-tag">Hospitality</span>
+        <!-- ↓ REPLACE src: images/lekki-suite/cover.jpg -->
+        <img src="img/img4.jpg" alt="Lekki Boutique Suite"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Lekki, Lagos</span>
+          <span class="project-year">2023</span>
+        </div>
+        <h2 class="project-title">Lekki Boutique Suite</h2>
+        <p class="project-desc">Six individually themed rooms within a boutique short-let property. Each space tells a different story while maintaining a cohesive brand language through materiality and proportion.</p>
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Short-let</span>
+          <span class="tag">Concept</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Banana Island Villa | index 4 | category: residential -->
+    <div class="project-card" data-category="residential">
+      <div class="project-thumb" onclick="openLightbox(4)">
+        <span class="thumb-tag">Residential</span>
+        <!-- ↓ REPLACE src: images/banana-island/cover.jpg -->
+        <img src="img/img5.jpg" alt="Banana Island Villa"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Banana Island, Lagos</span>
+          <span class="project-year">2023</span>
+        </div>
+        <h2 class="project-title">Banana Island Villa</h2>
+        <p class="project-desc">A full-home interior package for a waterfront villa. The design draws from coastal living — driftwood tones, deep blues, and flowing linen curtains that frame panoramic lagoon views.</p>
+        <div class="project-tags">
+          <span class="tag">Full Interior</span>
+          <span class="tag">Coastal</span>
+          <span class="tag">Luxury</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Abuja Corporate HQ | index 5 | category: commercial -->
+    <div class="project-card" data-category="commercial">
+      <div class="project-thumb" onclick="openLightbox(5)">
+        <span class="thumb-tag">Commercial</span>
+        <!-- ↓ REPLACE src: images/abuja-hq/cover.jpg -->
+        <img src="img/img6.jpg" alt="Abuja Corporate HQ"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Maitama, Abuja</span>
+          <span class="project-year">2022</span>
+        </div>
+        <h2 class="project-title">Abuja Corporate HQ</h2>
+        <p class="project-desc">A corporate headquarters fit-out spanning three floors. The challenge was merging a formal professional atmosphere with the warmth of Nigerian cultural heritage — expressed through handwoven textiles and artisan-crafted joinery.</p>
+        <div class="project-tags">
+          <span class="tag">Corporate</span>
+          <span class="tag">3 Floors</span>
+          <span class="tag">Cultural</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Magodo Family Home | index 6 | category: residential -->
+    <div class="project-card" data-category="residential">
+      <div class="project-thumb" onclick="openLightbox(6)">
+        <span class="thumb-tag">Residential</span>
+        <!-- ↓ REPLACE src: images/magodo-home/cover.jpg -->
+        <img src="img/img7.jpg" alt="Magodo Family Home"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Magodo, Lagos</span>
+          <span class="project-year">2022</span>
+        </div>
+        <h2 class="project-title">Magodo Family Home</h2>
+        <p class="project-desc">Designed to grow with a young family, this four-bedroom home balances practical durability with genuine elegance. Warm terracotta accents, built-in storage, and child-safe finishes meet without compromise.</p>
+        <div class="project-tags">
+          <span class="tag">Family Home</span>
+          <span class="tag">Residential</span>
+          <span class="tag">Full Package</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Eko Garden Restaurant | index 7 | category: hospitality -->
+    <div class="project-card" data-category="hospitality">
+      <div class="project-thumb" onclick="openLightbox(7)">
+        <span class="thumb-tag">Hospitality</span>
+        <!-- ↓ REPLACE src: images/eko-restaurant/cover.jpg -->
+        <img src="img/img8.jpg" alt="Eko Garden Restaurant"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">GRA, Port Harcourt</span>
+          <span class="project-year">2022</span>
+        </div>
+        <h2 class="project-title">Eko Garden Restaurant</h2>
+        <p class="project-desc">An intimate 60-cover restaurant built around an open kitchen concept. The design blends exposed brick, hanging botanicals, and candlelit alcoves to create an atmosphere that encourages lingering.</p>
+        <div class="project-tags">
+          <span class="tag">Restaurant</span>
+          <span class="tag">Hospitality</span>
+          <span class="tag">Concept</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROJECT: Ikeja Flagship Store | index 8 | category: commercial -->
+    <div class="project-card" data-category="commercial">
+      <div class="project-thumb" onclick="openLightbox(8)">
+        <span class="thumb-tag">Commercial</span>
+        <!-- ↓ REPLACE src: images/ikeja-store/cover.jpg -->
+        <img src="img/img3.jpg" alt="Ikeja Flagship Store"/>
+        <div class="thumb-overlay"><span class="thumb-icon">⊕</span></div>
+      </div>
+      <div class="project-details">
+        <div class="project-meta">
+          <span class="project-location-tag">Ikeja, Lagos</span>
+          <span class="project-year">2021</span>
+        </div>
+        <h2 class="project-title">Ikeja Flagship Store</h2>
+        <p class="project-desc">A luxury retail environment designed to convert browsers into buyers. Custom display fixtures, a curated scent profile, and strategic lighting work in concert to elevate every product on the floor.</p>
+        <div class="project-tags">
+          <span class="tag">Retail</span>
+          <span class="tag">Lighting</span>
+          <span class="tag">Fixtures</span>
+        </div>
+      </div>
+    </div>
+
+
+  </div><!-- /projects-grid -->
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">DEMO <span>Interiors</span></a>
+      <p>Premium interior design studio crafting timeless spaces for modern living.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="index.html#services">Residential</a></li>
+        <li><a href="index.html#services">Commercial</a></li>
+        <li><a href="index.html#contact">Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:hello@demointeriors.com">hello@demointeriors.com</a></li>
+        <li><a href="tel:+2348087202240">+234 808 720 2240</a></li>
+        <li><span style="font-size:0.82rem;color:var(--muted)">Lagos, Nigeria</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Demo Interiors. All Rights Reserved.</span>
+    <span>Crafted with precision.</span>
+  </div>
+</footer>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-header">
+    <h3 class="lb-title" id="lbTitle"></h3>
+    <span class="lb-counter" id="lbCounter"></span>
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+  </div>
+  <div class="lb-stage">
+    <button class="lb-btn lb-prev" onclick="shiftSlide(-1)">&#8592;</button>
+    <div class="lb-img-wrap">
+      <img id="lbMainImg" src="" alt="Project photo"/>
+    </div>
+    <button class="lb-btn lb-next" onclick="shiftSlide(1)">&#8594;</button>
+  </div>
+  <div class="lb-footer">
+    <div class="lb-thumbnails" id="lbThumbs"></div>
+  </div>
+</div>
+
+
+<script>
+/* =================================================================
+  PROJECTS DATA — carousel images for the lightbox
+  ─────────────────────────────────────────────────────────────────
+  Each object matches the card above (same order, starting at 0).
+
+  title  → shown in the lightbox header bar
+  images → array of local image paths
+           · First path is usually the same as the card cover
+           · Add as many images as you have — no limit
+           · Paths are relative to portfolio.html
+           · Supported types: .jpg .jpeg .png .webp .avif
+
+  HOW TO EDIT:
+  · Swap a path  → change the string inside quotes
+  · Add a photo  → add a new line: 'images/folder/5.jpg',
+  · Remove photo → delete that line
+================================================================= */
+const projects = [
+
+  // index 0
+  {
+    title: 'Oniru Peninsula Residence',
+    images: [
+      'img/img3.jpg',
+      'img/img6.jpg',
+      'img/img.jpg',
+      'img/img4.jpg',
+    ]
+  },
+
+  // index 1
+  {
+    title: 'Victoria Island Office',
+    images: [
+      'img/img8.jpg',
+      'img/img7.jpg',
+      'img/img6.jpg',
+      'img/img5.jpg',
+    ]
+  },
+
+  // index 2
+  {
+    title: 'Ikoyi Minimalist Studio',
+    images: [
+      'img/img.jpg',
+      'img/img6.jpg',
+      'img/img2.jpg',
+      'img/img3.jpg',
+    ]
+  },
+
+  // index 3
+  {
+    title: 'Lekki Boutique Suite',
+    images: [
+      'img/img3.jpg',
+      'img/img6.jpg',
+      'img/img.jpg',
+      'img/img4.jpg',
+    ]
+  },
+
+  // index 4
+  {
+    title: 'Banana Island Villa',
+    images: [
+      'img/img7.jpg',
+      'img/img3.jpg',
+      'img/img2.jpg',
+      'img/img8.jpg',
+    ]
+  },
+
+  // index 5
+  {
+    title: 'Abuja Corporate HQ',
+    images: [
+      'img/img.jpg',
+      'img/img6.jpg',
+      'img/img3.jpg',
+      'img/img7.jpg',
+    ]
+  },
+
+  // index 6
+  {
+    title: 'Magodo Family Home',
+    images: [
+      'img/img6.jpg',
+      'img/img2.jpg',
+      'img/img8.jpg',
+      'img/img4.jpg',
+    ]
+  },
+
+  // index 7
+  {
+    title: 'Eko Garden Restaurant',
+    images: [
+      'img/img3.jpg',
+      'img/img6.jpg',
+      'img/img.jpg',
+      'img/img4.jpg',
+    ]
+  },
+
+  // index 8
+  {
+    title: 'Ikeja Flagship Store',
+    images: [
+      'img/img6.jpg',
+      'img/img8.jpg',
+      'img/img2.jpg',
+      'img/img.jpg',
+    ]
+  },
+
+];
+/* ── end projects data ── */
+
+
+/* ── Mobile menu ── */
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+function closeMenu() { mobileMenu.classList.remove('open'); }
+
+/* ── Filter ── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(c => {
+      c.style.display = (f === 'all' || c.dataset.category === f) ? 'flex' : 'none';
+    });
+  });
+});
+
+/* ── Lightbox state ── */
+let currentProject = 0;
+let currentSlide   = 0;
+
+function openLightbox(idx) {
+  currentProject = idx;
+  currentSlide   = 0;
+  buildLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function buildLightbox() {
+  const p = projects[currentProject];
+  document.getElementById('lbTitle').textContent = p.title;
+  // Build thumbnail strip
+  const strip = document.getElementById('lbThumbs');
+  strip.innerHTML = '';
+  p.images.forEach((src, i) => {
+    const img    = document.createElement('img');
+    img.src      = src;
+    img.className = 'lb-thumb' + (i === 0 ? ' active' : '');
+    img.onclick  = () => goToSlide(i);
+    strip.appendChild(img);
+  });
+  refreshSlide();
+}
+
+function refreshSlide() {
+  const p   = projects[currentProject];
+  const img = document.getElementById('lbMainImg');
+  img.classList.add('fading');
+  setTimeout(() => {
+    img.src = p.images[currentSlide];
+    img.classList.remove('fading');
+  }, 200);
+  document.getElementById('lbCounter').textContent =
+    (currentSlide + 1) + ' / ' + p.images.length;
+  document.querySelectorAll('.lb-thumb').forEach((t, i) =>
+    t.classList.toggle('active', i === currentSlide)
+  );
+}
+
+function goToSlide(i) { currentSlide = i; refreshSlide(); }
+
+function shiftSlide(dir) {
+  const len  = projects[currentProject].images.length;
+  currentSlide = (currentSlide + dir + len) % len;
+  refreshSlide();
+}
+
+/* ── Keyboard ── */
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight') shiftSlide(1);
+  if (e.key === 'ArrowLeft')  shiftSlide(-1);
+  if (e.key === 'Escape')     closeLightbox();
+});
+
+/* ── Click outside to close ── */
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+</script>
+</body>
+</html>

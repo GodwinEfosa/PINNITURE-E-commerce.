@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DEMO Interiors | Premium Design Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0b0b0b;
+      --bg2: #111111;
+      --bg3: #161616;
+      --gold: #c9a96e;
+      --gold-light: #e0c99a;
+      --cream: #f5f0e8;
+      --muted: #888;
+      --border: rgba(201,169,110,0.18);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Jost', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; background: var(--bg); overflow-x: hidden; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 70px;
+      background: rgba(11,11,11,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+    }
+    .nav-logo span { color: var(--cream); font-weight: 300; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 9px 22px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 24px; height: 1px; background: var(--cream); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 70px; left: 0; right: 0; z-index: 99;
+      background: rgba(11,11,11,0.98);
+      padding: 2rem 5vw;
+      flex-direction: column; gap: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center;
+      padding: 120px 5vw 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #home::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      opacity: 0.18;
+    }
+    #home > * { position: relative; }
+
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--bg);
+      padding: 14px 34px;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-outline {
+      border: 1px solid rgba(245,240,232,0.3);
+      color: var(--cream);
+      padding: 14px 34px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 100px 5vw; }
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 480px;
+    }
+    .section-head { margin-bottom: 3.5rem; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg2); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5px;
+    }
+    .project-card { position: relative; overflow: hidden; aspect-ratio: 4/3; }
+    .project-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .project-card:hover img { transform: scale(1.04); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.6rem;
+    }
+    .project-location {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .project-name {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+    .project-cat {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      margin-bottom: 0.8rem;
+    }
+    .project-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold);
+      display: inline-block;
+      padding-bottom: 1px;
+    }
+    .view-more-wrap { text-align: center; margin-top: 3rem; }
+
+    /* ── BEFORE/AFTER ── */
+    #transformations { background: var(--bg); }
+    .ba-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .ba-slider {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      cursor: ew-resize;
+      user-select: none;
+    }
+    .ba-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .ba-after { clip-path: inset(0 50% 0 0); }
+    .ba-divider {
+      position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
+      background: var(--gold); z-index: 3;
+      transform: translateX(-50%);
+    }
+    .ba-handle {
+      position: absolute; top: 50%; left: 50%; z-index: 4;
+      width: 40px; height: 40px;
+      background: var(--gold); border-radius: 50%;
+      transform: translate(-50%, -50%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; color: var(--bg); font-weight: 600;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .ba-labels {
+      display: flex; justify-content: space-between;
+      padding: 0.5rem 0;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .ba-info { margin-top: 1rem; }
+    .ba-info h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; }
+    .ba-info p { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--bg3); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .services-grid { grid-template-columns: 1fr; } }
+    .service-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0;
+      overflow: hidden;
+    }
+    .service-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .service-body { padding: 1.6rem; }
+    .service-body h3 {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .service-body p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PROCESS ── */
+    #process { background: var(--bg2); }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-top: 0;
+    }
+    .process-step {
+      background: var(--bg2);
+      padding: 2.5rem 1.8rem;
+      position: relative;
+    }
+    .step-num {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .step-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .step-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--bg); text-align: center; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .testi-card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      text-align: left;
+    }
+    .testi-stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .testi-text {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+      color: var(--cream);
+    }
+    .testi-author { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── FAQ ── */
+    #faq { background: var(--bg3); }
+    .faq-list { max-width: 720px; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 0;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--cream);
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-icon {
+      width: 20px; height: 20px; border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: var(--gold);
+      flex-shrink: 0; transition: transform 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.2rem; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: center;
+    }
+    .about-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top; display: block; }
+    .about-text .section-title { margin-bottom: 1.2rem; }
+    .about-text p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .about-nums { display: flex; gap: 2.5rem; margin-top: 2rem; }
+
+    .about-num strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+    .about-num span { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: start;
+    }
+    .contact-intro p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+    .contact-detail { margin-bottom: 1.2rem; }
+    .contact-detail-label {
+      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.2rem;
+    }
+    .contact-detail a { font-size: 0.88rem; color: var(--cream); }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field label {
+      display: block; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.4rem;
+    }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: 12px 14px;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus { border-color: var(--gold); }
+    .form-field textarea { resize: vertical; min-height: 100px; }
+    .form-field select option { background: var(--bg2); }
+    .btn-wa {
+      background: none;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 14px 28px;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+      align-self: flex-start;
+    }
+    .btn-wa:hover { background: var(--gold); color: var(--bg); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060606;
+      border-top: 1px solid var(--border);
+      padding: 60px 5vw 30px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; margin-top: 0.8rem; max-width: 260px; }
+    .footer-col h5 {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul li a { font-size: 0.82rem; color: var(--muted); transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--cream); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { gap: 1.5rem; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">DEMO <span>Interiors</span></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Consultation</a>
+  <button class="hamburger" id="menuBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="portfolio.html" onclick="closeMenu()">Portfolio</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <p class="hero-label">Premium Interior Design Studio — Lagos, Nigeria</p>
+  <h1 class="hero-title">Luxury Interiors Designed for <em>Modern Living</em></h1>
+  <p class="hero-sub">We craft timeless spaces tailored to your lifestyle.</p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-primary">Book Consultation</a>
+    <a href="#projects" class="btn-outline">View Projects</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">120+</span>
+      <span class="stat-label">Projects Completed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">10+</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">98%</span>
+      <span class="stat-label">Client Satisfaction</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">4.9</span>
+      <span class="stat-label">Average Review</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-head">
+    <p class="section-label">Portfolio</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub">Curated spaces defining modern luxury</p>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <img src="img/img2.jpg" alt="Oniru Peninsula Residence"/>
+      <div class="project-overlay">
+        <p class="project-location">Lagos, Nigeria</p>
+        <h3 class="project-name">Oniru Peninsula Residence</h3>
+        <p class="project-cat">Residential</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <img src="img/img4.jpg" alt="Victoria Island Office"/>
+      <div class="project-overlay">
+        <p class="project-location">Lagos, Nigeria</p>
+        <h3 class="project-name">Victoria Island Office</h3>
+        <p class="project-cat">Commercial</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <img src="img/img8.jpg" alt="Ikoyi Minimalist Studio"/>
+      <div class="project-overlay">
+        <p class="project-location">Lagos, Nigeria</p>
+        <h3 class="project-name">Ikoyi Minimalist Studio</h3>
+        <p class="project-cat">Residential</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+  </div>
+  <div class="view-more-wrap">
+    <a href="portfolio.html" class="btn-outline">View More Projects</a>
+  </div>
+</section>
+
+<!-- BEFORE/AFTER -->
+<section id="transformations">
+  <div class="section-head">
+    <p class="section-label">Transformations</p>
+    <h2 class="section-title">Witness the Power of Design</h2>
+  </div>
+  <div class="ba-grid">
+    <!-- Card 1 -->
+    <div class="ba-card">
+      <div class="ba-slider" id="slider1">
+        <img class="ba-before" src="img/img4.jpg" alt="Before"/>
+        <img class="ba-after" src="img/img5.jpg" alt="After"/>
+        <div class="ba-divider"></div>
+        <div class="ba-handle">⇌</div>
+      </div>
+      <div class="ba-labels"><span>Before</span><span>After</span></div>
+      <div class="ba-info">
+        <h4>Oniru Peninsula Residence</h4>
+        <p>Lagos, Nigeria &nbsp;·&nbsp; Residential</p>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="ba-card">
+      <div class="ba-slider" id="slider2">
+        <img class="ba-before" src="img/img7.jpg" alt="Before"/>
+        <img class="ba-after" src="img/img.jpg" alt="After"/>
+        <div class="ba-divider"></div>
+        <div class="ba-handle">⇌</div>
+      </div>
+      <div class="ba-labels"><span>Before</span><span>After</span></div>
+      <div class="ba-info">
+        <h4>Victoria Island Office</h4>
+        <p>Lagos, Nigeria &nbsp;·&nbsp; Commercial</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-head">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-sub">Comprehensive design solutions for every space</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <img class="service-img" src="img/img.jpg" alt="Residential"/>
+      <div class="service-body">
+        <h3>Residential Design</h3>
+        <p>Creating homes that reflect your unique personality and comfort.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="img/img4.jpg" alt="Commercial"/>
+      <div class="service-body">
+        <h3>Commercial Spaces</h3>
+        <p>Functional aesthetics for offices and retail environments.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="img/img8.jpg" alt="Space Planning"/>
+      <div class="service-body">
+        <h3>Space Planning</h3>
+        <p>Optimizing layout for flow, function, and future flexibility.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="img/img5.jpg" alt="Furniture"/>
+      <div class="service-body">
+        <h3>Furniture Curation</h3>
+        <p>Sourcing bespoke pieces that elevate the entire space.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="img/img6.jpg" alt="Lighting"/>
+      <div class="service-body">
+        <h3>Lighting Design</h3>
+        <p>Setting the mood through strategic illumination.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <img class="service-img" src="img/img3.jpg" alt="Project Management"/>
+      <div class="service-body">
+        <h3>Project Management</h3>
+        <p>End-to-end execution ensuring timely and budget-friendly delivery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-head">
+    <p class="section-label">How We Work</p>
+    <h2 class="section-title">Our Design Process</h2>
+    <p class="section-sub">A seamless journey from concept to completion.</p>
+  </div>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Discovery</div>
+      <p class="step-desc">We learn your vision, needs, and lifestyle.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Concept</div>
+      <p class="step-desc">Mood boards, themes, and spatial direction.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Design</div>
+      <p class="step-desc">Full visual presentation with materials & layout.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Implement</div>
+      <p class="step-desc">Coordinating contractors, furniture, and delivery.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">05</div>
+      <div class="step-title">Reveal</div>
+      <p class="step-desc">Your dream space, delivered.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-head" style="text-align:center; margin-bottom:2.5rem;">
+    <p class="section-label">Client Stories</p>
+    <h2 class="section-title">What Our Clients Say</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"They transformed our Lagos penthouse into something we couldn't have imagined. Every detail was considered — it's truly a work of art."</p>
+      <p class="testi-author">Adaeze O. — Oniru, Lagos</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Our office redesign elevated our brand presence instantly. Clients walk in and are immediately impressed. Best investment we've made."</p>
+      <p class="testi-author">Chukwuemeka N. — Victoria Island</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The team understood our brief perfectly and delivered on time and on budget. The result is a home we're proud to show off."</p>
+      <p class="testi-author">Funmi A. — Ikoyi, Lagos</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-head">
+    <p class="section-label">Got Questions?</p>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">What type of projects do you take on? <span class="faq-icon">+</span></div>
+      <div class="faq-a">We specialize in high-end residential, commercial offices, and hospitality spaces. We focus on projects where design integrity is paramount.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How does the design process work? <span class="faq-icon">+</span></div>
+      <div class="faq-a">It begins with a discovery call, followed by concept development, detailed design presentation, and finally implementation and styling.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is the minimum project budget? <span class="faq-icon">+</span></div>
+      <div class="faq-a">To ensure the highest quality of materials and execution, our minimum project budget typically starts at ₦5M.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do you work remotely? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Yes, we offer virtual design consultations and full-service remote project management for clients outside our immediate location.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <img class="about-img"
+        src="https://plus.unsplash.com/premium_photo-1696942353102-0a5def645595?w=600&auto=format&fit=crop&q=60"
+        alt="Designer"/>
+    </div>
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Designing Life, Not Just Rooms</h2>
+      <p>With over a decade of experience, DEMO Interiors has established itself as a beacon of modern luxury. We believe that interior design is not merely about aesthetics, but about creating environments that enhance well-being and productivity.</p>
+      <p>Our approach is collaborative, ensuring that every square foot tells your story. From the initial sketch to the final cushion placement, we are dedicated to excellence.</p>
+      <div class="about-nums">
+        <div class="about-num">
+          <strong>10+</strong>
+          <span>Years Active</span>
+        </div>
+        <div class="about-num">
+          <strong>150+</strong>
+          <span>Projects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-head">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Start Your Project</h2>
+    <p class="section-sub">Let's create something extraordinary together.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-intro">
+      <p>Whether you have a clear vision or a blank canvas, we'd love to hear from you. Fill out the form and we'll be in touch within 24 hours.</p>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Email</div>
+        <a href="mailto:efosagodwin081@gmail.com">efosagodwin081@gmail.com</a>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Phone</div>
+        <a href="tel:+2348087202240">+234 808 720 2240</a>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Location</div>
+        <span style="font-size:0.88rem; color:var(--cream)">Lagos, Nigeria</span>
+      </div>
+    </div>
+    <div class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Name</label>
+          <input type="text" id="fname" placeholder="Your name"/>
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" id="femail" placeholder="your@email.com"/>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Phone</label>
+        <input type="tel" id="fphone" placeholder="+234..."/>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Project Type</label>
+          <select id="ftype">
+            <option value="">Select type</option>
+            <option>Residential</option>
+            <option>Commercial</option>
+            <option>Hospitality</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Budget Range</label>
+          <select id="fbudget">
+            <option value="">Select budget</option>
+            <option>Below ₦5M</option>
+            <option>₦5M–₦20M</option>
+            <option>₦20M–₦50M</option>
+            <option>Above ₦50M</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Message</label>
+        <textarea id="fmessage" placeholder="Tell us about your project..."></textarea>
+      </div>
+      <button class="btn-wa" onclick="sendWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Send via WhatsApp
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#home" class="nav-logo">DEMO <span>Interiors</span></a>
+      <p>Premium interior design studio crafting timeless spaces for modern living.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Residential</a></li>
+        <li><a href="#services">Commercial</a></li>
+        <li><a href="#contact">Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:efosagodwin081@gmail.com">efosagodwin081@gmail.com</a></li>
+        <li><a href="tel:+2348087202240">+234 808 720 2240</a></li>
+        <li><a href="#">Lagos, Nigeria</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Demo Interiors. All Rights Reserved.</span>
+    <span>Crafted with precision.</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  function closeMenu() { mobileMenu.classList.remove('open'); }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Before/After slider
+  function initSlider(id) {
+    const slider = document.getElementById(id);
+    const after = slider.querySelector('.ba-after');
+    const divider = slider.querySelector('.ba-divider');
+    const handle = slider.querySelector('.ba-handle');
+    let dragging = false;
+
+    function setPos(x) {
+      const rect = slider.getBoundingClientRect();
+      let pct = Math.min(Math.max((x - rect.left) / rect.width, 0.03), 0.97);
+      const pctStr = (pct * 100) + '%';
+      after.style.clipPath = `inset(0 ${100 - pct*100}% 0 0)`;
+      divider.style.left = pctStr;
+      handle.style.left = pctStr;
+    }
+
+    slider.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); });
+    window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', () => dragging = false);
+
+    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', () => dragging = false);
+  }
+  initSlider('slider1');
+  initSlider('slider2');
+
+  // WhatsApp form submit
+  function sendWhatsApp() {
+    const name    = document.getElementById('fname').value;
+    const email   = document.getElementById('femail').value;
+    const phone   = document.getElementById('fphone').value;
+    const type    = document.getElementById('ftype').value;
+    const budget  = document.getElementById('fbudget').value;
+    const msg     = document.getElementById('fmessage').value;
+    const text    = `Hello DEMO Interiors!\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nProject Type: ${type}\nBudget: ${budget}\n\nMessage: ${msg}`;
+    window.open('https://wa.me/2348087202240?text=' + encodeURIComponent(text), '_blank');
+  }
+</script>
+</body>
+</html>
