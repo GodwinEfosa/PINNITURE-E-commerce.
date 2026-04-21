@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PINNITURE — Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .4s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-body);color:var(--text);background:var(--cream);line-height:1.6}
+a{text-decoration:none;color:inherit}ul{list-style:none}button{cursor:pointer;border:none;background:none;font:inherit}
+
+/* NAV - Same as index.html */
+/* NAV - White by default, Black on scroll */
+nav{position:fixed;top:0;width:100%;z-index:999;padding:14px 0;transition:var(--trans);background:transparent;}
+nav.scrolled{background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
+.nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:0px}
+.logo img{width: 3em;}
+.brand{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:#000}
+nav.scrolled .brand-name{color:var(--text)}
+.brand-sub{font-size:10px;letter-spacing:1.5px;color:#000}
+nav.scrolled .brand-sub{color:var(--text-light)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans);color:#000}
+nav.scrolled .nav-links a{color:var(--text)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:var(--trans)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{position:relative;width:24px;height:24px;display:grid;place-items:center;color:#000}
+.cart-count{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:700}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:24px;height:2px;background:#000;transition:var(--trans);display:block}
+nav.scrolled .hamburger span{background:var(--text)}
+
+@media(max-width:900px){.btn{display:none}}
+
+/* SHOP LAYOUT */
+.shop{padding-top:100px;max-width:1400px;margin:0 auto;padding-bottom:60px;padding-left:24px;padding-right:24px}
+.shop-header{margin-bottom:30px;display:flex;justify-content:space-between;align-items:center}
+.sort-tabs{display:flex;gap:12px}
+.sort-tab{padding:8px 20px;border-radius:20px;background:var(--sand);cursor:pointer;font-size:13px;font-weight:500;transition:var(--trans);border:none}
+.sort-tab.active{background:var(--gold);color:#fff}
+.sort-tab:hover{transform:translateY(-2px)}
+
+.shop-layout{display:grid;grid-template-columns:280px 1fr;gap:30px}
+.sidebar{background:#fff;border-radius:16px;padding:24px;height:fit-content;position:sticky;top:90px;border:1px solid var(--border)}
+.filter-section{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.filter-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.filter-title{font-weight:600;margin-bottom:12px;font-size:14px}
+.category-group{margin-bottom:16px}
+.category-main{font-weight:600;font-size:13px;margin-bottom:8px;color:var(--text);display:flex;align-items:center;gap:8px;cursor:pointer}
+.category-main i{font-size:10px;transition:var(--trans)}
+.category-main.active i{transform:rotate(90deg)}
+.subcategories{margin-left:20px;display:none}
+.subcategories.show{display:block}
+.sub-label{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:var(--text-light);cursor:pointer;transition:var(--trans)}
+.sub-label:hover{color:var(--gold)}
+.sub-label input{accent-color:var(--gold)}
+.price-display{background:var(--sand);padding:10px 14px;border-radius:8px;text-align:center;font-weight:600;color:var(--text);margin-top:12px}
+.price-slider{width:100%;margin:16px 0}
+.price-slider input{width:100%;accent-color:var(--gold)}
+
+.p-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.p-card{background:#fff;border-radius:16px;overflow:hidden;transition:var(--trans);border:1px solid var(--border);position:relative;animation:pop .5s ease forwards;opacity:0}
+.p-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.p-box{aspect-ratio:4/3;display:grid;place-items:center;background:linear-gradient(135deg,var(--sand),var(--cream))}
+.p-box svg{width:50%;height:50%}
+.p-body{padding:16px}.p-tag{font-size:11px;text-transform:uppercase;color:var(--text-light);letter-spacing:1px;margin-bottom:6px}
+.price{font-family:var(--font-price);font-size:1.5rem;color:var(--gold)}
+.p-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.add-btn{flex:1;padding:12px;background:var(--charcoal);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:var(--trans);font-weight:600}
+.add-btn:hover{background:var(--gold)}
+.wish{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--sand);transition:var(--trans);cursor:pointer;margin-left:8px}
+.wish:hover{transform:scale(1.1)}
+.wish.active i{color:var(--text)}
+@keyframes pop{to{opacity:1;transform:translateY(0)}}
+
+/* CART - Same as index.html */
+.cart-d{position:fixed;top:0;right:0;width:380px;height:100vh;background:#fff;box-shadow:var(--shadow);transform:translateX(100%);transition:var(--trans);z-index:1000;display:flex;flex-direction:column;border:none; padding: 0px 20px;}
+.cart-d.open{transform:translateX(0)}
+.c-h{padding:16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.c-tabs{display:flex;border-bottom:1px solid var(--border)}
+.c-tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:500;transition:var(--trans);background:none;color:var(--text)}
+.c-tab.active{color:var(--gold);border-bottom:3px solid var(--gold)}
+.c-body{flex:1;overflow-y:auto;padding:20px}
+.c-item{display:flex;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0f0f0}
+.c-img{width:60px;height:60px;background:var(--sand);border-radius:8px;display:grid;place-items:center}
+.c-info{flex:1}.c-info h4{font-size:.9rem;margin-bottom:4px}.c-price{color:var(--gold);font-family:var(--font-price);font-size:1.1rem}
+.qty{display:flex;gap:8px;align-items:center;margin-top:6px}
+.qty button{width:24px;height:24px;border-radius:50%;background:var(--sand);border:none;cursor:pointer}
+.c-foot{padding:20px;border-top:1px solid var(--border)}
+.c-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-size:1.1rem}
+
+/* MODALS */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;place-items:center;}
+.modal.open{display:grid}
+.m-box{background:#fff;border-radius:16px;max-width:550px;width:100%;padding:24px;animation:pop .3s ease;position:relative;max-height:90vh;overflow-y:auto}
+.close-btn{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer;transition:var(--trans);border:none}
+.close-btn:hover{background:var(--charcoal);color:#fff}
+.form-g{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.form-g input,select{padding:12px;border:1px solid var(--border);border-radius:8px;width:100%;font-family:var(--font-body)}
+.form-g .full{grid-column:1/-1}
+.form-g input:focus,.form-g select:focus{outline:none;border-color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;top:20px;right:20px;background:#fff;padding:14px 20px;border-radius:10px;box-shadow:var(--shadow);z-index:3000;transform:translateX(120%);transition:var(--trans)}.toast.show{transform:translateX(0)}
+.success-svg{width:60px;height:60px;stroke:var(--gold);stroke-width:2;stroke-dasharray:100;animation:draw 1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+@media(max-width:900px){
+ .nav-links{display:none}
+ .nav-links.mob{display:flex;position:fixed;top:75px;left:0;right:0;bottom:0;background:#fff;padding:30px;flex-direction:column;gap:20px;z-index:998;animation:fadeUp .3s ease}
+ .nav-links.mob a{color:var(--text)}
+ .hamburger{display:flex}
+ .shop-layout{grid-template-columns:1fr}
+ .sidebar{position:relative;top:0}
+ .p-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+ <div class="nav-c">
+  <a href="index.html" class="logo">
+   <img src="img/Pinniture logo.png" alt="Logo">
+   <div class="brand"><span class="brand-name">PINNITURE</span><span class="brand-sub">An interior design company</span></div>
+  </a>
+  <ul class="nav-links">
+   <li><a href="index.html">Home</a></li>
+   <li class="dropdown"><a href="shop.html" style="color: #C4973A;">Shop</a>
+   </li>
+   <li><a href="interior-design.html">Interior Design</a></li>
+   <li><a href="about.html">About</a></li>
+   
+  </ul>
+  <div class="nav-right">
+   <button class="cart-btn" onclick="openCart()"><i class="fas fa-shopping-bag" style="font-size:20px"></i><span class="cart-count" id="cartC">0</span></button>
+   <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+ </div>
+</nav>
+
+<main class="shop">
+ <div class="shop-header">
+  <div class="sort-tabs">
+   <button class="sort-tab active" onclick="setSort('all')">All</button>
+   <button class="sort-tab" onclick="setSort('low')">Low Price (₦20k-₦100k)</button>
+   <button class="sort-tab" onclick="setSort('high')">High Price (₦100k+)</button>
+  </div>
+ </div>
+
+ <div class="shop-layout">
+  <aside class="sidebar">
+   <div class="filter-section">
+    <div class="filter-title">Categories</div>
+    
+    <div class="category-group">
+     <div class="category-main" onclick="toggleCategory('home')">
+      <i class="fas fa-chevron-right"></i> Home
+     </div>
+     <div class="subcategories" id="cat-home">
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="bedroom" onchange="filterProds()"> Bedroom</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="kitchen" onchange="filterProds()"> Kitchen</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="kids" onchange="filterProds()"> Kids Room</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="living" onchange="filterProds()"> Living Room</label>
+     </div>
+    </div>
+
+    <div class="category-group">
+     <div class="category-main" onclick="toggleCategory('office')">
+      <i class="fas fa-chevron-right"></i> Office
+     </div>
+     <div class="subcategories" id="cat-office">
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="chair" onchange="filterProds()"> Chair</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="table" onchange="filterProds()"> Table</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="storage" onchange="filterProds()"> Book Storage</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="workstation" onchange="filterProds()"> Work Station</label>
+     </div>
+    </div>
+
+    <div class="category-group">
+     <div class="category-main" onclick="toggleCategory('commercial')">
+      <i class="fas fa-chevron-right"></i> Commercial
+     </div>
+     <div class="subcategories" id="cat-commercial">
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="restaurant" onchange="filterProds()"> Restaurant</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="church" onchange="filterProds()"> Church</label>
+      <label class="sub-label"><input type="checkbox" class="f-cat" value="school" onchange="filterProds()"> School</label>
+     </div>
+    </div>
+   </div>
+
+   <div class="filter-section">
+    <div class="filter-title">Price Range</div>
+    <div class="price-slider">
+     <input type="range" id="priceR" min="20000" max="1000000" step="10000" value="1000000" oninput="updatePriceDisplay();filterProds()">
+    </div>
+    <div class="price-display" id="priceDisplay">Up to ₦1,000,000</div>
+   </div>
+  </aside>
+
+  <div>
+   <div class="p-grid" id="grid"></div>
+  </div>
+ </div>
+</main>
+
+<div class="cart-d" id="cartD">
+ <div class="c-h"><h3>Your Cart</h3><button onclick="closeCart()"><i class="fas fa-xmark"></i></button></div>
+ <div class="c-tabs"><div class="c-tab active" onclick="switchTab('cart')">Cart</div><div class="c-tab" onclick="switchTab('wish')">Wishlist</div></div>
+ <div class="c-body" id="cartBody"></div>
+ <div class="c-foot">
+  <div class="c-total"><span>Subtotal</span><span id="cartTot">₦0</span></div>
+  <button class="btn btn-gold" style="width:100%" onclick="openCheckout()">PROCEED TO CHECKOUT</button>
+ </div>
+</div>
+
+<div class="modal" id="checkoutM">
+ <div class="m-box">
+  <div class="close-btn" onclick="closeCheckout()"><i class="fas fa-xmark"></i></div>
+  <h2 style="font-family:var(--font-head)">Secure Checkout</h2>
+  <form id="payForm">
+   <h4 style="margin:16px 0 8px;color:var(--text-light);font-size:13px">Delivery Information</h4>
+   <div class="form-g">
+    <input type="text" id="fn" placeholder="First Name" required><input type="text" id="ln" placeholder="Last Name" required>
+    <input type="email" id="em" placeholder="Email Address" class="full" required><input type="tel" id="ph" placeholder="Phone Number" class="full" required>
+    <input type="text" id="addr1" placeholder="Street Address" class="full" required><input type="text" id="addr2" placeholder="Apt, Suite, Floor (Optional)" class="full">
+    <input type="text" id="city" placeholder="City" required><select id="state" required><option value="">Select State</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option><option>Enugu</option><option>Other</option></select>
+    <input type="text" id="zip" placeholder="ZIP / Postal Code" class="full" required>
+    <input type="text" id="notes" placeholder="Delivery Instructions (e.g., Gate code, Building name)" class="full">
+   </div>
+   <button type="button" class="btn btn-gold" style="width:100%;padding:16px;margin-top:10px" onclick="processPay()"><i class="fas fa-lock" style="margin-right:8px"></i> PAY SECURELY</button>
+  </form>
+ </div>
+</div>
+
+<div class="modal" id="successM">
+ <div class="m-box" style="text-align:center;padding:40px">
+  <svg class="success-svg" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg>
+  <h2 style="font-family:var(--font-head);margin-top:16px">Order Confirmed!</h2>
+  <p style="color:var(--text-light);margin:10px 0 20px">Thank you. Your premium furniture is on its way.</p>
+  <div style="background:var(--sand);padding:10px;border-radius:8px;font-weight:600;margin-bottom:20px">Ref: PC-<span id="refId"></span></div>
+  <button class="btn btn-gold" onclick="closeSuccess()">Continue Shopping</button>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// SVG Library
+const svgs={sofa:`<path d="M40 90h120v40H40z M40 90V60h120v30 M50 90V40h100v50 M40 130v15h120v-15"/>`,bed:`<path d="M30 100h140v40H30z M30 100V50h140v50 M30 140v15h140v-15"/>`,chair:`<rect x="60" y="50" width="80" height="60" rx="6"/> <path d="M60 110h80v10H60z M80 120v30h40v-30"/>`,table:`<rect x="40" y="70" width="120" height="20" rx="4"/> <path d="M60 90v50 M140 90v50 M50 140h100"/>`,desk:`<rect x="40" y="60" width="120" height="15" rx="3"/> <path d="M60 75v60 M140 75v60 M50 135h100"/>`,shelf:`<path d="M50 40v110h100V40H50z M50 80h100 M50 110h100"/>`};
+
+function svgBox(type){return `<div class="p-box"><svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svgs[type]||svgs.chair}</svg></div>`}
+
+// Data
+const seedP=[
+ {id:1,name:"Velvet Lounge Sofa",price:450000,cat:"living",svg:"sofa"},
+ {id:2,name:"Oak Writing Desk",price:280000,cat:"office",svg:"desk"},
+ {id:3,name:"King Canopy Bed",price:620000,cat:"bedroom",svg:"bed"},
+ {id:4,name:"Mid-Century Armchair",price:85000,cat:"living",svg:"chair"},
+ {id:5,name:"Floating Bookshelf",price:45000,cat:"storage",svg:"shelf"},
+ {id:6,name:"Dining Table",price:390000,cat:"kitchen",svg:"table"},
+ {id:7,name:"Executive Chair",price:125000,cat:"office",svg:"chair"},
+ {id:8,name:"Nightstand",price:35000,cat:"bedroom",svg:"shelf"},
+ {id:9,name:"Kids Bunk Bed",price:180000,cat:"kids",svg:"bed"},
+ {id:10,name:"Restaurant Booth",price:550000,cat:"restaurant",svg:"sofa"}
+];
+
+let cart,wishlist,prods,currentSort='all';
+
+try{
+ cart=JSON.parse(localStorage.getItem('pinniture_cart'))||[];
+ wishlist=JSON.parse(localStorage.getItem('pinniture_wishlist'))||[];
+ prods=JSON.parse(localStorage.getItem('pinniture_products'))||seedP;
+}catch(e){cart=[];wishlist=[];prods=seedP;}
+
+localStorage.setItem('pinniture_products',JSON.stringify(prods));
+
+// Navigation
+function toggleMenu(){
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.classList.toggle('mob');
+  if(isOpen){ document.body.appendChild(links); }
+  else{ document.querySelector('.nav-c').insertBefore(links, document.querySelector('.nav-right')); }
+}
+
+// Scroll handler - nav color changes
+window.addEventListener('scroll',function(){
+ const nav=document.getElementById('nav');
+ if(window.scrollY>50){
+  nav.classList.add('scrolled');
+ }else{
+  nav.classList.remove('scrolled');
+ }
+},{passive:true});
+
+
+// Category toggle
+function toggleCategory(cat){
+ const sub=document.getElementById('cat-'+cat);
+ const main=sub.previousElementSibling;
+ sub.classList.toggle('show');
+ main.classList.toggle('active');
+}
+
+// Sort tabs
+function setSort(type){
+ currentSort=type;
+ document.querySelectorAll('.sort-tab').forEach(t=>t.classList.remove('active'));
+ event.target.classList.add('active');
+ filterProds();
+}
+
+// Price display
+function updatePriceDisplay(){
+ const val=parseInt(document.getElementById('priceR').value);
+ document.getElementById('priceDisplay').textContent='Up to ₦'+val.toLocaleString();
+}
+
+// Filter products
+function filterProds(){
+ let f=[...prods];
+ const cats=[...document.querySelectorAll('.f-cat:checked')].map(c=>c.value);
+ if(cats.length)f=f.filter(p=>cats.includes(p.cat));
+ 
+ const max=parseInt(document.getElementById('priceR').value);
+ f=f.filter(p=>p.price<=max);
+ 
+ if(currentSort==='low')f=f.filter(p=>p.price>=20000&&p.price<=100000);
+ else if(currentSort==='high')f=f.filter(p=>p.price>100000);
+ 
+ document.getElementById('grid').innerHTML=f.map(p=>`
+  <div class="p-card">
+   ${svgBox(p.svg)}
+   <div class="p-body">
+    <div class="p-tag">${p.cat.toUpperCase()}</div>
+    <h3>${p.name}</h3>
+    <div class="price">₦${p.price.toLocaleString()}</div>
+    <div class="p-actions">
+     <button class="add-btn" onclick="addToCart(${p.id})">ADD TO CART</button>
+     <button class="wish ${wishlist.includes(p.id)?'active':''}" onclick="toggleWish(${p.id},this)"><i class="${wishlist.includes(p.id)?'fas':'far'} fa-heart"></i></button>
+    </div>
+   </div>
+  </div>`).join('');
+}
+
+// Cart functions
+function openCart(){document.getElementById('cartD').classList.add('open');switchTab('cart')}
+function closeCart(){document.getElementById('cartD').classList.remove('open')}
+function switchTab(t){
+ document.querySelectorAll('.c-tab').forEach(e=>e.classList.remove('active'));
+ document.querySelector(`.c-tab:nth-child(${t==='cart'?1:2})`).classList.add('active');
+ const body=document.getElementById('cartBody');
+ if(!body)return;
+ if(t==='cart'){
+  body.innerHTML=cart.length?cart.map(i=>`<div class="c-item"><div class="c-img">${svgBox(i.svg)}</div><div class="c-info"><h4>${i.name}</h4><div class="c-price">₦${i.price.toLocaleString()}</div><div class="qty"><button onclick="updateQty(${i.productId},-1)">-</button><span>${i.qty}</span><button onclick="updateQty(${i.productId},1)">+</button></div></div></div>`).join(''):'<p style="text-align:center;color:#999;padding:40px">Your cart is empty</p>';
+ }else{
+  body.innerHTML=wishlist.length?wishlist.map(id=>{const p=prods.find(x=>x.id===id);return p?`<div class="c-item"><div class="c-img">${svgBox(p.svg)}</div><div class="c-info"><h4>${p.name}</h4><div class="c-price">₦${p.price.toLocaleString()}</div><button class="add-btn" style="margin-top:6px;padding:8px 12px;font-size:12px" onclick="addToCart(${p.id})">Move to Cart</button></div></div>`:''}).join(''):'<p style="text-align:center;color:#999;padding:40px">Your wishlist is empty</p>';
+ }
+}
+
+function addToCart(id){
+ const p=prods.find(x=>x.id===id);
+ if(!p)return;
+ const ex=cart.find(x=>x.productId===id);
+ if(ex){ex.qty++}else{cart.push({productId:id,name:p.name,price:p.price,qty:1,svg:p.svg})}
+ saveCart();
+ toast('Added to cart');
+ openCart();
+}
+
+function updateQty(id,d){
+ const i=cart.find(x=>x.productId===id);
+ if(!i)return;
+ i.qty+=d;
+ if(i.qty<=0){cart=cart.filter(x=>x.productId!==id)}
+ saveCart();
+}
+
+function toggleWish(id,btn){
+ if(wishlist.includes(id)){
+  wishlist=wishlist.filter(x=>x!==id);
+  btn.classList.remove('active');
+  btn.querySelector('i').classList.replace('fas','far');
+ }else{
+  wishlist.push(id);
+  btn.classList.add('active');
+  btn.querySelector('i').classList.replace('far','fas');
+ }
+ saveCart();
+ toast('Wishlist updated');
+}
+
+function saveCart(){
+ try{
+  localStorage.setItem('pinniture_cart',JSON.stringify(cart));
+  localStorage.setItem('pinniture_wishlist',JSON.stringify(wishlist));
+ }catch(e){}
+ updateUI();
+ switchTab('cart');
+}
+
+function updateUI(){
+ const count=document.getElementById('cartC');
+ const total=document.getElementById('cartTot');
+ if(count){count.textContent=cart.reduce((a,i)=>a+i.qty,0)}
+ if(total){total.textContent='₦'+cart.reduce((a,i)=>a+(i.price*i.qty),0).toLocaleString()}
+}
+
+// Checkout
+function openCheckout(){
+ if(!cart.length){toast('Cart is empty');return}
+ closeCart();
+ document.getElementById('checkoutM').classList.add('open');
+}
+function closeCheckout(){document.getElementById('checkoutM').classList.remove('open')}
+function processPay(){
+ const em=document.getElementById('em').value;
+ if(!em){toast('Email required');return}
+ toast('Processing payment...');
+ setTimeout(()=>{showSuccess(Math.random().toString(36).substring(2,8).toUpperCase())},1500);
+}
+function showSuccess(ref){
+ document.getElementById('checkoutM').classList.remove('open');
+ const refEl=document.getElementById('refId');
+ if(refEl){refEl.textContent=ref}
+ document.getElementById('successM').classList.add('open');
+ cart=[];
+ saveCart();
+}
+function closeSuccess(){document.getElementById('successM').classList.remove('open')}
+
+function toast(msg){
+ const t=document.getElementById('toast');
+ if(!t)return;
+ t.textContent=msg;
+ t.classList.add('show');
+ setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Initialize
+function init(){
+ updatePriceDisplay();
+ filterProds();
+ updateUI();
+}
+
+if(document.readyState==='loading'){
+ document.addEventListener('DOMContentLoaded',init);
+}else{
+ init();
+}
+</script>
+<script src="https://js.paystack.co/v1/inline.js" async></script>
+</body>
+</html>

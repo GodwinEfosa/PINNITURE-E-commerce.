@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PINNITURE — Interior Design Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .4s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-body);color:var(--text);background:var(--cream);line-height:1.6}
+a{text-decoration:none;color:inherit}ul{list-style:none}button{cursor:pointer;border:none;background:none;font:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:999;padding:14px 0;transition:var(--trans);background:transparent}
+nav.scrolled{background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
+.nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px}.logo img{width:3em;}
+.brand{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:#fff}
+nav.scrolled .brand-name{color:var(--text)}
+.brand-sub{font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.8)}
+nav.scrolled .brand-sub{color:var(--text-light)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans);color:#fff}
+nav.scrolled .nav-links a{color:var(--text)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:var(--trans)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{position:relative;width:24px;height:24px;display:grid;place-items:center;color:#fff}
+nav.scrolled .cart-btn{color:var(--text)}
+.cart-count{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:700}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:24px;height:2px;background:#fff;transition:var(--trans);display:block}
+nav.scrolled .hamburger span{background:var(--text)}
+.btn{padding:12px 28px;border-radius:30px;font-weight:600;transition:var(--trans);display:inline-flex;align-items:center;gap:8px;font-size:14px}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(196,151,58,.4)}
+.btn-outline{border:2px solid #fff;color:#fff;backdrop-filter:blur(4px)}.btn-outline:hover{background:#fff;color:var(--text)}
+
+@media(max-width:900px){
+ .nav-links{display:none}
+ .nav-links.mob{display:flex;position:fixed;top:75px;left:0;right:0;bottom:0;background:#fff;padding:30px;flex-direction:column;gap:20px;z-index:998;animation:fadeUp .3s ease}
+ .nav-links.mob a{color:var(--text)}
+ .hamburger{display:flex}
+ .shop-btn-desktop{display:none}
+}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;place-items:center;position:relative;background:url("https://images.unsplash.com/photo-1560185007-5f0bb1866cab?w=1000&auto=format&fit=crop&q=75") center/cover no-repeat fixed;overflow:hidden;text-align:center;color:#fff}
+.hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:1}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:30%;background:linear-gradient(to top,var(--cream),transparent);z-index:1}
+.hero-c{position:relative;z-index:2;max-width:800px;padding:20px}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.5rem,6vw,4rem);line-height:1.15;margin-bottom:16px;animation:fadeUp .8s .2s ease forwards}
+.hero p{font-size:1.15rem;opacity:.95;max-width:650px;margin:0 auto 30px;animation:fadeUp .8s .4s ease forwards}
+.hero-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;animation:fadeUp .8s .6s ease forwards}
+.scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;animation:bounce 2s infinite;color:rgba(255,255,255,.7)}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@media(max-width:768px){
+   .hero{
+      background:url('https://plus.unsplash.com/premium_photo-1678074057896-eee996d4a23e?w=500&auto=format&fit=crop&q=90') center/cover no-repeat fixed;overflow:hidden;text-align:center;color:#fff
+   }
+}
+
+/* SECTIONS */
+.sec{padding:80px 24px}
+.sec-h{text-align:center;margin-bottom:40px}
+.sec-h h2{font-family:var(--font-head);font-size:2.2rem;position:relative;display:inline-block}
+.sec-h h2::after{content:'';display:block;width:60px;height:3px;background:var(--gold);margin:12px auto 0}
+.sec-h p{color:var(--text-light);margin-top:8px;max-width:600px;margin-left:auto;margin-right:auto}
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+
+/* SERVICES GRID */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px}
+.service-card{background:#fff;border-radius:16px;padding:40px 30px;transition:var(--trans);border:1px solid var(--border);position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);transform:scaleX(0);transition:var(--trans);transform-origin:left}
+.service-card:hover{transform:translateY(-8px);box-shadow:0 12px 35px rgba(0,0,0,.12)}
+.service-card:hover::before{transform:scaleX(1)}
+.s-icon{width:70px;height:70px;background:linear-gradient(135deg,var(--gold),#d4b06a);border-radius:50%;display:grid;place-items:center;margin-bottom:20px;color:#fff;font-size:1.8rem}
+.service-card h3{font-family:var(--font-head);font-size:1.4rem;margin-bottom:12px}
+.service-card p{color:var(--text-light);font-size:.95rem;line-height:1.7;margin-bottom:20px}
+.service-features{list-style:none}
+.service-features li{padding:6px 0;font-size:.9rem;color:var(--text-light);display:flex;align-items:center;gap:8px}
+.service-features li i{color:var(--gold);font-size:.8rem}
+.service-cta{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.service-cta a{color:var(--gold);font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:6px;transition:var(--trans)}
+.service-cta a:hover{gap:10px}
+
+/* TIMELINE */
+.timeline-section{background:var(--sand);padding:80px 24px;position:relative;overflow:hidden}
+.timeline-container{max-width:900px;margin:0 auto;position:relative}
+.timeline{position:relative;padding:40px 0}
+/* Background gray line */
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:3px;background:var(--border);transform:translateX(-50%);z-index:1}
+/* Animated gold line */
+.timeline-line{position:absolute;left:50%;top:0;width:3px;background:var(--gold);transform:translateX(-50%);height:0;transition:height 1.5s ease-out;z-index:2}
+.timeline-line.animate{height:100%}
+/* Each step — absolute layout so number always sits ON the center line */
+.step{position:relative;min-height:120px;margin:80px 0;opacity:0;transform:translateY(30px);transition:all .6s ease}
+.step.visible{opacity:1;transform:translateY(0)}
+/* Number circle — always centered on the line */
+.step .num{position:absolute;left:50%;top:0;transform:translateX(-50%);width:50px;height:50px;background:var(--gold);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:1.2rem;z-index:3;transition:all .4s ease;border:4px solid var(--sand)}
+.step.visible .num{transform:translateX(-50%) scale(1.08)}
+/* Content box — positioned to the correct side */
+.step-content{position:absolute;top:0;max-width:calc(50% - 55px);z-index:3}
+/* Odd steps (1,3,5): content on LEFT */
+.step:nth-child(odd) .step-content{right:calc(50% + 45px);text-align:right}
+/* Even steps (2,4): content on RIGHT */
+.step:nth-child(even) .step-content{left:calc(50% + 45px);text-align:left}
+.step h4{font-family:var(--font-head);font-size:1.3rem;margin-bottom:10px;color:var(--text)}
+.step p{font-size:.95rem;color:var(--text-light);line-height:1.7}
+/* Mobile: line moves to left, all content on right */
+@media(max-width:768px){
+ .timeline::before{left:30px}
+ .timeline-line{left:30px}
+ .step{padding-left:80px;margin:60px 0;min-height:80px}
+ .step .num{left:5px;top:0;transform:none}
+ .step.visible .num{transform:scale(1.08)}
+ .step-content{position:relative;left:auto!important;right:auto!important;max-width:100%;text-align:left!important;top:auto}
+}
+
+/* STATS */
+.stats{background:var(--charcoal);color:#fff;padding:60px 24px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;text-align:center}
+.stat h3{font-family:var(--font-price);font-size:3rem;color:var(--gold);margin-bottom:8px}
+.stat p{opacity:.85;font-size:.95rem}
+
+/* CTA SECTION */
+.cta{background:var(--terracotta);padding:80px 24px;color:#fff;text-align:center}
+.cta h2{font-family:var(--font-head);font-size:2.2rem;margin-bottom:12px}
+.cta p{margin-bottom:30px;opacity:.95;max-width:600px;margin-left:auto;margin-right:auto}
+.cta-form{max-width:600px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cta-form input,.cta-form select,.cta-form textarea{padding:14px 16px;border:none;border-radius:30px;font-size:.95rem;font-family:var(--font-body)}
+.cta-form textarea{grid-column:1/-1;border-radius:16px;min-height:120px;resize:vertical}
+.cta-form .full{grid-column:1/-1}
+.cta-form button{padding:14px 28px}
+
+/* FAQ */
+.faq{max-width:800px;margin:0 auto}
+.faq-item{background:#fff;margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.faq-q{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;transition:var(--trans);user-select:none}
+.faq-q:hover{background:var(--sand)}
+.faq-q i{transition:var(--trans);font-size:.9rem}
+.faq-item.active .faq-q i{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease;padding:0 20px;font-size:.95rem;color:var(--text-light);line-height:1.7}
+.faq-item.active .faq-a{max-height:500px;padding:0 20px 20px}
+
+/* TOAST */
+.toast{position:fixed;top:20px;right:20px;background:#fff;padding:14px 20px;border-radius:10px;box-shadow:var(--shadow);z-index:3000;transform:translateX(120%);transition:var(--trans)}
+.toast.show{transform:translateX(0)}
+
+/* CART DRAWER */
+.cart-d{position:fixed;top:0;right:0;width:380px;height:100vh;background:#fff;box-shadow:var(--shadow);transform:translateX(100%);transition:var(--trans);z-index:1000;display:flex;flex-direction:column}
+.cart-d.open{transform:translateX(0)}
+.c-h{padding:16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.c-tabs{display:flex;border-bottom:1px solid var(--border)}
+.c-tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:500;transition:var(--trans);background:none;color:var(--text)}
+.c-tab.active{color:var(--gold);border-bottom:3px solid var(--gold)}
+.c-body{flex:1;overflow-y:auto;padding:20px}
+.c-item{display:flex;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0f0f0}
+.c-img{width:60px;height:60px;background:var(--sand);border-radius:8px;display:grid;place-items:center}
+.c-info{flex:1}.c-info h4{font-size:.9rem;margin-bottom:4px}.c-price{color:var(--gold);font-family:var(--font-price);font-size:1.1rem}
+.qty{display:flex;gap:8px;align-items:center;margin-top:6px}
+.qty button{width:24px;height:24px;border-radius:50%;background:var(--sand);border:none;cursor:pointer}
+.c-foot{padding:20px;border-top:1px solid var(--border)}
+.c-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-size:1.1rem}
+
+@media(max-width:900px){
+ .hero{padding-top:100px}
+ .hero-btns{justify-content:center}
+ .services-grid{grid-template-columns:1fr}
+ .cta-form{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+ <div class="nav-c">
+  <a href="index.html" class="logo">
+   <img src="img/Pinniture logo.png" alt="Logo">
+   <div class="brand"><span class="brand-name">PINNITURE</span><span class="brand-sub">An interior design company</span></div>
+  </a>
+  <ul class="nav-links">
+   <li><a href="index.html">Home</a></li>
+   <li><a href="shop.html">Shop</a></li>
+   <li><a href="interior-design.html" style="color:var(--gold)">Interior Design</a></li>
+   <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+   <button class="cart-btn" onclick="openCart()"><i class="fas fa-shopping-bag" style="font-size:20px"></i><span class="cart-count" id="cartC">0</span></button>
+   <a href="shop.html" class="btn btn-gold shop-btn-desktop">Shop Here</a>
+   <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+ </div>
+</nav>
+
+<section class="hero">
+ <div class="hero-c">
+  <h1>We Design Spaces That Inspire <span style="color: #C4973A;">Living</span></h1>
+  <p>Transform your environment with expert spatial planning, curated materials, and premium execution. Our interior design services bring your vision to life with meticulous attention to detail.</p>
+  <div class="hero-btns">
+   <button class="btn btn-gold" onclick="document.querySelector('.cta').scrollIntoView({behavior:'smooth'})">Start Your Project</button>
+   <button class="btn btn-outline" onclick="document.querySelector('.timeline-section').scrollIntoView({behavior:'smooth'})">Our Process</button>
+  </div>
+ </div>
+ <div class="scroll-ind"><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<section class="sec">
+ <div class="container">
+  <div class="sec-h">
+   <h2>Our Interior Design Services</h2>
+   <p>Comprehensive design solutions tailored to your lifestyle, brand, and space requirements</p>
+  </div>
+  <div class="services-grid">
+   <div class="service-card">
+    <div class="s-icon"><i class="fas fa-box-open"></i></div>
+    <h3>Furniture Supply</h3>
+    <p>Direct procurement of high-end ready-made and custom pieces with guaranteed quality control and timely delivery.</p>
+    <ul class="service-features">
+     <li><i class="fas fa-check"></i> Curated collections from global artisans</li>
+     <li><i class="fas fa-check"></i> Custom fabrication to your specs</li>
+     <li><i class="fas fa-check"></i> Bulk ordering for commercial projects</li>
+     <li><i class="fas fa-check"></i> White-glove delivery & installation</li>
+     <li><i class="fas fa-check"></i> After-sales support & warranties</li>
+    </ul>
+    <div class="service-cta"><a href="shop.html">Browse Furniture Collection <i class="fas fa-arrow-right"></i></a></div>
+   </div>
+   <div class="service-card">
+    <div class="s-icon"><i class="fas fa-house-chimney"></i></div>
+    <h3>Home Interiors</h3>
+    <p>Complete residential transformations that reflect your personality and enhance daily living. We handle every detail from concept to completion.</p>
+    <ul class="service-features">
+     <li><i class="fas fa-check"></i> Space planning & layout optimization</li>
+     <li><i class="fas fa-check"></i> Custom furniture & built-in solutions</li>
+     <li><i class="fas fa-check"></i> Lighting design & ambiance creation</li>
+     <li><i class="fas fa-check"></i> Material & finish selection</li>
+     <li><i class="fas fa-check"></i> Full project management</li>
+    </ul>
+    <div class="service-cta"><a href="#cta">Get a Free Consultation <i class="fas fa-arrow-right"></i></a></div>
+   </div>
+   <div class="service-card">
+    <div class="s-icon"><i class="fas fa-building"></i></div>
+    <h3>Office Interiors</h3>
+    <p>Ergonomic, brand-aligned corporate environments designed to boost productivity, attract talent, and impress clients.</p>
+    <ul class="service-features">
+     <li><i class="fas fa-check"></i> Workspace strategy & zoning</li>
+     <li><i class="fas fa-check"></i> Brand-integrated design elements</li>
+     <li><i class="fas fa-check"></i> Acoustic & lighting solutions</li>
+     <li><i class="fas fa-check"></i> Flexible & hybrid work setups</li>
+     <li><i class="fas fa-check"></i> Compliance & accessibility planning</li>
+    </ul>
+    <div class="service-cta"><a href="#cta">Discuss Your Office <i class="fas fa-arrow-right"></i></a></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="timeline-section">
+ <div class="container">
+  <div class="sec-h"><h2>Our Design Process</h2><p>A seamless journey from vision to reality</p></div>
+  <div class="timeline-container">
+   <div class="timeline">
+    <div class="timeline-line" id="timelineLine"></div>
+    
+    <!-- Step 1: Content on LEFT -->
+    <div class="step" data-step="1">
+     <div class="num">1</div>
+     <div class="step-content">
+      <h4>Discovery</h4>
+      <p>We listen to your goals, lifestyle, and aesthetic preferences to understand your unique needs.</p>
+     </div>
+    </div>
+    
+    <!-- Step 2: Content on RIGHT -->
+    <div class="step" data-step="2">
+     <div class="num">2</div>
+     <div class="step-content">
+      <h4>Concept</h4>
+      <p>Our designers create mood boards, 3D renderings, and material palettes for your approval.</p>
+     </div>
+    </div>
+    
+    <!-- Step 3: Content on LEFT -->
+    <div class="step" data-step="3">
+     <div class="num">3</div>
+     <div class="step-content">
+      <h4>Planning</h4>
+      <p>Detailed floor plans, specifications, and timelines are finalized with transparent costing.</p>
+     </div>
+    </div>
+    
+    <!-- Step 4: Content on RIGHT -->
+    <div class="step" data-step="4">
+     <div class="num">4</div>
+     <div class="step-content">
+      <h4>Execution</h4>
+      <p>Our team manages procurement, installation, and styling with meticulous quality control.</p>
+     </div>
+    </div>
+    
+    <!-- Step 5: Content on LEFT -->
+    <div class="step" data-step="5">
+     <div class="num">5</div>
+     <div class="step-content">
+      <h4>Handover</h4>
+      <p>We deliver your transformed space with care instructions and ongoing support.</p>
+     </div>
+    </div>
+    
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="stats">
+ <div class="container stats-grid">
+  <div class="stat">
+   <h3 class="counter" data-target="2000">0</h3>
+   <p>Items Sold</p>
+  </div>
+  <div class="stat">
+   <h3 class="counter" data-target="200">0</h3>
+   <p>Projects Completed</p>
+  </div>
+  <div class="stat">
+   <h3 class="counter" data-target="8">0</h3>
+   <p>States We Work</p>
+  </div>
+ </div>
+</section>
+
+<section class="cta" id="cta">
+ <div class="container">
+  <h2>Ready to Transform Your Space?</h2>
+  <p>Book a complimentary consultation with our senior designers. Let's bring your vision to life.</p>
+  <form class="cta-form" id="consultationForm" onsubmit="redirectToWhatsApp(event)">
+   <input type="text" id="clientName" placeholder="Your Name" required>
+   <input type="tel" id="clientPhone" placeholder="Phone Number" required>
+   <input type="email" id="clientEmail" placeholder="Email Address" class="full" required>
+   <select id="projectType" class="full" required>
+    <option value="">Project Type</option>
+    <option>Residential Interior Design</option>
+    <option>Office/Commercial Design</option>
+    <option>Furniture Supply Only</option>
+    <option>Full-Service Project</option>
+   </select>
+   <input type="text" id="projectLocation" placeholder="Project Location (City)" class="full">
+   <textarea id="projectDetails" placeholder="Tell us more about your project, vision, and any specific requirements..." class="full" required></textarea>
+   <button type="submit" class="btn btn-gold full"><i class="fab fa-whatsapp"></i> Request Free Consultation</button>
+  </form>
+ </div>
+</section>
+
+<section class="sec">
+ <div class="container">
+  <div class="sec-h"><h2>Frequently Asked Questions</h2><p>Everything you need to know about our services</p></div>
+  <div class="faq">
+   <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What is the typical timeline for a residential project? <i class="fas fa-chevron-down"></i></div>
+    <div class="faq-a">Standard residential projects range from 8-16 weeks depending on scope. Custom furniture or structural changes may extend timelines. We provide a detailed schedule during the planning phase.</div>
+   </div>
+   <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Do you work with existing furniture or only new pieces? <i class="fas fa-chevron-down"></i></div>
+    <div class="faq-a">Absolutely! We love integrating cherished pieces into new designs. Our approach is collaborative—we assess what you have and build around it, supplementing with new items where needed.</div>
+   </div>
+   <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What is your pricing structure? <i class="fas fa-chevron-down"></i></div>
+    <div class="faq-a">We offer transparent, project-based pricing. After our free consultation, you'll receive a detailed proposal outlining design fees, procurement costs, and installation. No hidden charges.</div>
+   </div>
+   <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Do you handle permits and contractor coordination? <i class="fas fa-chevron-down"></i></div>
+    <div class="faq-a">Yes, for full-service projects. Our team manages all permits, contractor vetting, scheduling, and quality oversight. You enjoy a single point of contact throughout the process.</div>
+   </div>
+   <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can you work within my budget? <i class="fas fa-chevron-down"></i></div>
+    <div class="faq-a">Definitely. We tailor solutions to your budget range, offering phased approaches and value-engineering options. Our goal is beautiful, functional design at every investment level.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<footer style="background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4px solid var(--gold)">
+ <div class="container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px">
+  <div>
+   <a href="index.html" class="logo" style="color:#fff;margin-bottom:16px">
+    <img src="img/Pinniture logo.png" alt="Logo">
+    <div class="brand"><span class="brand-name" style="color:#fff">PINNITURE</span><span class="brand-sub" style="color:rgba(255,255,255,.6)">An interior design company</span></div>
+   </a>
+   <p style="opacity:.7;font-size:.9rem;margin-top:16px">Elevating everyday living through timeless design & masterful craftsmanship.</p>
+  </div>
+  <div>
+   <h4 style="margin-bottom:16px">Services</h4>
+   <ul style="opacity:.7;font-size:.9rem">
+    <li><a href="#" style="display:block;margin-bottom:8px">Home Interiors</a></li>
+    <li><a href="#" style="display:block;margin-bottom:8px">Office Design</a></li>
+    <li><a href="#" style="display:block;margin-bottom:8px">Furniture Supply</a></li>
+    <li><a href="#" style="display:block;margin-bottom:8px">Commercial Projects</a></li>
+   </ul>
+  </div>
+  <div>
+   <h4 style="margin-bottom:16px">Company</h4>
+   <ul style="opacity:.7;font-size:.9rem">
+    <li><a href="about.html" style="display:block;margin-bottom:8px">About Us</a></li>
+    <li><a href="#" style="display:block;margin-bottom:8px">Our Process</a></li>
+    <li><a href="#" style="display:block;margin-bottom:8px">Careers</a></li>
+    <li><a href="#" style="display:block;margin-bottom:8px">Contact</a></li>
+   </ul>
+  </div>
+  <div>
+   <h4 style="margin-bottom:16px">Contact</h4>
+   <p style="opacity:.7;font-size:.9rem">hello@pinniture.com<br>+234 800 PINN<br>Lagos, Nigeria</p>
+   <div style="display:flex;gap:16px;margin-top:16px">
+    <a href="#" style="opacity:.7;transition:var(--trans)"><i class="fab fa-instagram"></i></a>
+    <a href="#" style="opacity:.7;transition:var(--trans)"><i class="fab fa-pinterest"></i></a>
+    <a href="#" style="opacity:.7;transition:var(--trans)"><i class="fab fa-facebook"></i></a>
+    <a href="#" style="opacity:.7;transition:var(--trans)"><i class="fab fa-linkedin"></i></a>
+   </div>
+  </div>
+ </div>
+ <div style="text-align:center;opacity:.5;font-size:.8rem;border-top:1px solid #333;padding-top:20px">© 2025 Pinniture. All rights reserved.</div>
+</footer>
+
+<!-- Cart Drawer -->
+<div class="cart-d" id="cartD">
+ <div class="c-h"><h3>Your Cart</h3><button onclick="closeCart()"><i class="fas fa-xmark"></i></button></div>
+ <div class="c-tabs"><div class="c-tab active" onclick="switchTab('cart')">Cart</div><div class="c-tab" onclick="switchTab('wish')">Wishlist</div></div>
+ <div class="c-body" id="cartBody"></div>
+ <div class="c-foot">
+  <div class="c-total"><span>Subtotal</span><span id="cartTot">₦0</span></div>
+  <button class="btn btn-gold" style="width:100%" onclick="openCheckout()">PROCEED TO CHECKOUT</button>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',function(){
+ const nav=document.getElementById('nav');
+ if(window.scrollY>50){nav.classList.add('scrolled')}else{nav.classList.remove('scrolled')}
+},{passive:true});
+
+function toggleMenu(){
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.classList.toggle('mob');
+  if(isOpen){ document.body.appendChild(links); }
+  else{ document.querySelector('.nav-c').insertBefore(links, document.querySelector('.nav-right')); }
+}
+
+// Cart
+function openCart(){document.getElementById('cartD').classList.add('open')}
+function closeCart(){document.getElementById('cartD').classList.remove('open')}
+function switchTab(t){document.querySelectorAll('.c-tab').forEach(e=>e.classList.remove('active'));document.querySelector(`.c-tab:nth-child(${t==='cart'?1:2})`).classList.add('active')}
+function openCheckout(){toast('Cart is empty - visit our Shop to add items!')}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+
+// FAQ
+function toggleFaq(element){
+ const item=element.parentElement;
+ const isActive=item.classList.contains('active');
+ document.querySelectorAll('.faq-item').forEach(faq=>faq.classList.remove('active'));
+ if(!isActive){item.classList.add('active');}
+}
+
+// Timeline Animation
+const timelineObserver=new IntersectionObserver((entries)=>{
+ entries.forEach(entry=>{
+  if(entry.isIntersecting){
+   const line=document.getElementById('timelineLine');
+   line.classList.add('animate');
+   const steps=document.querySelectorAll('.step');
+   steps.forEach((step,index)=>{
+    setTimeout(()=>{step.classList.add('visible');},index*200);
+   });
+   timelineObserver.unobserve(entry.target);
+  }
+ });
+},{threshold:0.3});
+
+const timelineSection=document.querySelector('.timeline-section');
+if(timelineSection){timelineObserver.observe(timelineSection);}
+
+// Stats Counter
+const statsObserver=new IntersectionObserver((entries)=>{
+ entries.forEach(entry=>{
+  if(entry.isIntersecting){
+   const counters=entry.target.querySelectorAll('.counter');
+   counters.forEach(counter=>{
+    const target=parseInt(counter.getAttribute('data-target'));
+    const duration=2000;
+    const step=target/(duration/16);
+    let current=0;
+    const timer=setInterval(()=>{
+     current+=step;
+     if(current>=target){counter.textContent=target+'+';clearInterval(timer);}
+     else{counter.textContent=Math.floor(current);}
+    },16);
+   });
+   statsObserver.unobserve(entry.target);
+  }
+ });
+},{threshold:0.5});
+
+const statsSection=document.querySelector('.stats');
+if(statsSection){statsObserver.observe(statsSection);}
+
+// WhatsApp Redirect
+function redirectToWhatsApp(e){
+ e.preventDefault();
+ const name=document.getElementById('clientName').value;
+ const phone=document.getElementById('clientPhone').value;
+ const email=document.getElementById('clientEmail').value;
+ const projectType=document.getElementById('projectType').value;
+ const location=document.getElementById('projectLocation').value;
+ const details=document.getElementById('projectDetails').value;
+ 
+ const message=`*NEW INTERIOR DESIGN CONSULTATION REQUEST*%0A%0A`+
+ `*Name:* ${name}%0A*Phone:* ${phone}%0A*Email:* ${email}%0A`+
+ `*Project Type:* ${projectType}%0A*Location:* ${location}%0A%0A`+
+ `*Project Details:*%0A${details}%0A%0AI would like to schedule a free consultation.`;
+ 
+ const whatsappNumber='2348087202240';
+ const whatsappURL=`https://wa.me/${whatsappNumber}?text=${message}`;
+ window.open(whatsappURL,'_blank');
+ toast('Redirecting to WhatsApp...');
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+ anchor.addEventListener('click',function(e){
+  const target=document.querySelector(this.getAttribute('href'));
+  if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'})}
+ });
+});
+
+// Service card hover
+document.querySelectorAll('.service-card').forEach(card=>{
+ card.addEventListener('mouseenter',function(){this.style.zIndex='2'});
+ card.addEventListener('mouseleave',function(){this.style.zIndex='1'});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PINNITURE — About Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .3s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--cream);line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font:inherit}
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+.btn{padding:12px 28px;border-radius:30px;font-weight:600;transition:var(--trans);display:inline-flex;align-items:center;gap:8px;font-size:14px}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(196,151,58,.4)}
+.btn-outline{border:2px solid var(--charcoal);color:var(--charcoal)}.btn-outline:hover{background:var(--charcoal);color:#fff}
+.btn-white{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;backdrop-filter:blur(4px)}.btn-white:hover{background:rgba(255,255,255,.35)}
+
+/* NAV - exact from index */
+nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--trans);background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
+.nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:0px}
+.logo img{width:3em}
+.brand{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:var(--text)}
+.brand-sub{font-size:10px;letter-spacing:1.5px;color:var(--text-light)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans);color:var(--text)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:var(--trans)}
+.nav-links a:hover::after{width:100%}
+.dropdown{position:relative}
+.mega a{color:#000}
+.mega{position:absolute;top:140%;left:50%;transform:translateX(-50%) translateY(10px);width:600px;background:#fff;border-radius:12px;padding:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(3,1fr);gap:16px;opacity:0;visibility:hidden;transition:var(--trans);z-index:10}
+.dropdown:hover .mega{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dd-head{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.dd-item{display:block;padding:8px 10px;border-radius:8px;font-size:13px;transition:var(--trans);color:#000}
+.dd-item:hover{background:var(--sand);color:var(--gold);padding-left:14px}
+.nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{position:relative;width:24px;height:24px;display:grid;place-items:center;color:var(--text)}
+.cart-count{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:700}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:24px;height:2px;background:var(--text);transition:var(--trans);display:block}
+.shop-btn-mobile{display:none}
+
+/* ABOUT HERO */
+.about-hero{padding:140px 0 80px;background:url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1600&auto=format&fit=crop&q=90') center/cover no-repeat;position:relative;color:#fff;text-align:center}
+.about-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6)}
+.about-hero-c{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 24px}
+.about-hero h1{font-family:var(--font-head);font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.2;margin-bottom:16px}
+.about-hero p{font-size:1.05rem;opacity:.9;max-width:520px;margin:0 auto}
+
+/* OUR STORY */
+.story-sec{padding:100px 0; margin-top: 3em;}
+.story-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;max-width:1400px;margin:0 auto;padding:0 24px}
+.story-text .label{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.story-text h2{font-family:var(--font-head);font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.25;margin-bottom:24px}
+.story-text h2 span{color:var(--gold)}
+.story-text p{color:var(--text-light);line-height:1.8;margin-bottom:16px;font-size:1rem}
+.story-text .timeline{display:flex;gap:32px;margin-top:32px;padding-top:28px;border-top:1px solid var(--border)}
+.t-item{text-align:center}
+.t-year{font-family:var(--font-head);font-size:1.2rem;font-weight:700;color:var(--gold)}
+.t-label{font-size:12px;color:var(--text-light);margin-top:4px}
+.story-img{position:relative}
+.story-img img{width:100%;height:580px;object-fit:cover;border-radius:20px;display:block}
+.story-img::before{content:'';position:absolute;top:-16px;right:-16px;width:100%;height:100%;border:2px solid var(--gold);border-radius:20px;z-index:-1}
+.story-img .img-badge{position:absolute;bottom:28px;left:-24px;background:#fff;padding:18px 22px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.img-badge .badge-num{font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
+.img-badge .badge-txt{font-size:12px;color:var(--text-light);margin-top:4px}
+
+/* OUR VALUE */
+.values-sec{background:var(--charcoal);color:#fff;padding:100px 0}
+.values-inner{max-width:1400px;margin:0 auto;padding:0 24px}
+.values-head{text-align:center;margin-bottom:60px}
+.values-head .label{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.values-head h2{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem)}
+.values-head p{color:rgba(255,255,255,.65);margin-top:10px;font-size:.98rem}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;background:rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
+.val-card{padding:40px 32px;background:var(--charcoal);transition:var(--trans);position:relative;overflow:hidden}
+.val-card::before{content:'';position:absolute;inset:0;background:var(--gold);opacity:0;transition:var(--trans)}
+.val-card:hover::before{opacity:.06}
+.val-card:hover{transform:translateY(-4px)}
+.val-icon{width:52px;height:52px;background:rgba(196,151,58,.15);border-radius:12px;display:grid;place-items:center;font-size:1.4rem;margin-bottom:20px;color:var(--gold);transition:var(--trans)}
+.val-card:hover .val-icon{background:var(--gold);color:#fff}
+.val-card h3{font-family:var(--font-head);font-size:1.15rem;margin-bottom:10px;color:#fff}
+.val-card p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.7}
+
+/* CTA STRIP */
+.cta-strip{background:var(--terracotta);padding:70px 24px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.cta-strip::before{content:'';position:absolute;width:400px;height:400px;background:rgba(255,255,255,.06);border-radius:50%;top:-150px;right:-80px}
+.cta-strip::after{content:'';position:absolute;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%;bottom:-120px;left:-60px}
+.cta-strip h2{font-family:var(--font-head);font-size:2rem;position:relative;z-index:1}
+.cta-strip p{margin:10px 0 24px;opacity:.9;position:relative;z-index:1}
+.cta-strip .btn{position:relative;z-index:1}
+
+/* FOOTER - exact from index */
+footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4px solid var(--gold)}
+.ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px}
+.ft-col h4{margin-bottom:16px;font-size:1rem}
+.ft-col a{display:block;margin-bottom:8px;font-size:.9rem;opacity:.7;transition:var(--trans)}
+.ft-col a:hover{opacity:1;color:var(--gold);padding-left:4px}
+.ft-social{display:flex;gap:16px;margin-top:16px}
+.ft-social a{opacity:.7;transition:var(--trans)}.ft-social a:hover{opacity:1;color:var(--gold)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.anim{opacity:0;transform:translateY(30px);transition:all .8s ease}
+.anim.visible{opacity:1;transform:translateY(0)}
+
+/* TOAST */
+.toast{position:fixed;top:20px;right:20px;background:#fff;padding:14px 20px;border-radius:10px;box-shadow:var(--shadow);z-index:3000;transform:translateX(120%);transition:var(--trans)}
+.toast.show{transform:translateX(0)}
+
+@media(max-width:900px){
+ .nav-links{display:none}
+ .nav-links.mob{display:flex;position:fixed;top:75px;left:0;right:0;bottom:0;background:#fff;padding:30px;flex-direction:column;gap:20px;z-index:1000}
+ .nav-links.mob a{color:var(--text)}
+ .mega{display:none}
+ .hamburger{display:flex}
+ .shop-btn-mobile{display:block}
+ .shop-btn-desktop{display:none}
+ .story-inner{grid-template-columns:1fr;gap:40px}
+ .story-img{order:-1}
+ .story-img img{height:360px}
+ .story-img::before{display:none}
+ .story-img .img-badge{left:16px;bottom:16px}
+ .story-text .timeline{gap:16px}
+}
+@media(max-width:600px){
+ .values-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV - exact from index page -->
+<nav id="nav">
+ <div class="nav-c">
+  <a href="index.html" class="logo">
+   <img src="img/Pinniture logo.png" alt="Logo">
+   <div class="brand"><span class="brand-name">PINNITURE</span><span class="brand-sub">An interior design company</span></div>
+  </a>
+  <ul class="nav-links">
+   <li><a href="index.html">Home</a></li>
+   <li class="dropdown"><a href="shop.html">Shop</a>
+   </li>
+   <li><a href="interior-design.html">Interior Design</a></li>
+   <li><a href="#projs">Projects</a></li>
+   <li><a href="about.html" style="color:var(--gold)">About</a></li>
+  </ul>
+  <div class="nav-right">
+   <a href="shop.html" class="btn btn-gold shop-btn-desktop">Shop Here</a>
+   <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+ </div>
+</nav>
+
+
+<!-- OUR STORY -->
+<section class="story-sec">
+ <div class="story-inner">
+  <div class="story-text anim">
+   <div class="label">Who We Are</div>
+   <h2>Our <span>Story</span></h2>
+   <p>What began as a small woodworking studio has evolved into a premier furniture and interior design house. We believe that every space tells a story, and our role is to provide the perfect chapters — pieces that speak to heritage, intention, and beauty.</p>
+   <p>From hand-selecting ethically sourced timber to delivering white-glove installation, every step of our process is guided by a relentless commitment to quality. Our team of master craftsmen and designers collaborate to produce furniture that doesn't just fill a room — it defines it.</p>
+   <p>Today, Pinniture serves homes, offices, and commercial spaces across Nigeria and beyond, carrying the same spirit of craftsmanship that inspired our very first piece.</p>
+   <div class="timeline">
+    <div class="t-item"><div class="t-year">2012</div><div class="t-label">Founded</div></div>
+    <div class="t-item"><div class="t-year">2016</div><div class="t-label">First Flagship</div></div>
+    <div class="t-item"><div class="t-year">2020</div><div class="t-label">Export Launch</div></div>
+    <div class="t-item"><div class="t-year">2024</div><div class="t-label">Digital Era</div></div>
+   </div>
+  </div>
+  <div class="story-img anim" style="animation-delay:.2s">
+   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=85&crop=faces" alt="Our founder">
+   <div class="img-badge">
+    <div class="badge-num">12+</div>
+    <div class="badge-txt">Years of Excellence</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- OUR VALUE -->
+<section class="values-sec">
+ <div class="values-inner">
+  <div class="values-head anim">
+   <div class="label">What Drives Us</div>
+   <h2>Our Value</h2>
+   <p>The principles that shape every decision we make and every piece we build</p>
+  </div>
+  <div class="values-grid anim">
+   <div class="val-card">
+    <div class="val-icon"><i class="fas fa-tree"></i></div>
+    <h3>Solid Craftsmanship</h3>
+    <p>Every joint, finish, and detail is held to uncompromising standards. We hand-finish each piece with the precision of an artisan and the soul of an artist.</p>
+   </div>
+   <div class="val-card">
+    <div class="val-icon"><i class="fas fa-leaf"></i></div>
+    <h3>Sustainability</h3>
+    <p>We use 100% FSC-certified timber and low-VOC eco finishes, ensuring that our beautiful work does not come at the expense of the planet.</p>
+   </div>
+   <div class="val-card">
+    <div class="val-icon"><i class="fas fa-handshake"></i></div>
+    <h3>Community</h3>
+    <p>We are proud to support local artisans and maintain fair-trade partnerships, investing in the communities that give our work its authentic character.</p>
+   </div>
+   <div class="val-card">
+    <div class="val-icon"><i class="fas fa-palette"></i></div>
+    <h3>Design Integrity</h3>
+    <p>Form and function are never in conflict here. Every design decision serves both the beauty of the space and the practical life lived within it.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip">
+ <h2>Ready to Elevate Your Space?</h2>
+ <p>Partner with us for your next residential or commercial project.</p>
+ <a href="interior-design.html" class="btn btn-gold">Start a Consultation <i class="fas fa-arrow-right"></i></a>
+</section>
+
+<!-- FOOTER - exact from index page -->
+<footer>
+ <div class="container ft-grid">
+  <div>
+   <a href="index.html" class="logo" style="color:#fff;margin-bottom:16px">
+    <img src="img/Pinniture logo.png" alt="Logo">
+    <div class="brand"><span class="brand-name" style="color:#fff">PINNITURE</span><span class="brand-sub" style="color:rgba(255,255,255,.6)">An interior design company</span></div>
+   </a>
+   <p style="opacity:.7;font-size:.9rem;margin-top:16px">Elevating everyday living through timeless design & masterful craftsmanship.</p>
+  </div>
+  <div class="ft-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="interior-design.html">Interior Design</a></li><li><a href="about.html">About</a></li></ul></div>
+  <div class="ft-col"><h4>Services</h4><ul><li><a href="#">Custom Fabrication</a></li><li><a href="#">Space Planning</a></li><li><a href="#">Corporate Supply</a></li><li><a href="#">Interior Styling</a></li></ul></div>
+  <div class="ft-col"><h4>Contact</h4><p style="opacity:.7;font-size:.9rem">hello@pinniture.com<br>+234 800 PINN<br>Lagos, Nigeria</p>
+   <div class="ft-social"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-pinterest"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div>
+  </div>
+ </div>
+ <div style="text-align:center;opacity:.5;font-size:.8rem;border-top:1px solid #333;padding-top:20px">© 2026 Pinniture. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleMenu(){
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.classList.toggle('mob');
+  if(isOpen){ document.body.appendChild(links); }
+  else{ document.querySelector('.nav-c').insertBefore(links, document.querySelector('.nav-right')); }
+}
+
+function toast(m){
+ const t=document.getElementById('toast');
+ t.textContent=m;t.classList.add('show');
+ setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+
+// Scroll animations
+const observer=new IntersectionObserver(function(entries){
+ entries.forEach(function(entry){
+  if(entry.isIntersecting){
+   entry.target.classList.add('visible');
+   observer.unobserve(entry.target);
+  }
+ });
+},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.anim').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

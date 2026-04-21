@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PINNITURE — Premium Furniture & Interiors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .3s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--cream);line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font:inherit}
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+.btn{padding:12px 28px;border-radius:30px;font-weight:600;transition:var(--trans);display:inline-flex;align-items:center;gap:8px;font-size:14px}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(196,151,58,.4)}
+.btn-outline{border:2px solid var(--charcoal);color:var(--charcoal)}.btn-outline:hover{background:var(--charcoal);color:#fff}
+.btn-white{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;backdrop-filter:blur(4px)}.btn-white:hover{background:rgba(255,255,255,.35)}
+
+/* NAV - White by default, Black on scroll */
+nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--trans);background:transparent}
+nav.scrolled{background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
+.nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:0px}
+.logo img{width: 3em;}
+.brand{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:#fff}
+nav.scrolled .brand-name{color:var(--text)}
+.brand-sub{font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.8)}
+nav.scrolled .brand-sub{color:var(--text-light)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans);color:#fff}
+nav.scrolled .nav-links a{color:var(--text)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:var(--trans)}
+.nav-links a:hover::after{width:100%}
+.dropdown{position:relative}
+.mega a{color: #000;}
+.mega{position:absolute;top:140%;left:50%;transform:translateX(-50%) translateY(10px);width:600px;background:#fff;border-radius:12px;padding:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(3,1fr);gap:16px;opacity:0;visibility:hidden;transition:var(--trans);z-index:10}
+.dropdown:hover .mega{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dd-head{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.dd-item{display:block;padding:8px 10px;border-radius:8px;font-size:13px;transition:var(--trans); color: #000;}
+.dd-item:hover{background:var(--sand);color:var(--gold);padding-left:14px}
+.nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{position:relative;width:24px;height:24px;display:grid;place-items:center;color:#fff}
+nav.scrolled .cart-btn{color:var(--text)}
+.cart-count{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:700}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:24px;height:2px;background:#fff;transition:var(--trans);display:block}
+nav.scrolled .hamburger span{background:var(--text)}
+.shop-btn-mobile{display:none}
+
+/* HERO - Beautiful Furniture Background */
+.hero{min-height:100vh;display:grid;place-items:center;position:relative;background:url('https://plus.unsplash.com/premium_photo-1705169538590-d1a4cecf7bd8?w=1600&auto=format&fit=crop&q=90') center/cover no-repeat fixed;overflow:hidden;text-align:center;color:#fff}
+.hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:1}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:30%;background:linear-gradient(to top,var(--cream),transparent);z-index:1}
+.hero-c{position:relative;z-index:2;max-width:800px;padding:20px}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.15;margin-bottom:16px;animation:fadeUp .8s .2s ease forwards}
+.hero p{font-size:1.1rem;opacity:.95;max-width:600px;margin:0 auto 30px;animation:fadeUp .8s .4s ease forwards}
+.hero-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;animation:fadeUp .8s .6s ease forwards}
+.scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;animation:bounce 2s infinite;color:rgba(255,255,255,.8)}
+@media(max-width:768px){
+   .hero{
+      background:url('https://plus.unsplash.com/premium_photo-1678074057896-eee996d4a23e?w=500&auto=format&fit=crop&q=90') center/cover no-repeat fixed;overflow:hidden;text-align:center;color:#fff
+   }
+}
+
+/* SECTIONS */
+.sec{padding:80px 24px}
+.sec-h{text-align:center;margin-bottom:40px}
+.sec-h h2{font-family:var(--font-head);font-size:2.2rem;position:relative;display:inline-block}
+.sec-h h2::after{content:'';display:block;width:60px;height:3px;background:var(--gold);margin:12px auto 0}
+.sec-h p{color:var(--text-light);margin-top:8px}
+
+/* PRODUCTS */
+.p-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.p-card{background:#fff;border-radius:16px;overflow:hidden;transition:var(--trans);border:1px solid var(--border)}
+.p-card:hover{transform:translateY(-8px);box-shadow:0 12px 35px rgba(0,0,0,.12)}
+.p-box{aspect-ratio:1;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,var(--sand),var(--cream));position:relative}
+.p-box svg{width:65%;height:65%}
+.p-body{padding:20px}
+.p-body h3{font-weight:600;font-size:1rem;margin-bottom:6px}
+.p-tag{display:inline-block;background:var(--sand);font-size:11px;padding:4px 8px;border-radius:20px;color:var(--text);margin-bottom:10px}
+.stars{color:var(--gold);font-size:12px;margin-bottom:12px}
+.price{font-family:var(--font-price);font-size:1.6rem;color:var(--charcoal)}
+.p-actions{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.add-btn{background:var(--charcoal);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;transition:var(--trans)}
+.add-btn:hover{background:var(--gold)}
+.wish{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--sand);transition:var(--trans);cursor:pointer}
+.wish:hover{transform:scale(1.1)}
+.wish.active i{color:var(--text)}
+.view-all{text-align:center;margin-top:40px}
+
+/* WHY US */
+.why{background:var(--charcoal);color:#fff;padding:60px 24px}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;text-align:center}
+.why-card{padding:20px}
+.why-icon{font-size:1.8rem;margin-bottom:10px;color:var(--gold)}
+.why-card h3{font-family:var(--font-head);margin-bottom:8px;color:var(--gold)}
+.why-card p{font-size:.9rem;opacity:.85}
+
+/* CATEGORIES */
+.cats{background:var(--sand);padding:80px 24px}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cat-card:first-child{grid-column:1/-1}
+.cat-card{position:relative;border-radius:16px;overflow:hidden;height:320px;display:grid;place-items:center;background:var(--cream);transition:var(--trans)}
+.cat-card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.cat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent)}
+.cat-ov{position:absolute;bottom:0;left:0;right:0;padding:24px;transform:translateY(20px);opacity:0;transition:var(--trans)}
+.cat-ov span{color: #fff;}
+.cat-card:hover .cat-ov{transform:translateY(0);opacity:1}
+@media(max-width:768px){
+   .cat-ov h3{
+      color: #fff;
+   }
+}
+@media(max-width:768px){
+ .cat-grid{grid-template-columns:1fr}
+ .cat-card{height:250px}
+ .cat-ov{transform:translateY(0);opacity:1;height:30%;background:rgba(0,0,0,.4);display:flex;flex-direction:column;justify-content:center;padding:16px}
+ .cat-ov span{display:none}
+}
+
+/* TESTIMONIALS */
+.test{background:var(--cream);overflow:hidden}
+.test-track{display:flex;gap:24px;animation:scroll 40s linear infinite;width:max-content}
+.test-card{width:320px;background:#fff;padding:24px;border-radius:12px;border:1px solid var(--border)}
+.test-card:hover{animation-play-state:paused}
+.test-text{font-style:italic;margin-bottom:16px}
+.test-user{display:flex;align-items:center;gap:12px}
+.avatar{width:40px;height:40px;background:var(--sand);border-radius:50%;display:grid;place-items:center;font-weight:600}
+.test-name{font-weight:600;font-size:.9rem}
+.test-loc{font-size:.8rem;color:var(--text-light)}
+
+/* PROJECTS */
+.projs{background:linear-gradient(180deg,var(--sage) 0%,var(--charcoal) 100%);color:#fff;padding:80px 24px}
+.vid-wrap{max-width:1100px;margin:0 auto}
+.vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vid-main{grid-column:1/-1;aspect-ratio:21/9;border-radius:16px;overflow:hidden;background:#111;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.vid-sm{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#111}
+.vid-grid iframe{width:100%;height:100%;border:none}
+
+/* NEWSLETTER */
+.news{background:var(--terracotta);padding:60px 24px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.news h2{font-family:var(--font-head);font-size:2rem;margin-bottom:10px}
+.news p{margin-bottom:24px;opacity:.9}
+.news-form{display:flex;gap:12px;max-width:600px;margin:0 auto;justify-content:center}
+.news-form input{flex:1;padding:14px 16px;border:none;border-radius:30px;font-size:.9rem;background:rgba(255,255,255,.95)}
+.news-form button{flex:0;padding:14px 28px}
+.dot{position:absolute;width:8px;height:8px;background:rgba(255,255,255,.15);border-radius:50%;animation:float 6s infinite}
+@media(max-width:768px){.news-form{flex-direction:column;width:100%;max-width:100%}.news-form input,.news-form button{width:100%}}
+
+/* CART & CHECKOUT */
+.cart-d{position:fixed;top:0;right:0;width:380px;height:100vh;background:#fff;box-shadow:var(--shadow);transform:translateX(100%);transition:var(--trans);z-index:1000;display:flex;flex-direction:column; padding: 0px 20px;}
+.cart-d.open{transform:translateX(0)}
+.c-h{padding:16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.c-tabs{display:flex;border-bottom:1px solid var(--border)}
+.c-tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:500;transition:var(--trans)}
+.c-tab.active{color:var(--gold);border-bottom:3px solid var(--gold)}
+.c-body{flex:1;overflow-y:auto;padding:20px}
+.c-item{display:flex;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0f0f0}
+.c-img{width:60px;height:60px;background:var(--sand);border-radius:8px;display:grid;place-items:center}
+.c-info{flex:1}
+.c-info h4{font-size:.9rem;margin-bottom:4px}
+.c-price{color:var(--gold);font-family:var(--font-price);font-size:1.1rem}
+.qty{display:flex;gap:8px;align-items:center;margin-top:6px}
+.qty button{width:24px;height:24px;border-radius:50%;background:var(--sand)}
+.c-foot{padding:20px;border-top:1px solid var(--border)}
+.c-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-size:1.1rem}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;place-items:center;padding:20px}
+.modal.open{display:grid}
+.m-box{background:#fff;border-radius:16px;max-width:550px;width:100%;padding:24px;animation:pop .3s ease;position:relative;max-height:90vh;overflow-y:auto}
+.close-btn{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer;transition:var(--trans)}
+.close-btn:hover{background:var(--charcoal);color:#fff}
+.form-g{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.form-g input,select{padding:12px;border:1px solid var(--border);border-radius:8px;width:100%}
+.form-g .full{grid-column:1/-1}
+.toast{position:fixed;top:20px;right:20px;background:#fff;padding:14px 20px;border-radius:10px;box-shadow:var(--shadow);z-index:3000;transform:translateX(120%);transition:var(--trans)}
+.toast.show{transform:translateX(0)}
+.success-svg{width:60px;height:60px;stroke:var(--gold);stroke-width:2;stroke-dasharray:100;animation:draw 1s forwards}
+
+/* ANIMATIONS */
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@keyframes scroll{to{transform:translateX(-50%)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4px solid var(--gold)}
+.ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px}
+.ft-col h4{margin-bottom:16px;font-size:1rem}
+.ft-col a{display:block;margin-bottom:8px;font-size:.9rem;opacity:.7;transition:var(--trans)}
+.ft-col a:hover{opacity:1;color:var(--gold);padding-left:4px}
+.ft-social{display:flex;gap:16px;margin-top:16px}
+.ft-social a{opacity:.7;transition:var(--trans)}.ft-social a:hover{opacity:1;color:var(--gold)}
+
+@media(max-width:900px){
+ .nav-links{display:none}
+ .nav-links.mob{display:flex;position:fixed;top:75px;left:0;right:0;bottom:0;background:#fff;padding:30px;flex-direction:column;gap:20px;z-index:1000;animation:fadeUp .3s ease}
+ .nav-links.mob a{color:var(--text)}
+ .mega{display:none}
+ .hamburger{display:flex}
+ .shop-btn-mobile{display:block}
+ .shop-btn-desktop{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+ <div class="nav-c">
+  <a href="index.html" class="logo">
+   <img src="img/Pinniture logo.png" alt="Logo">
+   <div class="brand"><span class="brand-name">PINNITURE</span><span class="brand-sub">An interior design company</span></div>
+  </a>
+  <ul class="nav-links">
+   <li><a href="index.html" style="color: #C4973A;">Home</a></li>
+   <li class="dropdown"><a href="shop.html">Shop <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
+    <div class="mega">
+     <div><div class="dd-head">Home</div><a href="shop.html?cat=bedroom" class="dd-item">Bedroom</a><a href="shop.html?cat=kitchen" class="dd-item">Kitchen</a><a href="shop.html?cat=living" class="dd-item">Living</a></div>
+     <div><div class="dd-head">Office</div><a href="shop.html?cat=chair" class="dd-item">Chair</a><a href="shop.html?cat=desk" class="dd-item">Table</a><a href="shop.html?cat=storage" class="dd-item">Book Storage</a></div>
+     <div><div class="dd-head">Commercial</div><a href="shop.html?cat=restaurant" class="dd-item">Restaurant</a><a href="shop.html?cat=church" class="dd-item">Church</a><a href="shop.html?cat=school" class="dd-item">School</a></div>
+    </div>
+   </li>
+   <li><a href="interior-design.html">Interior Design</a></li>
+   <li><a href="#projs">Projects</a></li>
+   <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+   <button class="cart-btn" onclick="openCart()"><i class="fas fa-shopping-bag" style="font-size:20px"></i><span class="cart-count" id="cartC">0</span></button>
+   <a href="shop.html" class="btn btn-gold shop-btn-desktop">Shop Here</a>
+   <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+ </div>
+</nav>
+
+<section class="hero">
+ <div class="hero-c">
+  <h1>Furniture designed<br><span style="color: #C4973A;">for modern living</span></h1>
+  <p>Design with precision produce by experts delivered to your space</p>
+  <div class="hero-btns">
+   <a href="shop.html" class="btn btn-gold">Explore Collection <i class="fas fa-arrow-right"></i></a>
+   <a href="about.html" class="btn btn-white">Our Story</a>
+  </div>
+ </div>
+ <div class="scroll-ind"><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<section class="sec">
+ <div class="container">
+  <div class="sec-h anim"><h2>Our Most Loved Pieces</h2><p>Curated selections for discerning spaces</p></div>
+  <div class="p-grid" id="featP"></div>
+  <div class="view-all anim"><a href="shop.html" class="btn btn-gold">View All Products <i class="fas fa-arrow-right"></i></a></div>
+ </div>
+</section>
+
+<section class="why">
+ <div class="container why-grid anim">
+  <div class="why-card"><i class="fas fa-tree why-icon"></i><h3>Solid Wood Craftsmanship</h3><p>Ethically sourced, hand-finished timber built to last generations.</p></div>
+  <div class="why-card"><i class="fas fa-truck-fast why-icon"></i><h3>Free Nationwide Delivery</h3><p>White-glove service included with every premium order.</p></div>
+  <div class="why-card"><i class="fas fa-rotate-left why-icon"></i><h3>30-Day Easy Returns</h3><p>Not perfectly matched? We make exchanges seamless.</p></div>
+  <div class="why-card"><i class="fas fa-palette why-icon"></i><h3>Custom Design Options</h3><p>Modify dimensions, fabrics, and finishes to your exact vision.</p></div>
+ </div>
+</section>
+
+<section class="sec cats">
+ <div class="container">
+  <div class="sec-h anim"><h2>Shop By Room</h2><p>Find the perfect pieces for every space</p></div>
+  <div class="cat-grid anim">
+   <a href="shop.html?cat=home" class="cat-card"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&auto=format&fit=crop&q=80&crop=entropy&fp-y=0.65" alt="Home" loading="lazy"><div class="cat-ov"><h3>Home Collection</h3><span>Explore →</span></div></a>
+   <a href="shop.html?cat=office" class="cat-card"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=contain&w=800&q=80" alt="Office" loading="lazy"><div class="cat-ov"><h3>Office Spaces</h3><span>Explore →</span></div></a>
+   <a href="shop.html?cat=commercial" class="cat-card"><img src="https://images.unsplash.com/photo-1723126004597-7154e8db8e3c?w=500&auto=format&fit=crop&q=90" alt="Commercial" loading="lazy"><div class="cat-ov"><h3>Commercial</h3><span>Explore →</span></div></a>
+  </div>
+ </div>
+</section>
+
+<section class="sec test">
+ <div class="container sec-h anim"><h2>What Our Customers Say</h2></div>
+ <div class="test-track" id="testTrack"></div>
+</section>
+
+<section class="sec projs" id="projs">
+ <div class="vid-wrap">
+  <div class="sec-h anim" style="color:#fff"><h2>Our Signature Projects</h2><p>Real spaces transformed by Pinniture</p></div>
+  <div class="vid-grid anim" id="vidGrid"></div>
+ </div>
+</section>
+
+<section class="news">
+ <div class="container">
+  <h2>Get 15% Off Your First Order</h2>
+  <p style="margin-bottom:20px;opacity:.9">Join our community for exclusive drops & design tips.</p>
+  <form class="news-form" onsubmit="event.preventDefault();toast('Subscribed successfully!')">
+   <input type="email" placeholder="Your email address" required>
+   <button type="submit" class="btn btn-gold">Subscribe</button>
+  </form>
+ </div>
+ <div class="dot" style="top:20%;left:15%;animation-delay:.5s"></div><div class="dot" style="top:40%;left:80%;animation-delay:1s;width:12px;height:12px"></div><div class="dot" style="top:70%;left:45%;animation-delay:1.5s"></div>
+</section>
+
+<footer>
+ <div class="container ft-grid">
+  <div><a href="index.html" class="logo" style="color:#fff;margin-bottom:16px"><img src="img/Pinniture logo.png" alt="Logo"><div class="brand"><span class="brand-name" style="color:#fff">PINNITURE</span><span class="brand-sub" style="color:rgba(255,255,255,.6)">An interior design company</span></div></a><p style="opacity:.7;font-size:.9rem;margin-top:16px">Elevating everyday living through timeless design & masterful craftsmanship.</p></div>
+  <div><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="interior-design.html">Interior Design</a></li><li><a href="about.html">About</a></li></ul></div>
+  <div><h4>Services</h4><ul><li><a href="#">Custom Fabrication</a></li><li><a href="#">Space Planning</a></li><li><a href="#">Corporate Supply</a></li><li><a href="#">Interior Styling</a></li></ul></div>
+  <div><h4>Contact</h4><p style="opacity:.7;font-size:.9rem">hello@pinniture.com<br>+234 800 PINN<br>Lagos, Nigeria</p><div class="ft-social"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-pinterest"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div>
+ </div>
+ <div style="text-align:center;opacity:.5;font-size:.8rem;border-top:1px solid #333;padding-top:20px">© 2026 Pinniture. All rights reserved.</div>
+</footer>
+
+<div class="cart-d" id="cartD">
+ <div class="c-h"><h3>Your Cart</h3><button onclick="closeCart()"><i class="fas fa-xmark"></i></button></div>
+ <div class="c-tabs"><div class="c-tab active" onclick="switchTab('cart')">Cart</div><div class="c-tab" onclick="switchTab('wish')">Wishlist</div></div>
+ <div class="c-body" id="cartBody"></div>
+ <div class="c-foot">
+  <div class="c-total"><span>Subtotal</span><span id="cartTot">₦0</span></div>
+  <button class="btn btn-gold" style="width:100%" onclick="openCheckout()">PROCEED TO CHECKOUT</button>
+ </div>
+</div>
+
+<div class="modal" id="checkoutM">
+ <div class="m-box">
+  <div class="close-btn" onclick="closeCheckout()"><i class="fas fa-xmark"></i></div>
+  <h2 style="font-family:var(--font-head)">Secure Checkout</h2>
+  <form id="payForm">
+   <h4 style="margin:16px 0 8px;color:var(--text-light)">Delivery Information</h4>
+   <div class="form-g">
+    <input type="text" id="fn" placeholder="First Name" required><input type="text" id="ln" placeholder="Last Name" required>
+    <input type="email" id="em" placeholder="Email Address" class="full" required><input type="tel" id="ph" placeholder="Phone Number" class="full" required>
+    <input type="text" id="addr1" placeholder="Street Address" class="full" required><input type="text" id="addr2" placeholder="Apt, Suite, Floor (Optional)" class="full">
+    <input type="text" id="city" placeholder="City" required><select id="state" required><option value="">Select State</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option><option>Enugu</option><option>Other</option></select>
+    <input type="text" id="zip" placeholder="ZIP / Postal Code" class="full" required>
+    <input type="text" id="notes" placeholder="Delivery Instructions (e.g., Gate code, Building name)" class="full">
+   </div>
+   <button type="button" class="btn btn-gold" style="width:100%;padding:16px;margin-top:10px" onclick="processPay()"><i class="fas fa-lock" style="margin-right:8px"></i> PAY SECURELY</button>
+  </form>
+ </div>
+</div>
+
+<div class="modal" id="successM">
+ <div class="m-box" style="text-align:center;padding:40px">
+  <svg class="success-svg" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg>
+  <h2 style="font-family:var(--font-head);margin-top:16px">Order Confirmed!</h2>
+  <p style="color:var(--text-light);margin:10px 0 20px">Thank you. Your premium furniture is on its way.</p>
+  <div style="background:var(--sand);padding:10px;border-radius:8px;font-weight:600;margin-bottom:20px">Ref: PC-<span id="refId"></span></div>
+  <button class="btn btn-gold" onclick="closeSuccess()">Continue Shopping</button>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// SVG Library
+const svgs={sofa:`<path d="M40 90h120v40H40z M40 90V60h120v30 M50 90V40h100v50 M40 130v15h120v-15"/>`,bed:`<path d="M30 100h140v40H30z M30 100V50h140v50 M30 140v15h140v-15"/>`,chair:`<rect x="60" y="50" width="80" height="60" rx="6"/> <path d="M60 110h80v10H60z M80 120v30h40v-30"/>`,table:`<rect x="40" y="70" width="120" height="20" rx="4"/> <path d="M60 90v50 M140 90v50 M50 140h100"/>`,desk:`<rect x="40" y="60" width="120" height="15" rx="3"/> <path d="M60 75v60 M140 75v60 M50 135h100"/>`,shelf:`<path d="M50 40v110h100V40H50z M50 80h100 M50 110h100"/>`};
+
+function svgBox(type){return `<div class="p-box"><svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svgs[type]||svgs.chair}</svg></div>`}
+
+// Data Initialization
+const seedP=[{id:1,name:"Velvet Lounge Sofa",price:450000,cat:"living",svg:"sofa"},{id:2,name:"Oak Writing Desk",price:280000,cat:"office",svg:"desk"},{id:3,name:"King Canopy Bed",price:620000,cat:"bedroom",svg:"bed"},{id:4,name:"Mid-Century Armchair",price:310000,cat:"living",svg:"chair"},{id:5,name:"Floating Bookshelf",price:180000,cat:"storage",svg:"shelf"},{id:6,name:"Dining Table",price:390000,cat:"kitchen",svg:"table"}];
+
+let cart,wishlist,prods;
+
+try{
+ cart=JSON.parse(localStorage.getItem('pinniture_cart'))||[];
+ wishlist=JSON.parse(localStorage.getItem('pinniture_wishlist'))||[];
+ prods=JSON.parse(localStorage.getItem('pinniture_products'))||seedP;
+}catch(e){
+ cart=[];wishlist=[];prods=seedP;
+}
+
+localStorage.setItem('pinniture_products',JSON.stringify(prods));
+
+// Navigation
+function toggleMenu(){
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.classList.toggle('mob');
+  if(isOpen){ document.body.appendChild(links); }
+  else{ document.querySelector('.nav-c').insertBefore(links, document.querySelector('.nav-right')); }
+}
+
+// Scroll handler - nav color changes
+window.addEventListener('scroll',function(){
+ const nav=document.getElementById('nav');
+ if(window.scrollY>50){
+  nav.classList.add('scrolled');
+ }else{
+  nav.classList.remove('scrolled');
+ }
+},{passive:true});
+
+// Render Functions
+function renderFeat(){
+ const grid=document.getElementById('featP');
+ if(!grid)return;
+ grid.innerHTML=prods.slice(0,4).map((p,i)=>`
+  <div class="p-card" style="animation-delay:${i*.15}s">
+   ${svgBox(p.svg)}
+   <div class="p-body"><div class="p-tag">${p.cat.toUpperCase()}</div><h3>${p.name}</h3>
+   <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+   <div class="price">₦${p.price.toLocaleString()}</div>
+   <div class="p-actions"><button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button><button class="wish ${wishlist.includes(p.id)?'active':''}" onclick="toggleWish(${p.id},this)"><i class="${wishlist.includes(p.id)?'fas':'far'} fa-heart"></i></button></div></div></div>`).join('');
+}
+
+// Testimonials
+function renderTestimonials(){
+ const track=document.getElementById('testTrack');
+ if(!track)return;
+ const tests=["Exquisite quality! Delivery was seamless. - Sarah M., Lagos","Best investment for our office. Ergonomics unmatched. - David O., Abuja","Custom sizing saved our awkward space. Recommended! - Emeka K., PH","From consultation to installation, pure luxury. Clients for life. - Amara T., Ibadan"];
+ track.innerHTML=[...tests,...tests].map(t=>`<div class="test-card"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="test-text">"${t.split('-')[0].trim()}"</div><div class="test-user"><div class="avatar">${t.charAt(t.indexOf('-')+2)}</div><div><div class="test-name">${t.split('-')[1].split(',')[0].trim()}</div><div class="test-loc">${t.split(', ')[1].replace('.','')}</div></div></div></div>`).join('');
+}
+
+// Videos
+function renderVids(){
+ const grid=document.getElementById('vidGrid');
+ if(!grid)return;
+ let vids;
+ try{vids=JSON.parse(localStorage.getItem('pinniture_videos'))||[{slot:1,id:'dQw4w9WgXcQ',title:'Luxury Living Transformation'},{slot:2,id:'LXb3EKWsInQ',title:'Executive Office Setup'},{slot:3,id:'9bZkp7q19f0',title:'Modern Kitchen Remodel'}];}
+ catch(e){vids=[{slot:1,id:'dQw4w9WgXcQ'},{slot:2,id:'LXb3EKWsInQ'},{slot:3,id:'9bZkp7q19f0'}];}
+ grid.innerHTML=vids.sort((a,b)=>a.slot-b.slot).map(v=>v.slot===1?`<div class="vid-main"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen loading="lazy"></iframe></div>`:`<div class="vid-sm"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen loading="lazy"></iframe></div>`).join('');
+}
+
+// Cart Functions
+function openCart(){document.getElementById('cartD').classList.add('open');switchTab('cart')}
+function closeCart(){document.getElementById('cartD').classList.remove('open')}
+function switchTab(t){
+ document.querySelectorAll('.c-tab').forEach(e=>e.classList.remove('active'));
+ document.querySelector(`.c-tab:nth-child(${t==='cart'?1:2})`).classList.add('active');
+ const body=document.getElementById('cartBody');
+ if(!body)return;
+ if(t==='cart'){
+  body.innerHTML=cart.length?cart.map(i=>`<div class="c-item"><div class="c-img">${svgBox(i.svg)}</div><div class="c-info"><h4>${i.name}</h4><div class="c-price">₦${i.price.toLocaleString()}</div><div class="qty"><button onclick="updateQty(${i.productId},-1)">-</button><span>${i.qty}</span><button onclick="updateQty(${i.productId},1)">+</button></div></div></div>`).join(''):'<p style="text-align:center;color:#999;padding:40px">Your cart is empty</p>';
+ }else{
+  body.innerHTML=wishlist.length?wishlist.map(id=>{const p=prods.find(x=>x.id===id);return p?`<div class="c-item"><div class="c-img">${svgBox(p.svg)}</div><div class="c-info"><h4>${p.name}</h4><div class="c-price">₦${p.price.toLocaleString()}</div><button class="add-btn" style="margin-top:6px;padding:8px 12px;font-size:12px" onclick="addToCart(${p.id})">Move to Cart</button></div></div>`:''}).join(''):'<p style="text-align:center;color:#999;padding:40px">Your wishlist is empty</p>';
+ }
+}
+
+function addToCart(id){
+ const p=prods.find(x=>x.id===id);
+ if(!p)return;
+ const ex=cart.find(x=>x.productId===id);
+ if(ex){ex.qty++}else{cart.push({productId:id,name:p.name,price:p.price,qty:1,svg:p.svg})}
+ saveCart();
+ toast('Added to cart');
+ openCart();
+}
+
+function updateQty(id,d){
+ const i=cart.find(x=>x.productId===id);
+ if(!i)return;
+ i.qty+=d;
+ if(i.qty<=0){cart=cart.filter(x=>x.productId!==id)}
+ saveCart();
+}
+
+function saveCart(){
+ try{
+  localStorage.setItem('pinniture_cart',JSON.stringify(cart));
+  localStorage.setItem('pinniture_wishlist',JSON.stringify(wishlist));
+ }catch(e){}
+ updateUI();
+ switchTab('cart');
+}
+
+function toggleWish(id,btn){
+ if(wishlist.includes(id)){
+  wishlist=wishlist.filter(x=>x!==id);
+  btn.classList.remove('active');
+  btn.querySelector('i').classList.replace('fas','far');
+ }else{
+  wishlist.push(id);
+  btn.classList.add('active');
+  btn.querySelector('i').classList.replace('far','fas');
+ }
+ saveCart();
+ toast('Wishlist updated');
+}
+
+function updateUI(){
+ const count=document.getElementById('cartC');
+ const total=document.getElementById('cartTot');
+ if(count){count.textContent=cart.reduce((a,i)=>a+i.qty,0)}
+ if(total){total.textContent='₦'+cart.reduce((a,i)=>a+(i.price*i.qty),0).toLocaleString()}
+}
+
+// Checkout
+function openCheckout(){
+ if(!cart.length){toast('Cart is empty');return}
+ closeCart();
+ document.getElementById('checkoutM').classList.add('open');
+}
+function closeCheckout(){document.getElementById('checkoutM').classList.remove('open')}
+function processPay(){
+ const em=document.getElementById('em').value;
+ if(!em){toast('Email required');return}
+ toast('Processing payment...');
+ setTimeout(()=>{
+  showSuccess(Math.random().toString(36).substring(2,8).toUpperCase());
+ },1500);
+}
+function showSuccess(ref){
+ document.getElementById('checkoutM').classList.remove('open');
+ const refEl=document.getElementById('refId');
+ if(refEl){refEl.textContent=ref}
+ document.getElementById('successM').classList.add('open');
+ cart=[];
+ saveCart();
+}
+function closeSuccess(){document.getElementById('successM').classList.remove('open')}
+
+// Toast
+function toast(msg){
+ const t=document.getElementById('toast');
+ if(!t)return;
+ t.textContent=msg;
+ t.classList.add('show');
+ setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Scroll Animations
+function initScrollAnimations(){
+ const observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+   if(entry.isIntersecting){
+    entry.target.style.opacity='1';
+    entry.target.style.transform='translateY(0)';
+    observer.unobserve(entry.target);
+   }
+  });
+ },{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+
+ document.querySelectorAll('.anim').forEach(function(el){
+  el.style.opacity='0';
+  el.style.transform='translateY(30px)';
+  el.style.transition='all .8s ease';
+  observer.observe(el);
+ });
+}
+
+// Initialize
+function init(){
+ renderFeat();
+ renderTestimonials();
+ renderVids();
+ updateUI();
+ initScrollAnimations();
+ 
+ // Save default videos if not exists
+ try{
+  if(!localStorage.getItem('pinniture_videos')){
+   localStorage.setItem('pinniture_videos',JSON.stringify([{slot:1,id:'dQw4w9WgXcQ'},{slot:2,id:'LXb3EKWsInQ'},{slot:3,id:'9bZkp7q19f0'}]));
+  }
+ }catch(e){}
+}
+
+// Run on load
+if(document.readyState==='loading'){
+ document.addEventListener('DOMContentLoaded',init);
+}else{
+ init();
+}
+</script>
+<script src="https://js.paystack.co/v1/inline.js" async></script>
+</body>
+</html>
