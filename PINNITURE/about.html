@@ -5,7 +5,7 @@
 <title>PINNITURE — About Us</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .3s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
@@ -22,7 +22,7 @@ button{cursor:pointer;border:none;background:none;font:inherit}
 .btn-outline{border:2px solid var(--charcoal);color:var(--charcoal)}.btn-outline:hover{background:var(--charcoal);color:#fff}
 .btn-white{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;backdrop-filter:blur(4px)}.btn-white:hover{background:rgba(255,255,255,.35)}
 
-/* NAV - exact from index */
+/* NAV */
 nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--trans);background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
 .nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
 .logo{display:flex;align-items:center;gap:0px}
@@ -43,21 +43,12 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .dd-item{display:block;padding:8px 10px;border-radius:8px;font-size:13px;transition:var(--trans);color:#000}
 .dd-item:hover{background:var(--sand);color:var(--gold);padding-left:14px}
 .nav-right{display:flex;align-items:center;gap:20px}
-.cart-btn{position:relative;width:24px;height:24px;display:grid;place-items:center;color:var(--text)}
-.cart-count{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:700}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
 .hamburger span{width:24px;height:2px;background:var(--text);transition:var(--trans);display:block}
 .shop-btn-mobile{display:none}
 
-/* ABOUT HERO */
-.about-hero{padding:140px 0 80px;background:url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1600&auto=format&fit=crop&q=90') center/cover no-repeat;position:relative;color:#fff;text-align:center}
-.about-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6)}
-.about-hero-c{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 24px}
-.about-hero h1{font-family:var(--font-head);font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.2;margin-bottom:16px}
-.about-hero p{font-size:1.05rem;opacity:.9;max-width:520px;margin:0 auto}
-
 /* OUR STORY */
-.story-sec{padding:100px 0; margin-top: 3em;}
+.story-sec{padding:100px 0;margin-top:3em}
 .story-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;max-width:1400px;margin:0 auto;padding:0 24px}
 .story-text .label{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
 .story-text h2{font-family:var(--font-head);font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.25;margin-bottom:24px}
@@ -73,6 +64,18 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .story-img .img-badge{position:absolute;bottom:28px;left:-24px;background:#fff;padding:18px 22px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12)}
 .img-badge .badge-num{font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
 .img-badge .badge-txt{font-size:12px;color:var(--text-light);margin-top:4px}
+
+/* ─── WHAT WE STAND FOR ─── */
+.standfor-sec{padding:100px 0;background:#f0ede8}
+.standfor-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.standfor-heading{margin-bottom:56px}
+.standfor-heading h2{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--text);line-height:1.2}
+.standfor-heading h2 em{font-style:italic;color:var(--gold);font-weight:600}
+.standfor-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sf-card{background:#e8e4de;border-left:3px solid var(--gold);padding:36px 36px 36px 32px;border-radius:0 8px 8px 0;transition:var(--trans);position:relative}
+.sf-card:hover{background:#e2ddd6;transform:translateX(4px)}
+.sf-card h3{font-family:var(--font-head);font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.3}
+.sf-card p{font-size:.92rem;color:var(--text-light);line-height:1.8}
 
 /* OUR VALUE */
 .values-sec{background:var(--charcoal);color:#fff;padding:100px 0}
@@ -99,7 +102,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .cta-strip p{margin:10px 0 24px;opacity:.9;position:relative;z-index:1}
 .cta-strip .btn{position:relative;z-index:1}
 
-/* FOOTER - exact from index */
+/* FOOTER */
 footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4px solid var(--gold)}
 .ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px}
 .ft-col h4{margin-bottom:16px;font-size:1rem}
@@ -109,7 +112,6 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 .ft-social a{opacity:.7;transition:var(--trans)}.ft-social a:hover{opacity:1;color:var(--gold)}
 
 /* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .anim{opacity:0;transform:translateY(30px);transition:all .8s ease}
 .anim.visible{opacity:1;transform:translateY(0)}
 
@@ -131,6 +133,8 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
  .story-img::before{display:none}
  .story-img .img-badge{left:16px;bottom:16px}
  .story-text .timeline{gap:16px}
+ .standfor-grid{grid-template-columns:1fr}
+ .standfor-inner{padding:0 24px}
 }
 @media(max-width:600px){
  .values-grid{grid-template-columns:1fr}
@@ -139,7 +143,7 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 </head>
 <body>
 
-<!-- NAV - exact from index page -->
+<!-- NAV -->
 <nav id="nav">
  <div class="nav-c">
   <a href="index.html" class="logo">
@@ -148,8 +152,7 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
   </a>
   <ul class="nav-links">
    <li><a href="index.html">Home</a></li>
-   <li class="dropdown"><a href="shop.html">Shop</a>
-   </li>
+   <li class="dropdown"><a href="shop.html">Shop</a></li>
    <li><a href="interior-design.html">Interior Design</a></li>
    <li><a href="about.html" style="color:var(--gold)">About</a></li>
   </ul>
@@ -160,16 +163,19 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
  </div>
 </nav>
 
-
 <!-- OUR STORY -->
 <section class="story-sec">
  <div class="story-inner">
   <div class="story-text anim">
    <div class="label">Who We Are</div>
    <h2>Our <span>Story</span></h2>
-   <p>What began as a small woodworking studio has evolved into a premier furniture and interior design house. We believe that every space tells a story, and our role is to provide the perfect chapters — pieces that speak to heritage, intention, and beauty.</p>
-   <p>From hand-selecting ethically sourced timber to delivering white-glove installation, every step of our process is guided by a relentless commitment to quality. Our team of master craftsmen and designers collaborate to produce furniture that doesn't just fill a room — it defines it.</p>
-   <p>Today, Pinniture serves homes, offices, and commercial spaces across Nigeria and beyond, carrying the same spirit of craftsmanship that inspired our very first piece.</p>
+   <p>We founded Pinniture with a simple, non-negotiable belief: that African homes and offices deserve furniture that is as thoughtfully designed and precisely built as anything produced anywhere in the world."
+
+Pinniture was born from a frustration with compromise. The furniture available in our markets was either too expensive for what it offered, too fragile for how we actually live, or too generic to reflect the sophistication of contemporary African citure and taste.
+
+We built a different model. By establishing production hubs in major Nigerian cities, we cut the distance between craftsman and client, between idea and execution. Our designers work closely with our makers. Our makers work closely with our clients. Nothing is outsourced to indifference.
+
+The result is a furniture and interiors brand that delivers genuine quality at a price that respects you and spaces that tell the story of who you are.</p>
    <div class="timeline">
     <div class="t-item"><div class="t-year">2012</div><div class="t-label">Founded</div></div>
     <div class="t-item"><div class="t-year">2016</div><div class="t-label">First Flagship</div></div>
@@ -187,12 +193,39 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
  </div>
 </section>
 
+<!-- WHAT WE STAND FOR -->
+<section class="standfor-sec">
+ <div class="standfor-inner">
+  <div class="standfor-heading anim">
+   <h2>What We <em>Stand For</em></h2>
+  </div>
+  <div class="standfor-grid">
+   <div class="sf-card anim">
+    <h3>Precision Over Speed</h3>
+    <p>We will never rush a piece out of production at the expense of quality. Every Pinniture product is measured, tested, and finished to a standard we would put in our own homes. Lead times are honest, and delivery is exact.</p>
+   </div>
+   <div class="sf-card anim" style="transition-delay:.1s">
+    <h3>Local First</h3>
+    <p>Our materials are sourced locally wherever quality allows. Our craftsmen are Nigerian. Our hubs are embedded in the communities we serve. We believe in building an economy of excellence within our own borders.</p>
+   </div>
+   <div class="sf-card anim" style="transition-delay:.15s">
+    <h3>Design That Endures</h3>
+    <p>Trends fade. We design for permanence — furniture and spaces that feel timeless in five years the way they feel current today. Our aesthetic sits at the intersection of contemporary minimalism and the warmth of African material culture.</p>
+   </div>
+   <div class="sf-card anim" style="transition-delay:.2s">
+    <h3>Honest Partnership</h3>
+    <p>Every client relationship is a collaboration. We listen more than we speak. We sketch before we build. We revise until it's right. The goal is not to impose our taste — it is to realize your vision with our expertise.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
 <!-- OUR VALUE -->
 <section class="values-sec">
  <div class="values-inner">
   <div class="values-head anim">
    <div class="label">What Drives Us</div>
-   <h2>Our Value</h2>
+   <h2>Our Values</h2>
    <p>The principles that shape every decision we make and every piece we build</p>
   </div>
   <div class="values-grid anim">
@@ -227,7 +260,7 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
  <a href="interior-design.html" class="btn btn-gold">Start a Consultation <i class="fas fa-arrow-right"></i></a>
 </section>
 
-<!-- FOOTER - exact from index page -->
+<!-- FOOTER -->
 <footer>
  <div class="container ft-grid">
   <div>
@@ -255,15 +288,11 @@ function toggleMenu(){
   if(isOpen){ document.body.appendChild(links); }
   else{ document.querySelector('.nav-c').insertBefore(links, document.querySelector('.nav-right')); }
 }
-
 function toast(m){
  const t=document.getElementById('toast');
  t.textContent=m;t.classList.add('show');
  setTimeout(()=>t.classList.remove('show'),3000);
 }
-
-
-// Scroll animations
 const observer=new IntersectionObserver(function(entries){
  entries.forEach(function(entry){
   if(entry.isIntersecting){
