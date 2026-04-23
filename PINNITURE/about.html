@@ -22,30 +22,72 @@ button{cursor:pointer;border:none;background:none;font:inherit}
 .btn-outline{border:2px solid var(--charcoal);color:var(--charcoal)}.btn-outline:hover{background:var(--charcoal);color:#fff}
 .btn-white{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;backdrop-filter:blur(4px)}.btn-white:hover{background:rgba(255,255,255,.35)}
 
-/* NAV */
-nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--trans);background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
+/* ── NAV (copied from interior-design page) ── */
+nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--trans);background:transparent;}
+nav.scrolled{background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.05)}
 .nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
 .logo{display:flex;align-items:center;gap:0px}
 .logo img{width:3em}
 .brand{display:flex;flex-direction:column;line-height:1.1}
-.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:var(--text)}
-.brand-sub{font-size:10px;letter-spacing:1.5px;color:var(--text-light)}
+.brand-name{font-family:var(--font-head);font-size:28px;font-weight:700;letter-spacing:1.5px;color:#000}
+.brand-sub{font-size:10px;letter-spacing:1.5px;color:#000}
 .nav-links{display:flex;gap:28px;align-items:center}
-.nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans);color:var(--text)}
+.nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans); color: #000;}
 .nav-links a:hover{color:var(--gold)}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:var(--trans)}
 .nav-links a:hover::after{width:100%}
-.dropdown{position:relative}
-.mega a{color:#000}
-.mega{position:absolute;top:140%;left:50%;transform:translateX(-50%) translateY(10px);width:600px;background:#fff;border-radius:12px;padding:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(3,1fr);gap:16px;opacity:0;visibility:hidden;transition:var(--trans);z-index:10}
-.dropdown:hover .mega{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
-.dd-head{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
-.dd-item{display:block;padding:8px 10px;border-radius:8px;font-size:13px;transition:var(--trans);color:#000}
-.dd-item:hover{background:var(--sand);color:var(--gold);padding-left:14px}
+
+
+
 .nav-right{display:flex;align-items:center;gap:20px}
+.cart-btn{position:relative;width:24px;height:24px;display:grid;place-items:center;color:#fff}
+.cart-count{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:700}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
-.hamburger span{width:24px;height:2px;background:var(--text);transition:var(--trans);display:block}
-.shop-btn-mobile{display:none}
+.hamburger span{width:24px;height:2px;background:#000;transition:var(--trans);display:block}
+
+/* ── MOBILE NAV ── */
+.mob-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:999}
+.mob-nav.open{display:block;}
+.mob-nav-bg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.mob-nav-panel{position:absolute;top:0;left:0;bottom:0;width:72%;max-width:290px;background:var(--cream);display:flex;flex-direction:column;box-shadow:6px 0 24px rgba(0,0,0,.12);animation:slideIn .28s ease}
+@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.mob-header{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 12px;border-bottom:1px solid var(--border);background:#fff}
+.mob-header .brand-name{color:var(--text);font-size:15px;font-family:var(--font-head)}
+.mob-header .brand-sub{color:var(--text-light);font-size:9px;letter-spacing:1.2px}
+.mob-x{width:28px;height:28px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer;font-size:12px;color:var(--text);transition:var(--trans);flex-shrink:0;border:none}
+.mob-x:hover{background:var(--charcoal);color:#fff}
+.mob-list{flex:1;overflow-y:auto;padding:4px 0}
+.mob-row{border-bottom:1px solid var(--border)}
+.mob-row > a{display:flex;align-items:center;gap:11px;padding:13px 16px;font-size:14px;font-weight:500;color:var(--text);transition:background .2s}
+.mob-row > a:hover{background:rgba(196,151,58,.07);color:var(--gold)}
+.mob-row > a .ni{width:15px;text-align:center;font-size:12px;color:var(--gold);flex-shrink:0}
+.mob-shop-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border)}
+.mob-shop-row > a{flex:1;display:flex;align-items:center;gap:11px;padding:13px 16px;font-size:14px;font-weight:500;color:var(--text);transition:background .2s}
+.mob-shop-row > a:hover{background:rgba(196,151,58,.07);color:var(--gold)}
+.mob-shop-row > a .ni{width:15px;text-align:center;font-size:12px;color:var(--gold);flex-shrink:0}
+.mob-expand{width:42px;display:grid;place-items:center;border-left:1px solid var(--border);cursor:pointer;color:var(--text-light);transition:background .2s;background:transparent;border-top:none;border-right:none;border-bottom:none}
+.mob-expand:hover{background:rgba(196,151,58,.07);color:var(--gold)}
+.mob-expand i{font-size:11px;transition:transform .22s ease}
+.mob-expand.open i{transform:rotate(45deg);color:var(--gold)}
+.mob-cats{display:none;background:#fff;border-bottom:1px solid var(--border)}
+.mob-cats.open{display:block}
+.mob-cat-group{padding:9px 16px 2px}
+.mob-cat-group:last-child{padding-bottom:10px}
+.mob-cat-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.mob-cat-link{display:block;padding:7px 10px;border-radius:5px;font-size:12.5px;color:var(--text);transition:all .18s}
+.mob-cat-link:hover{background:rgba(196,151,58,.08);color:var(--gold);padding-left:14px}
+.mob-footer{padding:12px 14px;border-top:1px solid var(--border)}
+.mob-cart-cta{display:flex;align-items:center;justify-content:space-between;background:var(--charcoal);color:#fff;padding:11px 15px;border-radius:8px;cursor:pointer;transition:background .2s;border:none;width:100%}
+.mob-cart-cta:hover{background:var(--gold)}
+.mob-cart-cta-label{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.mob-cart-badge{background:var(--gold);color:#fff;padding:1px 9px;border-radius:20px;font-size:12px;font-weight:700}
+.mob-cart-cta:hover .mob-cart-badge{background:rgba(255,255,255,.25)}
+
+@media(max-width:900px){
+ .nav-links{display:none!important}
+ .hamburger{display:flex;}
+
+}
 
 /* OUR STORY */
 .story-sec{padding:100px 0;margin-top:3em}
@@ -95,7 +137,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .val-card p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.7}
 
 /* CTA STRIP */
-.cta-strip{background:var(--terracotta);padding:70px 24px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.cta-strip{background:#0B8F2A;padding:70px 24px;text-align:center;color:#fff;position:relative;overflow:hidden}
 .cta-strip::before{content:'';position:absolute;width:400px;height:400px;background:rgba(255,255,255,.06);border-radius:50%;top:-150px;right:-80px}
 .cta-strip::after{content:'';position:absolute;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%;bottom:-120px;left:-60px}
 .cta-strip h2{font-family:var(--font-head);font-size:2rem;position:relative;z-index:1}
@@ -120,13 +162,6 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 .toast.show{transform:translateX(0)}
 
 @media(max-width:900px){
- .nav-links{display:none}
- .nav-links.mob{display:flex;position:fixed;top:75px;left:0;right:0;bottom:0;background:#fff;padding:30px;flex-direction:column;gap:20px;z-index:1000}
- .nav-links.mob a{color:var(--text)}
- .mega{display:none}
- .hamburger{display:flex}
- .shop-btn-mobile{display:block}
- .shop-btn-desktop{display:none}
  .story-inner{grid-template-columns:1fr;gap:40px}
  .story-img{order:-1}
  .story-img img{height:360px}
@@ -143,25 +178,57 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAV (from interior-design page) -->
 <nav id="nav">
- <div class="nav-c">
-  <a href="index.html" class="logo">
-   <img src="img/Pinniture logo.png" alt="Logo">
-   <div class="brand"><span class="brand-name">PINNITURE</span><span class="brand-sub">An interior design company</span></div>
-  </a>
-  <ul class="nav-links">
-   <li><a href="index.html">Home</a></li>
-   <li class="dropdown"><a href="shop.html">Shop</a></li>
-   <li><a href="interior-design.html">Interior Design</a></li>
-   <li><a href="about.html" style="color:var(--gold)">About</a></li>
-  </ul>
-  <div class="nav-right">
-   <a href="shop.html" class="btn btn-gold shop-btn-desktop">Shop Here</a>
-   <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <div class="nav-c">
+    <a href="index.html" class="logo">
+      <img src="img/Pinniture logo.png" alt="Logo">
+      <div class="brand"><span class="brand-name">PINNITURE</span><span class="brand-sub">An interior design company</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="dropdown">
+        <a href="shop.html">Shop</a>
+      </li>
+      <li><a href="interior-design.html">Interior Design</a></li>
+      <li><a href="index.html#projs">Projects</a></li>
+      <li><a href="about.html" style="color:var(--gold)">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="hamburger" onclick="openMobNav()"><span></span><span></span><span></span></button>
+    </div>
   </div>
- </div>
 </nav>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <div class="mob-nav-bg" onclick="closeMobNav()"></div>
+  <div class="mob-nav-panel">
+    <div class="mob-header">
+      <a href="index.html" class="logo" style="gap:7px" onclick="closeMobNav()">
+        <img src="img/Pinniture logo.png" alt="Logo" style="width:1.9em">
+        <div class="brand">
+          <span class="brand-name" style="color:var(--text);font-size:14px">PINNITURE</span>
+          <span class="brand-sub" style="color:var(--text-light)">An interior design company</span>
+        </div>
+      </a>
+      <button class="mob-x" onclick="closeMobNav()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="mob-list">
+      <div class="mob-row"><a href="index.html" onclick="closeMobNav()"><i class="fas fa-house ni"></i>Home</a></div>
+      
+      <div class="mob-row"><a href="interior-design.html" onclick="closeMobNav()"><i class="fas fa-palette ni"></i>Interior Design</a></div>
+      <div class="mob-row"><a href="index.html#projs" onclick="closeMobNav()"><i class="fas fa-images ni"></i>Projects</a></div>
+      <div class="mob-row"><a href="about.html" onclick="closeMobNav()" style="color:var(--gold)"><i class="fas fa-circle-info ni"></i>About</a></div>
+    </div>
+    <div class="mob-footer">
+      <button class="mob-cart-cta" onclick="closeMobNav();openCart()">
+        <span class="mob-cart-cta-label"><i class="fas fa-shopping-bag"></i>View Cart</span>
+        <span class="mob-cart-badge" id="mobCartN">0</span>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- OUR STORY -->
 <section class="story-sec">
@@ -176,12 +243,6 @@ Pinniture was born from a frustration with compromise. The furniture available i
 We built a different model. By establishing production hubs in major Nigerian cities, we cut the distance between craftsman and client, between idea and execution. Our designers work closely with our makers. Our makers work closely with our clients. Nothing is outsourced to indifference.
 
 The result is a furniture and interiors brand that delivers genuine quality at a price that respects you and spaces that tell the story of who you are.</p>
-   <div class="timeline">
-    <div class="t-item"><div class="t-year">2012</div><div class="t-label">Founded</div></div>
-    <div class="t-item"><div class="t-year">2016</div><div class="t-label">First Flagship</div></div>
-    <div class="t-item"><div class="t-year">2020</div><div class="t-label">Export Launch</div></div>
-    <div class="t-item"><div class="t-year">2024</div><div class="t-label">Digital Era</div></div>
-   </div>
   </div>
   <div class="story-img anim" style="animation-delay:.2s">
    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=85&crop=faces" alt="Our founder">
@@ -282,12 +343,30 @@ The result is a furniture and interiors brand that delivers genuine quality at a
 <div class="toast" id="toast"></div>
 
 <script>
-function toggleMenu(){
-  const links = document.querySelector('.nav-links');
-  const isOpen = links.classList.toggle('mob');
-  if(isOpen){ document.body.appendChild(links); }
-  else{ document.querySelector('.nav-c').insertBefore(links, document.querySelector('.nav-right')); }
+/* ── Nav scroll ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+},{passive:true});
+
+/* ── Mobile nav ── */
+function openMobNav(){document.getElementById('mobNav').classList.add('open');document.body.style.overflow='hidden'}
+function closeMobNav(){document.getElementById('mobNav').classList.remove('open');document.body.style.overflow=''}
+function toggleMobCats(){
+  const c=document.getElementById('mobCats'),b=document.getElementById('mobExpand');
+  const o=c.classList.toggle('open');b.classList.toggle('open',o);
 }
+
+/* ── Cart (stub — links to shop) ── */
+function openCart(){window.location.href='shop.html'}
+
+/* ── Cart count from localStorage ── */
+try{
+  const cart=JSON.parse(localStorage.getItem('pinniture_cart'))||[];
+  const n=cart.reduce((a,i)=>a+i.qty,0);
+  const el=document.getElementById('cartC'),mob=document.getElementById('mobCartN');
+  if(el)el.textContent=n;if(mob)mob.textContent=n;
+}catch(e){}
+
 function toast(m){
  const t=document.getElementById('toast');
  t.textContent=m;t.classList.add('show');

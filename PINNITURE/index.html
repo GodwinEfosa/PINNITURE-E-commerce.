@@ -29,7 +29,7 @@ nav.scrolled{background:rgba(250,247,242,.98);backdrop-filter:blur(10px);box-sha
 .logo{display:flex;align-items:center;gap:0}
 .logo img{width:3em}
 .brand{display:flex;flex-direction:column;line-height:1.1}
-.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:#fff}
+.brand-name{font-family:var(--font-head);font-size:28px;font-weight:700;letter-spacing:1.5px;color:#fff}
 nav.scrolled .brand-name{color:var(--text)}
 .brand-sub{font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.8)}
 nav.scrolled .brand-sub{color:var(--text-light)}
@@ -41,15 +41,15 @@ nav.scrolled .nav-links a{color:var(--text)}
 .nav-links a:hover::after{width:100%}
 .dropdown{position:relative}
 
-/* ── MEGA MENU — now 4 columns (wider) ── */
+/* ── MEGA MENU ── */
 .mega a{color:#000}
 .mega{
   position:absolute;top:140%;left:50%;
   transform:translateX(-50%) translateY(10px);
-  width:600px;
+  width:820px;
   background:#fff;border-radius:12px;padding:24px;
   box-shadow:var(--shadow);
-  display:grid;grid-template-columns:repeat(3,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);
   gap:16px;
   opacity:0;visibility:hidden;transition:var(--trans);z-index:10
 }
@@ -133,30 +133,34 @@ nav.scrolled .hamburger span{background:var(--text)}
 .sec-h h2::after{content:'';display:block;width:60px;height:3px;background:var(--gold);margin:12px auto 0}
 .sec-h p{color:var(--text-light);margin-top:8px}
 
-/* ── PRODUCT GRID ── */
+/* ── PRODUCT GRID — shop style ── */
 .p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-@media(max-width:1100px){.p-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1100px){.p-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:750px){.p-grid{grid-template-columns:repeat(2,1fr);gap:8px}}
-.p-card{background:#fff;border-radius:2px;overflow:hidden;transition:box-shadow .25s;border:1px solid #ebebeb;position:relative}
-.p-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.p-wish{position:absolute;top:9px;right:9px;z-index:2;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid #ddd;display:grid;place-items:center;cursor:pointer;transition:var(--trans);font-size:12px;color:#bbb;}
-.p-wish:hover,.p-wish.active{color:var(--charcoal);border-color:var(--charcoal)}
-.p-box{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#f5f5f3;padding:18px;}
-.p-box svg{width:58%;height:58%;color:#b5b5b5}
-.p-body{padding:11px 12px 14px}
-.p-brand{font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-light);margin-bottom:2px}
-.p-body h3{font-size:.84rem;font-weight:600;color:var(--text);margin-bottom:7px;line-height:1.35}
+
+/* ── PRODUCT CARD — shop style ── */
+.p-card{background:#fff;border-radius:4px;overflow:hidden;transition:box-shadow .25s,transform .25s;border:1px solid #ebebeb;position:relative;cursor:pointer}
+.p-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.12);transform:translateY(-3px)}
+.p-wish{position:absolute;top:9px;right:9px;z-index:2;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid #ddd;display:grid;place-items:center;cursor:pointer;transition:var(--trans);font-size:13px;color:#bbb;backdrop-filter:blur(4px)}
+.p-wish:hover,.p-wish.active{color:#e53e3e;border-color:#e53e3e}
+.p-img-wrap{width:100%;aspect-ratio:1;overflow:hidden;background:#f0ede8;position:relative}
+.p-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.p-card:hover .p-img-wrap img{transform:scale(1.06)}
+.p-badge{position:absolute;top:9px;left:9px;background:var(--terracotta);color:#fff;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+.p-body{padding:12px 13px 14px}
+.p-brand{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-light);margin-bottom:2px}
+.p-body h3{font-size:.83rem;font-weight:600;color:var(--text);margin-bottom:7px;line-height:1.35}
+.p-price-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .p-price{font-family:var(--font-price);font-size:1.2rem;color:var(--charcoal)}
-.p-add{display:block;width:100%;margin-top:9px;padding:9px 0;background:var(--charcoal);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;transition:background .2s;text-align:center;border-radius:2px;}
+.p-add{padding:7px 13px;background:var(--charcoal);color:#fff;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:background .2s;border-radius:3px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .p-add:hover{background:var(--gold)}
 @media(max-width:750px){
   .sec-inner{padding:0 12px}
-  .p-box{padding:12px}
   .p-body{padding:8px 9px 11px}
   .p-brand{font-size:9px}
   .p-body h3{font-size:.78rem;margin-bottom:5px}
   .p-price{font-size:1.05rem}
-  .p-add{padding:8px 0;font-size:10px;margin-top:7px}
+  .p-add{padding:6px 9px;font-size:9.5px;margin-top:0}
   .p-wish{width:24px;height:24px;font-size:11px;top:7px;right:7px}
 }
 .view-all{text-align:center;margin-top:36px}
@@ -213,13 +217,67 @@ nav.scrolled .hamburger span{background:var(--text)}
 .vid-single iframe{width:100%;height:100%;border:none;display:block}
 
 /* NEWSLETTER */
-.news{background:var(--terracotta);padding:60px 24px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.news{background:#0B8F2A;padding:60px 24px;text-align:center;color:#fff;position:relative;overflow:hidden}
 .news h2{font-family:var(--font-head);font-size:2rem;margin-bottom:10px}
 .news p{margin-bottom:20px;opacity:.9}
 .news-form{display:flex;gap:12px;max-width:520px;margin:0 auto}
 .news-form input{flex:1;padding:13px 16px;border:none;border-radius:30px;font-size:.9rem;background:rgba(255,255,255,.95)}
 .dot{position:absolute;width:8px;height:8px;background:rgba(255,255,255,.15);border-radius:50%;animation:float 6s infinite}
 @media(max-width:600px){.news-form{flex-direction:column}.news-form input,.news-form button{width:100%}}
+
+/* ════════════════════════════════
+   PRODUCT DETAIL MODAL
+════════════════════════════════ */
+.pd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;display:none;place-items:center;padding:20px;backdrop-filter:blur(3px)}
+.pd-overlay.open{display:grid}
+.pd-modal{background:#fff;border-radius:6px;max-width:960px;width:100%;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:pdIn .32s cubic-bezier(.25,.46,.45,.94)}
+@keyframes pdIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.pd-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.08);display:grid;place-items:center;cursor:pointer;z-index:5;font-size:13px;transition:var(--trans);border:none}
+.pd-close:hover{background:var(--charcoal);color:#fff}
+.pd-gallery{background:#f0ede8;position:relative;overflow:hidden;border-radius:6px 0 0 6px;min-height:460px}
+.pd-main-img{width:100%;height:380px;object-fit:cover;display:block}
+.pd-thumbs{display:flex;gap:8px;padding:12px 14px;background:#fff;border-top:1px solid var(--border)}
+.pd-thumb{width:64px;height:64px;border-radius:4px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .2s;flex-shrink:0}
+.pd-thumb.active{border-color:var(--gold)}
+.pd-thumb img{width:100%;height:100%;object-fit:cover}
+.pd-info{padding:32px 28px 24px;overflow-y:auto;display:flex;flex-direction:column;gap:0}
+.pd-brand-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600}
+.pd-name{font-family:var(--font-head);font-size:1.65rem;line-height:1.2;margin-bottom:10px;color:var(--text)}
+.pd-stars{display:flex;align-items:center;gap:6px;margin-bottom:16px}
+.pd-stars i{color:#f0b429;font-size:12px}
+.pd-stars span{font-size:12px;color:var(--text-light)}
+.pd-price-block{display:flex;align-items:baseline;gap:10px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.pd-price{font-family:var(--font-price);font-size:2.1rem;color:var(--charcoal)}
+.pd-price-note{font-size:11px;color:var(--text-light)}
+.pd-section-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-light);margin-bottom:8px}
+.pd-colors{display:flex;gap:8px;margin-bottom:20px}
+.pd-color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.pd-color-swatch.active{border-color:var(--charcoal);transform:scale(1.15)}
+.pd-color-swatch:hover{transform:scale(1.1)}
+.pd-color-name{font-size:12px;color:var(--text-light);margin-top:4px;margin-bottom:16px}
+.pd-dims{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.pd-dim{background:var(--sand);padding:8px 10px;border-radius:4px;text-align:center}
+.pd-dim-val{font-weight:700;font-size:.9rem;color:var(--text)}
+.pd-dim-key{font-size:10px;color:var(--text-light);letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+.pd-material-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.pd-material-tag{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text-light);font-weight:500}
+.pd-desc{font-size:.875rem;color:var(--text-light);line-height:1.75;margin-bottom:22px}
+.pd-qty-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pd-qty-ctrl{display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.pd-qty-ctrl button{width:34px;height:38px;display:grid;place-items:center;font-size:16px;background:#fff;transition:background .2s;border:none;cursor:pointer}
+.pd-qty-ctrl button:hover{background:var(--sand)}
+.pd-qty-ctrl span{width:40px;text-align:center;font-weight:600;font-size:.9rem}
+.pd-cta{flex:1;padding:13px;font-size:13px;font-weight:700;letter-spacing:.5px;justify-content:center}
+.pd-wish-btn{width:42px;height:42px;border-radius:4px;border:1px solid var(--border);display:grid;place-items:center;font-size:16px;color:var(--text-light);transition:var(--trans);background:#fff;cursor:pointer}
+.pd-wish-btn:hover,.pd-wish-btn.active{color:#e53e3e;border-color:#e53e3e}
+.pd-features{border-top:1px solid var(--border);padding-top:16px;margin-top:4px}
+.pd-feature{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:var(--text-light);padding:5px 0}
+.pd-feature i{color:var(--gold);margin-top:2px;font-size:11px;flex-shrink:0}
+@media(max-width:900px){
+  .pd-modal{grid-template-columns:1fr}
+  .pd-gallery{border-radius:6px 6px 0 0;min-height:300px}
+  .pd-main-img{height:280px}
+}
 
 /* CART DRAWER */
 .cart-d{position:fixed;top:0;right:0;width:360px;height:100vh;background:#fff;box-shadow:var(--shadow);transform:translateX(100%);transition:var(--trans);z-index:1000;display:flex;flex-direction:column}
@@ -230,20 +288,21 @@ nav.scrolled .hamburger span{background:var(--text)}
 .c-tab.active{color:var(--gold);border-bottom:2px solid var(--gold)}
 .c-body{flex:1;overflow-y:auto;padding:16px 20px}
 .c-item{display:flex;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #f0f0f0}
-.c-img{width:52px;height:52px;background:var(--sand);border-radius:5px;display:grid;place-items:center;flex-shrink:0}
+.c-img{width:56px;height:56px;background:var(--sand);border-radius:5px;overflow:hidden;flex-shrink:0}
+.c-img img{width:100%;height:100%;object-fit:cover}
 .c-info{flex:1}
 .c-info h4{font-size:.84rem;margin-bottom:4px}
 .c-price{color:var(--gold);font-family:var(--font-price);font-size:1rem}
 .qty{display:flex;gap:8px;align-items:center;margin-top:5px}
-.qty button{width:22px;height:22px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:13px}
+.qty button{width:22px;height:22px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:13px;border:none;cursor:pointer}
 .c-foot{padding:14px 20px;border-top:1px solid var(--border)}
 .c-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:14px}
 
 /* MODALS */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;place-items:center;padding:20px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2002;display:none;place-items:center;padding:20px}
 .modal.open{display:grid}
 .m-box{background:#fff;border-radius:10px;max-width:520px;width:100%;padding:24px;animation:pop .3s ease;position:relative;max-height:90vh;overflow-y:auto}
-.close-btn{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer}
+.close-btn{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer;border:none}
 .close-btn:hover{background:var(--charcoal);color:#fff}
 .form-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .form-g input,.form-g select{padding:11px 12px;border:1px solid var(--border);border-radius:5px;width:100%;font-family:inherit;font-size:.9rem}
@@ -268,6 +327,7 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
 @keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pdIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
 
 @media(max-width:900px){
   .nav-links{display:none!important}
@@ -310,7 +370,22 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
             <a href="shop.html?cat=church" class="dd-item">Church</a>
             <a href="shop.html?cat=school" class="dd-item">School</a>
             <a href="shop.html?cat=bar" class="dd-item">Bar</a>
-            <a href="shop.html?cat=outdoor" class="dd-item">Outdoor</a>
+          </div>
+          <div>
+            <div class="dd-head">Decor</div>
+            <a href="shop.html?cat=walldecor" class="dd-item">Wall Decor</a>
+            <a href="shop.html?cat=lightingdecor" class="dd-item">Lighting Decor</a>
+            <a href="shop.html?cat=softfurnishings" class="dd-item">Soft Furnishings</a>
+            <a href="shop.html?cat=tabletop" class="dd-item">Tabletop & Accessories</a>
+            <a href="shop.html?cat=plants" class="dd-item">Plant & Greenery</a>
+            <a href="shop.html?cat=fragrance" class="dd-item">Home Fragrance</a>
+            <a href="shop.html?cat=seasonal" class="dd-item">Seasonal & Festive</a>
+            <a href="shop.html?cat=african" class="dd-item">Cultural & African</a>
+            <a href="shop.html?cat=kidsdecor" class="dd-item">Kids Decor</a>
+          </div>
+          <div>
+            <div class="dd-head">Outdoor</div>
+            <a href="shop.html?cat=outdoor" class="dd-item">All Outdoor</a>
           </div>
         </div>
       </li>
@@ -320,7 +395,6 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
     </ul>
     <div class="nav-right">
       <button class="cart-btn" onclick="openCart()"><i class="fas fa-shopping-bag" style="font-size:20px"></i><span class="cart-count" id="cartC">0</span></button>
-      <a href="shop.html" class="btn btn-gold shop-btn-desktop">Shop Here</a>
       <button class="hamburger" onclick="openMobNav()"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -330,7 +404,6 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 <div class="mob-nav" id="mobNav">
   <div class="mob-nav-bg" onclick="closeMobNav()"></div>
   <div class="mob-nav-panel">
-
     <div class="mob-header">
       <a href="index.html" class="logo" style="gap:7px" onclick="closeMobNav()">
         <img src="img/Pinniture logo.png" alt="Logo" style="width:1.9em">
@@ -341,13 +414,8 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
       </a>
       <button class="mob-x" onclick="closeMobNav()"><i class="fas fa-xmark"></i></button>
     </div>
-
     <div class="mob-list">
-
-      <div class="mob-row">
-        <a href="index.html" onclick="closeMobNav()"><i class="fas fa-house ni"></i>Home</a>
-      </div>
-
+      <div class="mob-row"><a href="index.html" onclick="closeMobNav()"><i class="fas fa-house ni"></i>Home</a></div>
       <div class="mob-shop-row">
         <a href="shop.html" onclick="closeMobNav()"><i class="fas fa-store ni"></i>Shop</a>
         <button class="mob-expand" id="mobExpand" onclick="toggleMobCats()"><i class="fas fa-plus"></i></button>
@@ -373,47 +441,44 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
           <a href="shop.html?cat=church" class="mob-cat-link" onclick="closeMobNav()">Church</a>
           <a href="shop.html?cat=school" class="mob-cat-link" onclick="closeMobNav()">School</a>
           <a href="shop.html?cat=bar" class="mob-cat-link" onclick="closeMobNav()">Bar</a>
-          <a href="shop.html?cat=outdoor" class="mob-cat-link" onclick="closeMobNav()">Outdoor</a>
         </div>
         <div class="mob-cat-group">
-          <div class="mob-cat-label">Decor & Accessories</div>
-          <a href="shop.html?cat=decor" class="mob-cat-link" onclick="closeMobNav()">All Decor</a>
-          <a href="shop.html?cat=lighting" class="mob-cat-link" onclick="closeMobNav()">Lighting</a>
-          <a href="shop.html?cat=rugs" class="mob-cat-link" onclick="closeMobNav()">Rugs & Textiles</a>
-          <a href="shop.html?cat=accessories" class="mob-cat-link" onclick="closeMobNav()">Accessories</a>
-          <a href="shop.html?cat=artwall" class="mob-cat-link" onclick="closeMobNav()">Art & Wall Decor</a>
+          <div class="mob-cat-label">Decor</div>
+          <a href="shop.html?cat=walldecor" class="mob-cat-link" onclick="closeMobNav()">Wall Decor</a>
+          <a href="shop.html?cat=lightingdecor" class="mob-cat-link" onclick="closeMobNav()">Lighting Decor</a>
+          <a href="shop.html?cat=softfurnishings" class="mob-cat-link" onclick="closeMobNav()">Soft Furnishings</a>
+          <a href="shop.html?cat=tabletop" class="mob-cat-link" onclick="closeMobNav()">Tabletop & Accessories</a>
+          <a href="shop.html?cat=plants" class="mob-cat-link" onclick="closeMobNav()">Plant & Greenery</a>
+          <a href="shop.html?cat=fragrance" class="mob-cat-link" onclick="closeMobNav()">Home Fragrance</a>
+          <a href="shop.html?cat=seasonal" class="mob-cat-link" onclick="closeMobNav()">Seasonal & Festive</a>
+          <a href="shop.html?cat=african" class="mob-cat-link" onclick="closeMobNav()">Cultural & African</a>
+          <a href="shop.html?cat=kidsdecor" class="mob-cat-link" onclick="closeMobNav()">Kids Decor</a>
+        </div>
+        <div class="mob-cat-group">
+          <div class="mob-cat-label">Outdoor</div>
+          <a href="shop.html?cat=outdoor" class="mob-cat-link" onclick="closeMobNav()">All Outdoor</a>
         </div>
       </div>
-
-      <div class="mob-row">
-        <a href="interior-design.html" onclick="closeMobNav()"><i class="fas fa-palette ni"></i>Interior Design</a>
-      </div>
-      <div class="mob-row">
-        <a href="#projs" onclick="closeMobNav()"><i class="fas fa-images ni"></i>Projects</a>
-      </div>
-      <div class="mob-row">
-        <a href="about.html" onclick="closeMobNav()"><i class="fas fa-circle-info ni"></i>About</a>
-      </div>
-
+      <div class="mob-row"><a href="interior-design.html" onclick="closeMobNav()"><i class="fas fa-palette ni"></i>Interior Design</a></div>
+      <div class="mob-row"><a href="#projs" onclick="closeMobNav()"><i class="fas fa-images ni"></i>Projects</a></div>
+      <div class="mob-row"><a href="about.html" onclick="closeMobNav()"><i class="fas fa-circle-info ni"></i>About</a></div>
     </div>
-
     <div class="mob-footer">
       <button class="mob-cart-cta" onclick="closeMobNav();openCart()">
         <span class="mob-cart-cta-label"><i class="fas fa-shopping-bag"></i>View Cart</span>
         <span class="mob-cart-badge" id="mobCartN">0</span>
       </button>
     </div>
-
   </div>
 </div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-c">
-    <h1>Furniture designed<br><span style="color:#C4973A">for modern living</span></h1>
+    <h1>Furniture designed<br><span style="color:#03f00c">for modern living</span></h1>
     <p>Design with precision, produced by experts, delivered to your space</p>
     <div class="hero-btns">
-      <a href="shop.html" class="btn btn-gold">Shop Pieces <i class="fas fa-arrow-right"></i></a>
+      <a href="shop.html" class="btn btn-gold" style="background: #03f00c;">Shop Pieces <i class="fas fa-arrow-right"></i></a>
       <a href="interior-design.html#cta" class="btn btn-white">Book Consultation</a>
     </div>
   </div>
@@ -523,7 +588,8 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
       <a href="shop.html?cat=home">Home Furniture</a>
       <a href="shop.html?cat=office">Office Spaces</a>
       <a href="shop.html?cat=commercial">Commercial</a>
-      <a href="shop.html?cat=decor">Decor & Accessories</a>
+      <a href="shop.html?cat=decor">Decor</a>
+      <a href="shop.html?cat=outdoor">Outdoor</a>
     </div>
     <div class="ft-col">
       <h4>Contact</h4>
@@ -538,6 +604,18 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
   </div>
   <div style="text-align:center;opacity:.35;font-size:.75rem;border-top:1px solid #2a2a2a;padding-top:16px;max-width:1400px;margin:0 auto">© 2026 Pinniture. All rights reserved.</div>
 </footer>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="pd-overlay" id="pdOverlay" onclick="closePD(event)">
+  <div class="pd-modal" id="pdModal">
+    <button class="pd-close" onclick="closePDBtn()"><i class="fas fa-xmark"></i></button>
+    <div class="pd-gallery">
+      <img id="pdMainImg" class="pd-main-img" src="" alt="Product">
+      <div class="pd-thumbs" id="pdThumbs"></div>
+    </div>
+    <div class="pd-info" id="pdInfo"></div>
+  </div>
+</div>
 
 <!-- CART DRAWER -->
 <div class="cart-d" id="cartD">
@@ -588,73 +666,126 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 <div class="toast" id="toast"></div>
 
 <script>
-const svgs={
-  sofa:`<path d="M40 90h120v40H40z M40 90V60h120v30 M50 90V40h100v50 M40 130v15h120v-15"/>`,
-  bed:`<path d="M30 100h140v40H30z M30 100V50h140v50 M30 140v15h140v-15"/>`,
-  chair:`<rect x="60" y="50" width="80" height="60" rx="6"/><path d="M60 110h80v10H60z M80 120v30h40v-30"/>`,
-  table:`<rect x="40" y="70" width="120" height="20" rx="4"/><path d="M60 90v50 M140 90v50 M50 140h100"/>`,
-  desk:`<rect x="40" y="60" width="120" height="15" rx="3"/><path d="M60 75v60 M140 75v60 M50 135h100"/>`,
-  shelf:`<path d="M50 40v110h100V40H50z M50 80h100 M50 110h100"/>`,
-  lamp:`<path d="M100 130v-40 M80 90h40 M70 50l30 40h-60z M65 50h70" stroke-linecap="round"/>`,
-  vase:`<path d="M80 130h40 M78 130c-10-20-18-40-8-60s20-20 30-20 20 10 30 20 18 40 8 60" stroke-linecap="round"/>`,
-  mirror:`<rect x="60" y="30" width="80" height="100" rx="40"/><path d="M75 75c5-15 25-15 30 0"/>`,
-  plant:`<path d="M100 130v-50 M100 80c0-20-20-30-30-20 M100 80c0-25 20-35 30-20 M100 100c0-15-15-20-20-10 M100 100c0-15 15-20 20-10"/>`,
-  stool:`<rect x="65" y="60" width="70" height="15" rx="4"/><path d="M75 75v45 M125 75v45 M70 120h60"/>`,
-  barstool:`<rect x="70" y="50" width="60" height="12" rx="4"/><path d="M78 62v55 M122 62v55 M70 117h60 M80 80h40"/>`,
-  outdoor:`<path d="M40 110h120v20H40z M40 110V80h120v30 M50 110V55h100v55 M40 130v10h120v-10 M60 55c0-20 80-20 80 0"/>`,
-  rug:`<rect x="35" y="55" width="130" height="90" rx="5"/><rect x="45" y="65" width="110" height="70" rx="3"/><rect x="55" y="75" width="90" height="50" rx="2"/>`,
-  artframe:`<rect x="45" y="35" width="110" height="90" rx="3"/><rect x="55" y="45" width="90" height="70"/><path d="M55 95l30-30 25 25 15-15 20 20"/>`,
-  clock:`<circle cx="100" cy="75" r="50"/><path d="M100 40v10 M100 100v10 M65 75h10 M125 75h10 M100 75l15-20 M100 75l-5 15"/>`
+/* ── Image bank per category ── */
+const catImages={
+  living:['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&auto=format&fit=crop&q=80'],
+  bedroom:['https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=800&auto=format&fit=crop&q=80'],
+  kitchen:['https://images.unsplash.com/photo-1617806118233-18e1de247200?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&auto=format&fit=crop&q=80'],
+  kids:['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&auto=format&fit=crop&q=80'],
+  chair:['https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=800&auto=format&fit=crop&q=80'],
+  desk:['https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&auto=format&fit=crop&q=80'],
+  storage:['https://images.unsplash.com/photo-1600585152915-d208bec867a1?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80'],
+  workstation:['https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1560185127-6a23f3ee9459?w=800&auto=format&fit=crop&q=80'],
+  restaurant:['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&auto=format&fit=crop&q=80'],
+  church:['https://images.unsplash.com/photo-1438032005730-c779502df39b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1541679486598-4ce24b0ffd3b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop&q=80'],
+  school:['https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&auto=format&fit=crop&q=80'],
+  bar:['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1538488881038-e252a119ace7?w=800&auto=format&fit=crop&q=80'],
+  outdoor:['https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1530018352490-bb5b900b82b3?w=800&auto=format&fit=crop&q=80'],
+  walldecor:['https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=800&auto=format&fit=crop&q=80'],
+  lightingdecor:['https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1513506003901-1e6a35749a39?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=800&auto=format&fit=crop&q=80'],
+  softfurnishings:['https://images.unsplash.com/photo-1600166898405-da9535204843?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1585128903994-9788298ef4c6?w=800&auto=format&fit=crop&q=80'],
+  tabletop:['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80'],
+  plants:['https://images.unsplash.com/photo-1463320726281-696a3cc57f69?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1445217143695-467124038776?w=800&auto=format&fit=crop&q=80'],
+  fragrance:['https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=800&auto=format&fit=crop&q=80'],
+  seasonal:['https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1481707129804-6e7fbbb7285d?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1543934638-bd2413dac2c3?w=800&auto=format&fit=crop&q=80'],
+  african:['https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&auto=format&fit=crop&q=80'],
+  kidsdecor:['https://images.unsplash.com/photo-1555445091-d3b5bb9d2e7b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&auto=format&fit=crop&q=80']
 };
 
-function svgBox(t){return`<div class="p-box"><svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svgs[t]||svgs.chair}</svg></div>`}
-function svgMini(t){return`<svg viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:34px;height:34px">${svgs[t]||svgs.chair}</svg>`}
+/* ── Per-category product details ── */
+const catDetails={
+  living:{material:['Velvet Fabric','Solid Beech Frame','High-Density Foam'],dims:{W:'210cm',D:'90cm',H:'82cm'},colors:[{name:'Charcoal',hex:'#4a4a4a'},{name:'Cream',hex:'#f5f0e8'},{name:'Sage',hex:'#8faf85'},{name:'Terracotta',hex:'#c9704a'}],desc:'A statement centrepiece for any living space. Expertly upholstered in premium velvet with kiln-dried hardwood legs and individually tied coil springs for lasting comfort.'},
+  bedroom:{material:['Solid Oak','Linen Upholstery','Metal Hardware'],dims:{W:'180cm',D:'220cm',H:'145cm'},colors:[{name:'Natural Oak',hex:'#c8a876'},{name:'Ebony',hex:'#2a2a2a'},{name:'Ivory',hex:'#f8f4ec'}],desc:'A masterpiece of bedroom design. Crafted from solid oak with mortise-and-tenon joinery, this bed frame is built to last generations while elevating your sleep sanctuary.'},
+  kitchen:{material:['Solid Mahogany','Tempered Glass','Brass Fittings'],dims:{W:'180cm',D:'90cm',H:'76cm'},colors:[{name:'Mahogany',hex:'#7b3f00'},{name:'Walnut',hex:'#5a3e28'},{name:'Ash White',hex:'#e8e0d4'}],desc:'Handcrafted for family moments. Our dining tables are precision-made from kiln-dried hardwood with a durable lacquered finish that resists heat and daily wear.'},
+  kids:{material:['Birch Plywood','Non-toxic Paint','Steel Joints'],dims:{W:'90cm',D:'200cm',H:'165cm'},colors:[{name:'Sky Blue',hex:'#87ceeb'},{name:'Blush',hex:'#ffb6c1'},{name:'Mint',hex:'#98d9c2'},{name:'Natural',hex:'#c8a876'}],desc:'Safe, fun, and built to grow with your child. All paints and finishes are non-toxic and independently tested. Engineered for durability through years of active use.'},
+  chair:{material:['Leather / Mesh','Aluminium Base','Memory Foam'],dims:{W:'65cm',D:'70cm',H:'110-130cm'},colors:[{name:'Black',hex:'#1a1a1a'},{name:'Tan Leather',hex:'#c8a86b'},{name:'Grey',hex:'#9a9a9a'}],desc:'Where ergonomics meets elegance. Designed for long working hours with lumbar support, adjustable armrests, and breathable material that keeps you comfortable throughout the day.'},
+  desk:{material:['Solid Oak','Steel Legs','Felt-lined Drawers'],dims:{W:'140cm',D:'70cm',H:'75cm'},colors:[{name:'Natural Oak',hex:'#c8a876'},{name:'Walnut Dark',hex:'#3d2b1f'},{name:'White Ash',hex:'#e8e4dc'}],desc:'A workspace you will look forward to every morning. Generous surface area with carefully designed cable management and smooth-glide drawers for an uncluttered desk experience.'},
+  storage:{material:['MDF & Solid Wood','Brass Handles','Adjustable Shelves'],dims:{W:'120cm',D:'35cm',H:'200cm'},colors:[{name:'White',hex:'#f5f5f5'},{name:'Charcoal',hex:'#3a3a3a'},{name:'Oak',hex:'#c8a876'}],desc:'Intelligent storage that looks beautiful. Adjustable shelving accommodates everything from books to decor pieces, with concealed compartments for neat organisation.'},
+  workstation:{material:['Solid Walnut','Powder-coated Steel','Tempered Glass'],dims:{W:'240cm',D:'80cm',H:'75cm'},colors:[{name:'Walnut',hex:'#5a3e28'},{name:'Black Steel',hex:'#2a2a2a'},{name:'Natural',hex:'#c8a876'}],desc:'The command centre for serious professionals. The L-shaped design maximises your workspace while built-in cable channels and storage solutions keep everything within reach.'},
+  restaurant:{material:['Commercial-grade Vinyl','Steel Frame','Anti-scratch Base'],dims:{W:'180cm',D:'90cm',H:'90cm'},colors:[{name:'Burgundy',hex:'#800020'},{name:'Forest Green',hex:'#2d5a27'},{name:'Midnight Blue',hex:'#1a2744'},{name:'Caramel',hex:'#c8914a'}],desc:'Designed for the demands of commercial dining. Our restaurant furniture endures constant use with reinforced frames, easy-clean surfaces, and a hospitality-grade finish.'},
+  church:{material:['Solid Pine','Teak Veneer','Non-slip Pads'],dims:{W:'240cm',D:'45cm',H:'90cm'},colors:[{name:'Natural Pine',hex:'#d4a76a'},{name:'Dark Mahogany',hex:'#4a2216'},{name:'Ebony',hex:'#2a2a2a'}],desc:'Crafted with reverence for sacred spaces. Smooth solid-wood construction with optional cushion upgrades, designed for comfort during extended services.'},
+  school:{material:['Polypropylene','Powder-coated Steel','Anti-graffiti Surface'],dims:{W:'55cm',D:'45cm',H:'75cm'},colors:[{name:'Grey',hex:'#9a9a9a'},{name:'Blue',hex:'#4a80b5'},{name:'Green',hex:'#5a9a68'}],desc:'Built for the rigours of daily classroom life. Stackable, easy to clean, and ergonomically designed to support healthy posture for students of all ages.'},
+  bar:{material:['Reclaimed Wood','Brushed Brass','Italian Marble Top'],dims:{W:'240cm',D:'60cm',H:'110cm'},colors:[{name:'Dark Walnut',hex:'#3d2b1f'},{name:'Ebony',hex:'#1a1a1a'},{name:'Natural',hex:'#c8a876'}],desc:'The focal point of every great bar. Crafted from premium reclaimed wood with a marble service surface and integrated bottle storage, built for the theatre of bartending.'},
+  outdoor:{material:['FSC Teak','Stainless Steel Fittings','UV-resistant Fabric'],dims:{W:'280cm',D:'90cm',H:'80cm'},colors:[{name:'Natural Teak',hex:'#b8934a'},{name:'Greyed Teak',hex:'#8a8a7a'},{name:'Charcoal',hex:'#3a3a3a'}],desc:'Weather-resistant luxury for your outdoor living. Crafted from sustainably-sourced FSC-certified teak that naturally weathers to a beautiful silver-grey patina over time.'},
+  walldecor:{material:['Canvas','Kiln-dried Stretcher','Archival Inks'],dims:{W:'90cm',D:'4cm',H:'120cm'},colors:[{name:'Original',hex:'#c8a876'},{name:'Monochrome',hex:'#4a4a4a'},{name:'Muted Palette',hex:'#8faf85'}],desc:'Museum-quality wall art for residential and commercial spaces. Printed on 380gsm cotton canvas using archival pigment inks that retain true colour for over 75 years.'},
+  lightingdecor:{material:['Spun Brass','Marble Base','Linen Shade'],dims:{W:'35cm',D:'35cm',H:'155cm'},colors:[{name:'Antique Brass',hex:'#b8860b'},{name:'Matte Black',hex:'#1a1a1a'},{name:'Chrome',hex:'#c0c0c0'}],desc:'Ambient lighting that transforms any room. Hand-spun brass fittings with a hand-stitched linen shade diffuse warm light beautifully, creating atmosphere at the touch of a switch.'},
+  softfurnishings:{material:['Hand-knotted Wool','Cotton Warp','Natural Dyes'],dims:{W:'200cm',D:'300cm',H:'1.2cm'},colors:[{name:'Ivory & Camel',hex:'#d4c4a8'},{name:'Charcoal & Sand',hex:'#4a4a4a'},{name:'Sage & Cream',hex:'#8faf85'}],desc:'Woven by master craftspeople using generations-old techniques. Our soft furnishings use naturally-sourced wool and plant-based dyes that deepen in richness with age.'},
+  tabletop:{material:['Artisan Ceramic','Kiln-fired','Hand-painted'],dims:{W:'20cm',D:'20cm',H:'35cm'},colors:[{name:'Ivory',hex:'#f8f4ec'},{name:'Terracotta',hex:'#c9704a'},{name:'Sage',hex:'#8faf85'},{name:'Cobalt',hex:'#2a4a8a'}],desc:'Each piece is individually hand-thrown and finished by skilled artisans. Small variations in glaze and form are the mark of authenticity and are considered a feature, not a flaw.'},
+  plants:{material:['Live Plant','Ceramic Pot','Premium Soil'],dims:{W:'30cm',D:'30cm',H:'60cm'},colors:[{name:'Terracotta Pot',hex:'#c9704a'},{name:'White Ceramic',hex:'#f8f4ec'},{name:'Matte Black',hex:'#1a1a1a'}],desc:'Bring the outdoors inside with our curated selection of tropical and statement plants. Each comes in a hand-selected pot perfectly sized for the plant.'},
+  fragrance:{material:['Soy Wax','Essential Oils','Glass Vessel'],dims:{W:'8cm',D:'8cm',H:'12cm'},colors:[{name:'Clear Glass',hex:'#e8e8e8'},{name:'Amber Glass',hex:'#c8a060'},{name:'Black Glass',hex:'#1a1a1a'}],desc:'Crafted from 100% natural soy wax and blended with premium essential oils, our home fragrances fill every room with a warm, inviting atmosphere.'},
+  seasonal:{material:['Mixed Materials','Handcrafted','Eco-friendly'],dims:{W:'Various',D:'Various',H:'Various'},colors:[{name:'Natural',hex:'#c8a876'},{name:'Festive Red',hex:'#8b0000'},{name:'Gold',hex:'#c4973a'}],desc:'Celebrate every season in style. Our seasonal decor collection brings warmth and character to your home throughout the year, from festive pieces to transitional accents.'},
+  african:{material:['Handwoven Fabric','Carved Wood','Bronze'],dims:{W:'Various',D:'Various',H:'Various'},colors:[{name:'Earth Tones',hex:'#8b6340'},{name:'Kente Gold',hex:'#c4973a'},{name:'Indigo',hex:'#2a3a6a'}],desc:'Celebrate the richness of African artistry. Each piece in our cultural collection is authentically crafted, telling stories of tradition, skill, and continental heritage.'},
+  kidsdecor:{material:['Non-toxic Paint','Soft Fabric','BPA-free Plastic'],dims:{W:'Various',D:'Various',H:'Various'},colors:[{name:'Rainbow',hex:'#ff6b6b'},{name:'Pastel Blue',hex:'#87ceeb'},{name:'Mint',hex:'#98d9c2'}],desc:'Make your little one\'s space magical with our kids decor range. Safe, colourful, and designed to spark imagination while being durable enough for everyday play.'}
+};
 
+function getImgs(cat){return catImages[cat]||catImages.living;}
+function getCardImg(cat){return getImgs(cat)[0];}
+
+/* ── Product data ── */
 const seedP=[
-  // Home
-  {id:1,name:"Velvet Lounge Sofa",price:450000,cat:"living",svg:"sofa"},
-  {id:2,name:"Oak Writing Desk",price:280000,cat:"desk",svg:"desk"},
-  {id:3,name:"King Canopy Bed",price:620000,cat:"bedroom",svg:"bed"},
-  {id:4,name:"Mid-Century Armchair",price:85000,cat:"living",svg:"chair"},
-  {id:5,name:"Floating Bookshelf",price:45000,cat:"storage",svg:"shelf"},
-  {id:6,name:"Solid Wood Dining Table",price:390000,cat:"kitchen",svg:"table"},
-  {id:7,name:"Executive Office Chair",price:125000,cat:"chair",svg:"chair"},
-  {id:8,name:"Walnut Nightstand",price:35000,cat:"bedroom",svg:"shelf"},
-  {id:9,name:"Kids Bunk Bed",price:180000,cat:"kids",svg:"bed"},
-  {id:10,name:"Restaurant Booth Set",price:550000,cat:"restaurant",svg:"sofa"},
-  {id:11,name:"Church Pew Set (6-Seater)",price:320000,cat:"church",svg:"sofa"},
-  {id:12,name:"School Desk & Chair",price:28000,cat:"school",svg:"desk"},
-  // Bar & Outdoor
-  {id:13,name:"Mahogany Bar Counter",price:680000,cat:"bar",svg:"table"},
-  {id:14,name:"Upholstered Bar Stool",price:75000,cat:"bar",svg:"barstool"},
-  {id:15,name:"Outdoor Lounge Set",price:420000,cat:"outdoor",svg:"outdoor"},
-  {id:16,name:"Teak Garden Table",price:310000,cat:"outdoor",svg:"table"},
-  {id:17,name:"Bar Back Cabinet",price:245000,cat:"bar",svg:"shelf"},
-  {id:18,name:"Rattan Outdoor Chair",price:88000,cat:"outdoor",svg:"chair"},
-  // Decor & Accessories
-  {id:19,name:"Artisan Floor Lamp",price:62000,cat:"lighting",svg:"lamp"},
-  {id:20,name:"Handcrafted Ceramic Vase",price:18500,cat:"accessories",svg:"vase"},
-  {id:21,name:"Oversized Wall Mirror",price:95000,cat:"accessories",svg:"mirror"},
-  {id:22,name:"Tropical Potted Plant",price:12000,cat:"accessories",svg:"plant"},
-  {id:23,name:"Woven Jute Area Rug",price:55000,cat:"rugs",svg:"rug"},
-  {id:24,name:"Abstract Canvas Print",price:38000,cat:"artwall",svg:"artframe"},
-  {id:25,name:"Brass Pendant Light",price:48000,cat:"lighting",svg:"lamp"},
-  {id:26,name:"Minimalist Wall Clock",price:22000,cat:"accessories",svg:"clock"},
-  // More office & home
-  {id:27,name:"L-Shaped Work Station",price:195000,cat:"workstation",svg:"desk"},
-  {id:28,name:"Leather Study Chair",price:110000,cat:"chair",svg:"chair"},
-  {id:29,name:"Kids Study Desk",price:65000,cat:"kids",svg:"desk"},
-  {id:30,name:"Marble Coffee Table",price:285000,cat:"living",svg:"table"},
-  {id:31,name:"Modular Storage Unit",price:155000,cat:"storage",svg:"shelf"},
-  {id:32,name:"Velvet Accent Stool",price:42000,cat:"living",svg:"stool"}
+  {id:1,name:"Velvet Lounge Sofa",price:450000,cat:"living",badge:"Bestseller"},
+  {id:2,name:"Oak Writing Desk",price:280000,cat:"desk"},
+  {id:3,name:"King Canopy Bed",price:620000,cat:"bedroom",badge:"Premium"},
+  {id:4,name:"Mid-Century Armchair",price:85000,cat:"chair"},
+  {id:5,name:"Floating Bookshelf",price:45000,cat:"storage"},
+  {id:6,name:"Solid Wood Dining Table",price:390000,cat:"kitchen"},
+  {id:7,name:"Executive Office Chair",price:125000,cat:"chair"},
+  {id:8,name:"Walnut Nightstand",price:35000,cat:"bedroom"},
+  {id:9,name:"Kids Bunk Bed",price:180000,cat:"kids"},
+  {id:10,name:"Restaurant Booth Set",price:550000,cat:"restaurant",badge:"Commercial"},
+  {id:11,name:"Church Pew Set (6-Seater)",price:320000,cat:"church",badge:"Commercial"},
+  {id:12,name:"School Desk & Chair",price:28000,cat:"school"},
+  {id:13,name:"Mahogany Bar Counter",price:680000,cat:"bar",badge:"Premium"},
+  {id:14,name:"Upholstered Bar Stool",price:75000,cat:"bar"},
+  {id:15,name:"Outdoor Lounge Set",price:420000,cat:"outdoor",badge:"Bestseller"},
+  {id:16,name:"Teak Garden Table",price:310000,cat:"outdoor"},
+  {id:17,name:"Bar Back Cabinet",price:245000,cat:"bar"},
+  {id:18,name:"Rattan Outdoor Chair",price:88000,cat:"outdoor"},
+  {id:19,name:"Artisan Floor Lamp",price:62000,cat:"lightingdecor"},
+  {id:20,name:"Handcrafted Ceramic Vase",price:18500,cat:"tabletop"},
+  {id:21,name:"Oversized Wall Mirror",price:95000,cat:"walldecor"},
+  {id:22,name:"Tropical Potted Plant",price:12000,cat:"plants"},
+  {id:23,name:"Woven Jute Area Rug",price:55000,cat:"softfurnishings"},
+  {id:24,name:"Abstract Canvas Print",price:38000,cat:"walldecor"},
+  {id:25,name:"Brass Pendant Light",price:48000,cat:"lightingdecor"},
+  {id:26,name:"Minimalist Wall Clock",price:22000,cat:"walldecor"},
+  {id:27,name:"L-Shaped Work Station",price:195000,cat:"workstation"},
+  {id:28,name:"Leather Study Chair",price:110000,cat:"chair"},
+  {id:29,name:"Kids Study Desk",price:65000,cat:"kids"},
+  {id:30,name:"Marble Coffee Table",price:285000,cat:"living"},
+  {id:31,name:"Modular Storage Unit",price:155000,cat:"storage"},
+  {id:32,name:"Velvet Accent Stool",price:42000,cat:"living"},
+  {id:33,name:"Corner Bar Unit",price:395000,cat:"bar"},
+  {id:34,name:"Padded Bar Chair",price:58000,cat:"bar"},
+  {id:35,name:"Garden Bench (Hardwood)",price:145000,cat:"outdoor"},
+  {id:36,name:"Outdoor Coffee Table",price:95000,cat:"outdoor"},
+  {id:37,name:"Ceramic Table Lamp",price:32000,cat:"lightingdecor"},
+  {id:38,name:"Arc Floor Lamp",price:78000,cat:"lightingdecor"},
+  {id:39,name:"Sculptural Bookend Set",price:14500,cat:"tabletop"},
+  {id:40,name:"Decorative Tray Set",price:9800,cat:"tabletop"},
+  {id:41,name:"Geometric Wool Rug",price:85000,cat:"softfurnishings"},
+  {id:42,name:"Natural Cotton Runner",price:28000,cat:"softfurnishings"},
+  {id:43,name:"Framed Botanical Set",price:52000,cat:"walldecor"},
+  {id:44,name:"Gallery Wall Frame Kit",price:45000,cat:"walldecor"},
+  {id:45,name:"4-Door Wardrobe",price:340000,cat:"bedroom"},
+  {id:46,name:"Ergonomic Mesh Chair",price:98000,cat:"chair"},
+  {id:47,name:"Kitchen Island Cabinet",price:275000,cat:"kitchen"},
+  {id:48,name:"Standing Desk",price:185000,cat:"workstation"},
+  {id:49,name:"Soy Wax Candle Set",price:15000,cat:"fragrance"},
+  {id:50,name:"Reed Diffuser",price:22000,cat:"fragrance"},
+  {id:51,name:"Kente Throw Pillow",price:18000,cat:"african"},
+  {id:52,name:"Carved Wooden Mask",price:35000,cat:"african"},
+  {id:53,name:"Festive Wreath",price:12000,cat:"seasonal"},
+  {id:54,name:"Kids Wall Sticker Set",price:8500,cat:"kidsdecor"},
+  {id:55,name:"Monstera Plant (Large)",price:28000,cat:"plants"},
+  {id:56,name:"Throw Cushion Set",price:32000,cat:"softfurnishings"}
 ];
 
-let cart,wishlist,prods;
+let cart, wishlist, prods, pdQty=1;
 try{
   cart=JSON.parse(localStorage.getItem('pinniture_cart'))||[];
   wishlist=JSON.parse(localStorage.getItem('pinniture_wishlist'))||[];
   prods=JSON.parse(localStorage.getItem('pinniture_products'))||seedP;
-  // Merge new products if they don't exist
   seedP.forEach(sp=>{if(!prods.find(p=>p.id===sp.id))prods.push(sp);});
 }catch(e){cart=[];wishlist=[];prods=seedP;}
 localStorage.setItem('pinniture_products',JSON.stringify(prods));
@@ -670,23 +801,113 @@ window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
 },{passive:true});
 
+/* ── Featured products — 4 items, 1 row ── */
 function renderFeat(){
   const g=document.getElementById('featP');if(!g)return;
-  // Show 8 featured products from varied categories
-  const featured=prods.filter(p=>[1,3,4,13,15,19,23,30].includes(p.id));
-  g.innerHTML=featured.map((p,i)=>`
-    <div class="p-card" style="animation:fadeUp .5s ${i*.08}s ease both;opacity:0">
-      <button class="p-wish ${wishlist.includes(p.id)?'active':''}" onclick="toggleWish(${p.id},this)">
+  const featured=prods.filter(p=>[1,3,13,15].includes(p.id));
+  g.innerHTML=featured.map((p,i)=>{
+    const img=getCardImg(p.cat);
+    return `<div class="p-card" style="animation:fadeUp .5s ${i*.08}s ease both" onclick="openPD(${p.id})">
+      <button class="p-wish ${wishlist.includes(p.id)?'active':''}" onclick="event.stopPropagation();toggleWish(${p.id},this)">
         <i class="${wishlist.includes(p.id)?'fas':'far'} fa-heart"></i>
       </button>
-      ${svgBox(p.svg)}
+      <div class="p-img-wrap">
+        ${p.badge?`<span class="p-badge">${p.badge}</span>`:''}
+        <img src="${img}" alt="${p.name}" loading="lazy">
+      </div>
       <div class="p-body">
         <div class="p-brand">Pinniture</div>
         <h3>${p.name}</h3>
-        <div class="p-price">₦${p.price.toLocaleString()}</div>
-        <button class="p-add" onclick="addToCart(${p.id})">Add to Cart</button>
+        <div class="p-price-row">
+          <div class="p-price">₦${p.price.toLocaleString()}</div>
+          <button class="p-add" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
+        </div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+}
+
+/* ── Product Detail Modal ── */
+function openPD(id){
+  const p=prods.find(x=>x.id===id);if(!p)return;
+  pdQty=1;
+  const imgs=getImgs(p.cat);
+  const det=catDetails[p.cat]||catDetails.living;
+  document.getElementById('pdMainImg').src=imgs[0];
+  document.getElementById('pdThumbs').innerHTML=imgs.map((src,i)=>
+    `<div class="pd-thumb ${i===0?'active':''}" onclick="switchPDImg('${src}',this)">
+      <img src="${src}" alt="View ${i+1}" loading="lazy">
+    </div>`
+  ).join('');
+  const inWish=wishlist.includes(p.id);
+  document.getElementById('pdInfo').innerHTML=`
+    <div class="pd-brand-tag">Pinniture Collection</div>
+    <h2 class="pd-name">${p.name}</h2>
+    <div class="pd-stars">
+      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+      <span>4.8 (24 reviews)</span>
+    </div>
+    <div class="pd-price-block">
+      <div class="pd-price">₦${p.price.toLocaleString()}</div>
+      <div class="pd-price-note">Free delivery nationwide</div>
+    </div>
+    <div class="pd-section-label">Available Colours</div>
+    <div class="pd-colors" id="pdColors">
+      ${det.colors.map((c,i)=>`<div class="pd-color-swatch ${i===0?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="selectColor(this,'${c.name}')"></div>`).join('')}
+    </div>
+    <div class="pd-color-name" id="pdColorName">${det.colors[0].name}</div>
+    <div class="pd-section-label">Dimensions</div>
+    <div class="pd-dims">
+      <div class="pd-dim"><div class="pd-dim-val">${det.dims.W}</div><div class="pd-dim-key">Width</div></div>
+      <div class="pd-dim"><div class="pd-dim-val">${det.dims.D}</div><div class="pd-dim-key">Depth</div></div>
+      <div class="pd-dim"><div class="pd-dim-val">${det.dims.H}</div><div class="pd-dim-key">Height</div></div>
+    </div>
+    <div class="pd-section-label">Materials</div>
+    <div class="pd-material-row">
+      ${det.material.map(m=>`<span class="pd-material-tag">${m}</span>`).join('')}
+    </div>
+    <div class="pd-section-label">Description</div>
+    <p class="pd-desc">${det.desc}</p>
+    <div class="pd-qty-row">
+      <div class="pd-qty-ctrl">
+        <button onclick="changePDQty(-1)">−</button>
+        <span id="pdQtyDisplay">1</span>
+        <button onclick="changePDQty(1)">+</button>
+      </div>
+      <button class="btn btn-gold pd-cta" onclick="addToCartFromPD(${p.id})"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      <button class="pd-wish-btn ${inWish?'active':''}" id="pdWishBtn" onclick="toggleWishPD(${p.id})">
+        <i class="${inWish?'fas':'far'} fa-heart"></i>
+      </button>
+    </div>
+    <div class="pd-features">
+      <div class="pd-feature"><i class="fas fa-truck-fast"></i> Free nationwide delivery on all orders</div>
+      <div class="pd-feature"><i class="fas fa-rotate-left"></i> 30-day hassle-free returns</div>
+      <div class="pd-feature"><i class="fas fa-shield-halved"></i> 2-year manufacturer's warranty</div>
+      <div class="pd-feature"><i class="fas fa-ruler-combined"></i> Custom sizing available — contact us</div>
+    </div>`;
+  document.getElementById('pdOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function switchPDImg(src,el){
+  document.getElementById('pdMainImg').src=src;
+  document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function closePD(e){if(e.target===document.getElementById('pdOverlay'))closePDBtn();}
+function closePDBtn(){document.getElementById('pdOverlay').classList.remove('open');document.body.style.overflow='';}
+function selectColor(el,name){document.querySelectorAll('.pd-color-swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');document.getElementById('pdColorName').textContent=name;}
+function changePDQty(d){pdQty=Math.max(1,pdQty+d);document.getElementById('pdQtyDisplay').textContent=pdQty;}
+function addToCartFromPD(id){
+  const p=prods.find(x=>x.id===id);if(!p)return;
+  const ex=cart.find(x=>x.productId===id);
+  if(ex)ex.qty+=pdQty;else cart.push({productId:id,name:p.name,price:p.price,qty:pdQty,img:getCardImg(p.cat)});
+  saveCart();toast('Added to cart');closePDBtn();openCart();
+}
+function toggleWishPD(id){
+  const btn=document.getElementById('pdWishBtn');
+  if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);btn.classList.remove('active');btn.querySelector('i').className='far fa-heart';}
+  else{wishlist.push(id);btn.classList.add('active');btn.querySelector('i').className='fas fa-heart';}
+  saveCart();toast('Wishlist updated');
 }
 
 function renderTestimonials(){
@@ -716,15 +937,25 @@ function switchTab(t){
   document.querySelector(`.c-tab:nth-child(${t==='cart'?1:2})`).classList.add('active');
   const b=document.getElementById('cartBody');if(!b)return;
   if(t==='cart'){
-    b.innerHTML=cart.length?cart.map(i=>`<div class="c-item"><div class="c-img">${svgMini(i.svg)}</div><div class="c-info"><h4>${i.name}</h4><div class="c-price">₦${i.price.toLocaleString()}</div><div class="qty"><button onclick="updateQty(${i.productId},-1)">−</button><span>${i.qty}</span><button onclick="updateQty(${i.productId},1)">+</button></div></div></div>`).join(''):'<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your cart is empty</p>';
+    b.innerHTML=cart.length?cart.map(i=>`
+      <div class="c-item">
+        <div class="c-img"><img src="${i.img||getCardImg('living')}" alt="${i.name}"></div>
+        <div class="c-info"><h4>${i.name}</h4><div class="c-price">₦${i.price.toLocaleString()}</div>
+        <div class="qty"><button onclick="updateQty(${i.productId},-1)">−</button><span>${i.qty}</span><button onclick="updateQty(${i.productId},1)">+</button></div></div>
+      </div>`).join(''):'<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your cart is empty</p>';
   }else{
-    b.innerHTML=wishlist.length?wishlist.map(id=>{const p=prods.find(x=>x.id===id);return p?`<div class="c-item"><div class="c-img">${svgMini(p.svg)}</div><div class="c-info"><h4>${p.name}</h4><div class="c-price">₦${p.price.toLocaleString()}</div><button class="p-add" style="margin-top:7px;padding:7px 0;font-size:10px" onclick="addToCart(${p.id})">Move to Cart</button></div></div>`:''}).join(''):'<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your wishlist is empty</p>';
+    b.innerHTML=wishlist.length?wishlist.map(id=>{const p=prods.find(x=>x.id===id);return p?`
+      <div class="c-item">
+        <div class="c-img"><img src="${getCardImg(p.cat)}" alt="${p.name}"></div>
+        <div class="c-info"><h4>${p.name}</h4><div class="c-price">₦${p.price.toLocaleString()}</div>
+        <button class="p-add" style="margin-top:7px;padding:7px 0;font-size:10px;display:block;width:100%;text-align:center;border-radius:2px;cursor:pointer;background:var(--charcoal);color:#fff;letter-spacing:.5px;font-weight:600;text-transform:uppercase;border:none" onclick="addToCart(${p.id})">Move to Cart</button></div>
+      </div>`:''}).join(''):'<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your wishlist is empty</p>';
   }
 }
 function addToCart(id){
   const p=prods.find(x=>x.id===id);if(!p)return;
   const ex=cart.find(x=>x.productId===id);
-  if(ex)ex.qty++;else cart.push({productId:id,name:p.name,price:p.price,qty:1,svg:p.svg});
+  if(ex)ex.qty++;else cart.push({productId:id,name:p.name,price:p.price,qty:1,img:getCardImg(p.cat)});
   saveCart();toast('Added to cart');openCart();
 }
 function updateQty(id,d){
@@ -732,8 +963,8 @@ function updateQty(id,d){
   i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.productId!==id);saveCart();
 }
 function toggleWish(id,btn){
-  if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);btn.classList.remove('active');btn.querySelector('i').classList.replace('fas','far');}
-  else{wishlist.push(id);btn.classList.add('active');btn.querySelector('i').classList.replace('far','fas');}
+  if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);btn.classList.remove('active');btn.querySelector('i').className='far fa-heart';}
+  else{wishlist.push(id);btn.classList.add('active');btn.querySelector('i').className='fas fa-heart';}
   saveCart();toast('Wishlist updated');
 }
 function saveCart(){
