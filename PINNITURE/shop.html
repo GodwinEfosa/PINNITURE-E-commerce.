@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .3s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
@@ -21,7 +22,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .nav-c{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:0 24px}
 .logo{display:flex;align-items:center;gap:0}.logo img{width:3em}
 .brand{display:flex;flex-direction:column;line-height:1.1}
-.brand-name{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:1px;color:var(--text)}
+.brand-name{font-family:var(--font-head);font-size:28px;font-weight:700;letter-spacing:1.5px;color:var(--text)}
 .brand-sub{font-size:10px;letter-spacing:1.5px;color:var(--text-light)}
 .nav-links{display:flex;gap:28px;align-items:center}
 .nav-links a{font-size:14px;font-weight:500;position:relative;transition:var(--trans);color:var(--text)}
@@ -48,9 +49,6 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .mob-nav-panel{position:absolute;top:0;left:0;bottom:0;width:72%;max-width:290px;background:var(--cream);display:flex;flex-direction:column;box-shadow:6px 0 24px rgba(0,0,0,.12);animation:slideIn .28s ease}
 @keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 .mob-header{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 12px;border-bottom:1px solid var(--border);background:#fff}
-.mob-header .logo img{width:1.9em}
-.mob-header .brand-name{color:var(--text);font-size:15px;font-family:var(--font-head)}
-.mob-header .brand-sub{color:var(--text-light);font-size:9px;letter-spacing:1.2px}
 .mob-x{width:28px;height:28px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer;font-size:12px;color:var(--text);transition:var(--trans);flex-shrink:0;border:none}
 .mob-x:hover{background:var(--charcoal);color:#fff}
 .mob-list{flex:1;overflow-y:auto;padding:4px 0}
@@ -95,7 +93,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .sort-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .sort-tab:hover{color:var(--gold)}
 
-/* FILTER PILL */
+/* ACTIVE FILTER PILL */
 .active-filter-bar{max-width:1400px;margin:0 auto;padding:12px 24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .filter-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600}
 .filter-pill button{background:none;border:none;color:#fff;cursor:pointer;font-size:13px;line-height:1;padding:0;margin:0}
@@ -118,12 +116,9 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .sub-label{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--text-light);cursor:pointer;transition:color .2s}
 .sub-label:hover{color:var(--gold)}
 .sub-label input{accent-color:var(--gold)}
-/* Outdoor direct link style */
 .cat-direct-link{display:flex;align-items:center;gap:8px;padding:6px 4px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:color .2s;text-decoration:none;border:none;background:none;width:100%;text-align:left}
 .cat-direct-link:hover{color:var(--gold)}
-.cat-direct-link i{font-size:10px;color:var(--text-light)}
 .cat-direct-link.active-link{color:var(--gold)}
-.cat-direct-link.active-link i{color:var(--gold)}
 .price-display{background:var(--sand);padding:9px 14px;border-radius:6px;text-align:center;font-weight:600;color:var(--text);margin-top:10px;font-size:13px}
 .price-slider input{width:100%;accent-color:var(--gold);margin:14px 0 0}
 .clear-filters{width:100%;padding:9px;background:var(--sand);border-radius:4px;font-size:12px;font-weight:600;color:var(--text-light);cursor:pointer;transition:var(--trans);text-align:center;border:none;margin-top:14px;letter-spacing:.5px;text-transform:uppercase}
@@ -151,22 +146,24 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .p-add{padding:7px 13px;background:var(--charcoal);color:#fff;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:background .2s;border-radius:3px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .p-add:hover{background:var(--gold)}
 
-/* empty state */
+/* EMPTY / LOADING */
 .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light)}
 .empty-state i{font-size:2.5rem;margin-bottom:14px;opacity:.3}
 .empty-state h3{font-family:var(--font-head);font-size:1.3rem;margin-bottom:8px;color:var(--text)}
-.empty-state p{font-size:.88rem}
+.loading-grid{grid-column:1/-1;display:flex;justify-content:center;align-items:center;padding:60px;gap:12px;color:var(--text-light);font-size:.9rem}
+.spinner{display:inline-block;width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* PRODUCT DETAIL MODAL */
 .pd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;display:none;place-items:center;padding:20px;backdrop-filter:blur(3px)}
 .pd-overlay.open{display:grid}
-.pd-modal{background:#fff;border-radius:6px;max-width:960px;width:100%;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:pdIn .32s cubic-bezier(.25,.46,.45,.94)}
+.pd-modal{background:#fff;border-radius:6px;max-width:980px;width:100%;max-height:92vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:pdIn .32s cubic-bezier(.25,.46,.45,.94)}
 @keyframes pdIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .pd-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.08);display:grid;place-items:center;cursor:pointer;z-index:5;font-size:13px;transition:var(--trans);border:none}
 .pd-close:hover{background:var(--charcoal);color:#fff}
 .pd-gallery{background:#f0ede8;position:relative;overflow:hidden;border-radius:6px 0 0 6px;min-height:460px}
 .pd-main-img{width:100%;height:380px;object-fit:cover;display:block}
-.pd-thumbs{display:flex;gap:8px;padding:12px 14px;background:#fff;border-top:1px solid var(--border)}
+.pd-thumbs{display:flex;gap:8px;padding:12px 14px;background:#fff;border-top:1px solid var(--border);overflow-x:auto}
 .pd-thumb{width:64px;height:64px;border-radius:4px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .2s;flex-shrink:0}
 .pd-thumb.active{border-color:var(--gold)}
 .pd-thumb img{width:100%;height:100%;object-fit:cover}
@@ -180,15 +177,9 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .pd-price{font-family:var(--font-price);font-size:2.1rem;color:var(--charcoal)}
 .pd-price-note{font-size:11px;color:var(--text-light)}
 .pd-section-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-light);margin-bottom:8px}
-.pd-colors{display:flex;gap:8px;margin-bottom:20px}
-.pd-color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s}
-.pd-color-swatch.active{border-color:var(--charcoal);transform:scale(1.15)}
-.pd-color-swatch:hover{transform:scale(1.1)}
-.pd-color-name{font-size:12px;color:var(--text-light);margin-top:4px;margin-bottom:16px}
-.pd-dims{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
-.pd-dim{background:var(--sand);padding:8px 10px;border-radius:4px;text-align:center}
-.pd-dim-val{font-weight:700;font-size:.9rem;color:var(--text)}
-.pd-dim-key{font-size:10px;color:var(--text-light);letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+.pd-colors{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.pd-color-tag{font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text-light);cursor:pointer;transition:all .2s}
+.pd-color-tag.active{background:var(--charcoal);color:#fff;border-color:var(--charcoal)}
 .pd-material-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
 .pd-material-tag{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text-light);font-weight:500}
 .pd-desc{font-size:.875rem;color:var(--text-light);line-height:1.75;margin-bottom:22px}
@@ -203,6 +194,8 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .pd-features{border-top:1px solid var(--border);padding-top:16px;margin-top:4px}
 .pd-feature{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:var(--text-light);padding:5px 0}
 .pd-feature i{color:var(--gold);margin-top:2px;font-size:11px;flex-shrink:0}
+.pd-no-img{width:100%;height:380px;display:grid;place-items:center;background:#f0ede8;color:var(--text-light)}
+.pd-no-img i{font-size:3rem;opacity:.3}
 
 /* CART DRAWER */
 .cart-d{position:fixed;top:0;right:0;width:360px;height:100vh;background:#fff;box-shadow:var(--shadow);transform:translateX(100%);transition:var(--trans);z-index:1001;display:flex;flex-direction:column}
@@ -276,43 +269,11 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
       <li class="dropdown">
         <a href="shop.html" style="color:#C4973A">Shop <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
         <div class="mega">
-          <div>
-            <div class="dd-head">Home</div>
-            <a href="shop.html?cat=bedroom" class="dd-item">Bedroom</a>
-            <a href="shop.html?cat=kitchen" class="dd-item">Kitchen</a>
-            <a href="shop.html?cat=living" class="dd-item">Living Room</a>
-            <a href="shop.html?cat=kids" class="dd-item">Kids Room</a>
-          </div>
-          <div>
-            <div class="dd-head">Office</div>
-            <a href="shop.html?cat=chair" class="dd-item">Chair</a>
-            <a href="shop.html?cat=desk" class="dd-item">Table / Desk</a>
-            <a href="shop.html?cat=storage" class="dd-item">Book Storage</a>
-            <a href="shop.html?cat=workstation" class="dd-item">Work Station</a>
-          </div>
-          <div>
-            <div class="dd-head">Commercial</div>
-            <a href="shop.html?cat=restaurant" class="dd-item">Restaurant</a>
-            <a href="shop.html?cat=church" class="dd-item">Church</a>
-            <a href="shop.html?cat=school" class="dd-item">School</a>
-            <a href="shop.html?cat=bar" class="dd-item">Bar</a>
-          </div>
-          <div>
-            <div class="dd-head">Decor</div>
-            <a href="shop.html?cat=walldecor" class="dd-item">Wall Decor</a>
-            <a href="shop.html?cat=lightingdecor" class="dd-item">Lighting Decor</a>
-            <a href="shop.html?cat=softfurnishings" class="dd-item">Soft Furnishings</a>
-            <a href="shop.html?cat=tabletop" class="dd-item">Tabletop & Accessories</a>
-            <a href="shop.html?cat=plants" class="dd-item">Plant & Greenery</a>
-            <a href="shop.html?cat=fragrance" class="dd-item">Home Fragrance</a>
-            <a href="shop.html?cat=seasonal" class="dd-item">Seasonal & Festive</a>
-            <a href="shop.html?cat=african" class="dd-item">Cultural & African</a>
-            <a href="shop.html?cat=kidsdecor" class="dd-item">Kids Decor</a>
-          </div>
-          <div>
-            <div class="dd-head">Outdoor</div>
-            <a href="shop.html?cat=outdoor" class="dd-item">All Outdoor</a>
-          </div>
+          <div><div class="dd-head">Home</div><a href="shop.html?cat=bedroom" class="dd-item">Bedroom</a><a href="shop.html?cat=kitchen" class="dd-item">Kitchen</a><a href="shop.html?cat=living" class="dd-item">Living Room</a><a href="shop.html?cat=kids" class="dd-item">Kids Room</a></div>
+          <div><div class="dd-head">Office</div><a href="shop.html?cat=chair" class="dd-item">Chair</a><a href="shop.html?cat=desk" class="dd-item">Table / Desk</a><a href="shop.html?cat=storage" class="dd-item">Book Storage</a><a href="shop.html?cat=workstation" class="dd-item">Work Station</a></div>
+          <div><div class="dd-head">Commercial</div><a href="shop.html?cat=restaurant" class="dd-item">Restaurant</a><a href="shop.html?cat=church" class="dd-item">Church</a><a href="shop.html?cat=school" class="dd-item">School</a><a href="shop.html?cat=bar" class="dd-item">Bar</a></div>
+          <div><div class="dd-head">Decor</div><a href="shop.html?cat=walldecor" class="dd-item">Wall Decor</a><a href="shop.html?cat=lightingdecor" class="dd-item">Lighting Decor</a><a href="shop.html?cat=softfurnishings" class="dd-item">Soft Furnishings</a><a href="shop.html?cat=tabletop" class="dd-item">Tabletop & Accessories</a><a href="shop.html?cat=plants" class="dd-item">Plant & Greenery</a><a href="shop.html?cat=fragrance" class="dd-item">Home Fragrance</a><a href="shop.html?cat=seasonal" class="dd-item">Seasonal & Festive</a><a href="shop.html?cat=african" class="dd-item">Cultural & African</a><a href="shop.html?cat=kidsdecor" class="dd-item">Kids Decor</a></div>
+          <div><div class="dd-head">Outdoor</div><a href="shop.html?cat=outdoor" class="dd-item">All Outdoor</a></div>
         </div>
       </li>
       <li><a href="interior-design.html">Interior Design</a></li>
@@ -333,10 +294,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
     <div class="mob-header">
       <a href="index.html" class="logo" style="gap:7px" onclick="closeMobNav()">
         <img src="img/Pinniture logo.png" alt="Logo" style="width:1.9em">
-        <div class="brand">
-          <span class="brand-name" style="color:var(--text);font-size:14px">PINNITURE</span>
-          <span class="brand-sub" style="color:var(--text-light)">An interior design company</span>
-        </div>
+        <div class="brand"><span class="brand-name" style="color:var(--text);font-size:14px">PINNITURE</span><span class="brand-sub" style="color:var(--text-light)">An interior design company</span></div>
       </a>
       <button class="mob-x" onclick="closeMobNav()"><i class="fas fa-xmark"></i></button>
     </div>
@@ -347,43 +305,11 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
         <button class="mob-expand" id="mobExpand" onclick="toggleMobCats()"><i class="fas fa-plus"></i></button>
       </div>
       <div class="mob-cats" id="mobCats">
-        <div class="mob-cat-group">
-          <div class="mob-cat-label">Home</div>
-          <a href="shop.html?cat=bedroom" class="mob-cat-link" onclick="closeMobNav()">Bedroom</a>
-          <a href="shop.html?cat=kitchen" class="mob-cat-link" onclick="closeMobNav()">Kitchen</a>
-          <a href="shop.html?cat=living" class="mob-cat-link" onclick="closeMobNav()">Living Room</a>
-          <a href="shop.html?cat=kids" class="mob-cat-link" onclick="closeMobNav()">Kids Room</a>
-        </div>
-        <div class="mob-cat-group">
-          <div class="mob-cat-label">Office</div>
-          <a href="shop.html?cat=chair" class="mob-cat-link" onclick="closeMobNav()">Chair</a>
-          <a href="shop.html?cat=desk" class="mob-cat-link" onclick="closeMobNav()">Table / Desk</a>
-          <a href="shop.html?cat=storage" class="mob-cat-link" onclick="closeMobNav()">Book Storage</a>
-          <a href="shop.html?cat=workstation" class="mob-cat-link" onclick="closeMobNav()">Work Station</a>
-        </div>
-        <div class="mob-cat-group">
-          <div class="mob-cat-label">Commercial</div>
-          <a href="shop.html?cat=restaurant" class="mob-cat-link" onclick="closeMobNav()">Restaurant</a>
-          <a href="shop.html?cat=church" class="mob-cat-link" onclick="closeMobNav()">Church</a>
-          <a href="shop.html?cat=school" class="mob-cat-link" onclick="closeMobNav()">School</a>
-          <a href="shop.html?cat=bar" class="mob-cat-link" onclick="closeMobNav()">Bar</a>
-        </div>
-        <div class="mob-cat-group">
-          <div class="mob-cat-label">Decor</div>
-          <a href="shop.html?cat=walldecor" class="mob-cat-link" onclick="closeMobNav()">Wall Decor</a>
-          <a href="shop.html?cat=lightingdecor" class="mob-cat-link" onclick="closeMobNav()">Lighting Decor</a>
-          <a href="shop.html?cat=softfurnishings" class="mob-cat-link" onclick="closeMobNav()">Soft Furnishings</a>
-          <a href="shop.html?cat=tabletop" class="mob-cat-link" onclick="closeMobNav()">Tabletop & Accessories</a>
-          <a href="shop.html?cat=plants" class="mob-cat-link" onclick="closeMobNav()">Plant & Greenery</a>
-          <a href="shop.html?cat=fragrance" class="mob-cat-link" onclick="closeMobNav()">Home Fragrance</a>
-          <a href="shop.html?cat=seasonal" class="mob-cat-link" onclick="closeMobNav()">Seasonal & Festive</a>
-          <a href="shop.html?cat=african" class="mob-cat-link" onclick="closeMobNav()">Cultural & African</a>
-          <a href="shop.html?cat=kidsdecor" class="mob-cat-link" onclick="closeMobNav()">Kids Decor</a>
-        </div>
-        <div class="mob-cat-group">
-          <div class="mob-cat-label">Outdoor</div>
-          <a href="shop.html?cat=outdoor" class="mob-cat-link" onclick="closeMobNav()">All Outdoor</a>
-        </div>
+        <div class="mob-cat-group"><div class="mob-cat-label">Home</div><a href="shop.html?cat=bedroom" class="mob-cat-link" onclick="closeMobNav()">Bedroom</a><a href="shop.html?cat=kitchen" class="mob-cat-link" onclick="closeMobNav()">Kitchen</a><a href="shop.html?cat=living" class="mob-cat-link" onclick="closeMobNav()">Living Room</a><a href="shop.html?cat=kids" class="mob-cat-link" onclick="closeMobNav()">Kids Room</a></div>
+        <div class="mob-cat-group"><div class="mob-cat-label">Office</div><a href="shop.html?cat=chair" class="mob-cat-link" onclick="closeMobNav()">Chair</a><a href="shop.html?cat=desk" class="mob-cat-link" onclick="closeMobNav()">Table / Desk</a><a href="shop.html?cat=storage" class="mob-cat-link" onclick="closeMobNav()">Book Storage</a><a href="shop.html?cat=workstation" class="mob-cat-link" onclick="closeMobNav()">Work Station</a></div>
+        <div class="mob-cat-group"><div class="mob-cat-label">Commercial</div><a href="shop.html?cat=restaurant" class="mob-cat-link" onclick="closeMobNav()">Restaurant</a><a href="shop.html?cat=church" class="mob-cat-link" onclick="closeMobNav()">Church</a><a href="shop.html?cat=school" class="mob-cat-link" onclick="closeMobNav()">School</a><a href="shop.html?cat=bar" class="mob-cat-link" onclick="closeMobNav()">Bar</a></div>
+        <div class="mob-cat-group"><div class="mob-cat-label">Decor</div><a href="shop.html?cat=walldecor" class="mob-cat-link" onclick="closeMobNav()">Wall Decor</a><a href="shop.html?cat=lightingdecor" class="mob-cat-link" onclick="closeMobNav()">Lighting Decor</a><a href="shop.html?cat=softfurnishings" class="mob-cat-link" onclick="closeMobNav()">Soft Furnishings</a><a href="shop.html?cat=tabletop" class="mob-cat-link" onclick="closeMobNav()">Tabletop</a><a href="shop.html?cat=plants" class="mob-cat-link" onclick="closeMobNav()">Plant & Greenery</a><a href="shop.html?cat=fragrance" class="mob-cat-link" onclick="closeMobNav()">Home Fragrance</a><a href="shop.html?cat=seasonal" class="mob-cat-link" onclick="closeMobNav()">Seasonal & Festive</a><a href="shop.html?cat=african" class="mob-cat-link" onclick="closeMobNav()">Cultural & African</a><a href="shop.html?cat=kidsdecor" class="mob-cat-link" onclick="closeMobNav()">Kids Decor</a></div>
+        <div class="mob-cat-group"><div class="mob-cat-label">Outdoor</div><a href="shop.html?cat=outdoor" class="mob-cat-link" onclick="closeMobNav()">All Outdoor</a></div>
       </div>
       <div class="mob-row"><a href="interior-design.html" onclick="closeMobNav()"><i class="fas fa-palette ni"></i>Interior Design</a></div>
       <div class="mob-row"><a href="index.html#projs" onclick="closeMobNav()"><i class="fas fa-images ni"></i>Projects</a></div>
@@ -428,73 +354,63 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
   <aside class="sidebar">
     <div class="filter-section">
       <div class="filter-title">Categories</div>
-
-      <!-- Home -->
       <div class="category-group">
         <div class="category-main" onclick="toggleCatGroup('home')"><i class="fas fa-chevron-right"></i> Home</div>
         <div class="subcategories" id="cat-home">
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="bedroom" onchange="filterProds()"> Bedroom</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="kitchen" onchange="filterProds()"> Kitchen</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="kids" onchange="filterProds()"> Kids Room</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="living" onchange="filterProds()"> Living Room</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="bedroom" onchange="applyFilters()"> Bedroom</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="kitchen" onchange="applyFilters()"> Kitchen</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="kids" onchange="applyFilters()"> Kids Room</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="living" onchange="applyFilters()"> Living Room</label>
         </div>
       </div>
-
-      <!-- Office -->
       <div class="category-group">
         <div class="category-main" onclick="toggleCatGroup('office')"><i class="fas fa-chevron-right"></i> Office</div>
         <div class="subcategories" id="cat-office">
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="chair" onchange="filterProds()"> Chair</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="desk" onchange="filterProds()"> Table / Desk</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="storage" onchange="filterProds()"> Book Storage</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="workstation" onchange="filterProds()"> Work Station</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="chair" onchange="applyFilters()"> Chair</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="desk" onchange="applyFilters()"> Table / Desk</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="storage" onchange="applyFilters()"> Book Storage</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="workstation" onchange="applyFilters()"> Work Station</label>
         </div>
       </div>
-
-      <!-- Commercial -->
       <div class="category-group">
         <div class="category-main" onclick="toggleCatGroup('commercial')"><i class="fas fa-chevron-right"></i> Commercial</div>
         <div class="subcategories" id="cat-commercial">
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="restaurant" onchange="filterProds()"> Restaurant</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="church" onchange="filterProds()"> Church</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="school" onchange="filterProds()"> School</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="bar" onchange="filterProds()"> Bar</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="restaurant" onchange="applyFilters()"> Restaurant</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="church" onchange="applyFilters()"> Church</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="school" onchange="applyFilters()"> School</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="bar" onchange="applyFilters()"> Bar</label>
         </div>
       </div>
-
-      <!-- Decor — new subcategories -->
       <div class="category-group">
         <div class="category-main" onclick="toggleCatGroup('decor')"><i class="fas fa-chevron-right"></i> Decor</div>
         <div class="subcategories" id="cat-decor">
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="walldecor" onchange="filterProds()"> Wall Decor</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="lightingdecor" onchange="filterProds()"> Lighting Decor</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="softfurnishings" onchange="filterProds()"> Soft Furnishings</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="tabletop" onchange="filterProds()"> Tabletop &amp; Accessories</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="plants" onchange="filterProds()"> Plant &amp; Greenery</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="fragrance" onchange="filterProds()"> Home Fragrance</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="seasonal" onchange="filterProds()"> Seasonal &amp; Festive</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="african" onchange="filterProds()"> Cultural &amp; African</label>
-          <label class="sub-label"><input type="checkbox" class="f-cat" value="kidsdecor" onchange="filterProds()"> Kids Decor</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="walldecor" onchange="applyFilters()"> Wall Decor</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="lightingdecor" onchange="applyFilters()"> Lighting Decor</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="softfurnishings" onchange="applyFilters()"> Soft Furnishings</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="tabletop" onchange="applyFilters()"> Tabletop &amp; Accessories</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="plants" onchange="applyFilters()"> Plant &amp; Greenery</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="fragrance" onchange="applyFilters()"> Home Fragrance</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="seasonal" onchange="applyFilters()"> Seasonal &amp; Festive</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="african" onchange="applyFilters()"> Cultural &amp; African</label>
+          <label class="sub-label"><input type="checkbox" class="f-cat" value="kidsdecor" onchange="applyFilters()"> Kids Decor</label>
         </div>
       </div>
-
-      <!-- Outdoor — standalone, no sub -->
       <div class="category-group">
         <button class="cat-direct-link" id="outdoorBtn" onclick="toggleOutdoorFilter()"><i class="fas fa-chevron-right"></i> Outdoor</button>
       </div>
-
     </div>
-
     <div class="filter-section">
       <div class="filter-title">Price Range</div>
-      <input type="range" id="priceR" min="5000" max="1000000" step="5000" value="1000000" oninput="updatePriceDisplay();filterProds()">
+      <input type="range" id="priceR" min="5000" max="1000000" step="5000" value="1000000" oninput="updatePriceDisplay();applyFilters()">
       <div class="price-display" id="priceDisplay">Up to ₦1,000,000</div>
     </div>
     <button class="clear-filters" onclick="clearAllFilters()">Clear All Filters</button>
   </aside>
 
   <div>
-    <div class="p-grid" id="grid"></div>
+    <div class="p-grid" id="grid">
+      <div class="loading-grid"><div class="spinner"></div> Loading products...</div>
+    </div>
   </div>
 </div>
 
@@ -502,8 +418,8 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 <div class="pd-overlay" id="pdOverlay" onclick="closePD(event)">
   <div class="pd-modal" id="pdModal">
     <button class="pd-close" onclick="closePDBtn()"><i class="fas fa-xmark"></i></button>
-    <div class="pd-gallery">
-      <img id="pdMainImg" class="pd-main-img" src="" alt="Product">
+    <div class="pd-gallery" id="pdGallery">
+      <div class="pd-no-img"><i class="fas fa-image"></i></div>
       <div class="pd-thumbs" id="pdThumbs"></div>
     </div>
     <div class="pd-info" id="pdInfo"></div>
@@ -539,7 +455,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
       <input type="text" id="zip" placeholder="ZIP / Postal Code" class="full" required>
       <input type="text" id="notes" placeholder="Delivery Instructions" class="full">
     </div>
-    <button type="button" class="btn btn-gold" style="width:100%;padding:14px;justify-content:center;margin-top:4px" onclick="processPay()">
+    <button type="button" class="btn btn-gold" style="width:100%;padding:14px;justify-content:center;margin-top:4px" id="payBtn" onclick="processPay()">
       <i class="fas fa-lock"></i> PAY SECURELY
     </button>
   </div>
@@ -551,7 +467,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
     <svg class="success-svg" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg>
     <h2 style="font-family:var(--font-head);margin-top:14px">Order Confirmed!</h2>
     <p style="color:var(--text-light);margin:8px 0 16px">Thank you. Your premium furniture is on its way.</p>
-    <div style="background:var(--sand);padding:10px;border-radius:5px;font-weight:600;margin-bottom:18px">Ref: PC-<span id="refId"></span></div>
+    <div style="background:var(--sand);padding:10px;border-radius:5px;font-weight:600;margin-bottom:18px">Ref: <span id="refId"></span></div>
     <button class="btn btn-gold" onclick="closeSuccess()">Continue Shopping</button>
   </div>
 </div>
@@ -560,384 +476,485 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 
 <script>
 /* ══════════════════════════════════════
-   IMAGE BANK per category
+   SUPABASE INIT
+   — Hardcoded credentials (same as admin)
+   — No localStorage dependency
 ══════════════════════════════════════ */
-const catImages={
-  living:['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&auto=format&fit=crop&q=80'],
-  bedroom:['https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=800&auto=format&fit=crop&q=80'],
-  kitchen:['https://images.unsplash.com/photo-1617806118233-18e1de247200?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&auto=format&fit=crop&q=80'],
-  kids:['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&auto=format&fit=crop&q=80'],
-  chair:['https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=800&auto=format&fit=crop&q=80'],
-  desk:['https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&auto=format&fit=crop&q=80'],
-  storage:['https://images.unsplash.com/photo-1600585152915-d208bec867a1?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80'],
-  workstation:['https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1560185127-6a23f3ee9459?w=800&auto=format&fit=crop&q=80'],
-  restaurant:['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&auto=format&fit=crop&q=80'],
-  church:['https://images.unsplash.com/photo-1438032005730-c779502df39b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1541679486598-4ce24b0ffd3b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop&q=80'],
-  school:['https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&auto=format&fit=crop&q=80'],
-  bar:['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1538488881038-e252a119ace7?w=800&auto=format&fit=crop&q=80'],
-  outdoor:['https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1530018352490-bb5b900b82b3?w=800&auto=format&fit=crop&q=80'],
-  walldecor:['https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=800&auto=format&fit=crop&q=80'],
-  lightingdecor:['https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1513506003901-1e6a35749a39?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=800&auto=format&fit=crop&q=80'],
-  softfurnishings:['https://images.unsplash.com/photo-1600166898405-da9535204843?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1585128903994-9788298ef4c6?w=800&auto=format&fit=crop&q=80'],
-  tabletop:['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&auto=format&fit=crop&q=80'],
-  plants:['https://images.unsplash.com/photo-1463320726281-696a3cc57f69?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1445217143695-467124038776?w=800&auto=format&fit=crop&q=80'],
-  fragrance:['https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=800&auto=format&fit=crop&q=80'],
-  seasonal:['https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1481707129804-6e7fbbb7285d?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1543934638-bd2413dac2c3?w=800&auto=format&fit=crop&q=80'],
-  african:['https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&auto=format&fit=crop&q=80'],
-  kidsdecor:['https://images.unsplash.com/photo-1555445091-d3b5bb9d2e7b?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80','https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&auto=format&fit=crop&q=80']
-};
+const SB_URL = 'https://wwvquutrupwwziuiuucr.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3dnF1dXRydXB3d3ppdWl1dWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjQzNzAsImV4cCI6MjA5MjU0MDM3MH0.ImfBqt5JOrKnrsBdjuEFWxVwLBlIUwUnvFCruXtXEGk';
 
-const catDetails={
-  living:{material:['Velvet Fabric','Solid Beech Frame','High-Density Foam'],dims:{W:'210cm',D:'90cm',H:'82cm'},colors:[{name:'Charcoal',hex:'#4a4a4a'},{name:'Cream',hex:'#f5f0e8'},{name:'Sage',hex:'#8faf85'},{name:'Terracotta',hex:'#c9704a'}],desc:'A statement centrepiece for any living space. Expertly upholstered in premium velvet with kiln-dried hardwood legs and individually tied coil springs for lasting comfort.'},
-  bedroom:{material:['Solid Oak','Linen Upholstery','Metal Hardware'],dims:{W:'180cm',D:'220cm',H:'145cm'},colors:[{name:'Natural Oak',hex:'#c8a876'},{name:'Ebony',hex:'#2a2a2a'},{name:'Ivory',hex:'#f8f4ec'}],desc:'A masterpiece of bedroom design. Crafted from solid oak with mortise-and-tenon joinery, this bed frame is built to last generations while elevating your sleep sanctuary.'},
-  kitchen:{material:['Solid Mahogany','Tempered Glass','Brass Fittings'],dims:{W:'180cm',D:'90cm',H:'76cm'},colors:[{name:'Mahogany',hex:'#7b3f00'},{name:'Walnut',hex:'#5a3e28'},{name:'Ash White',hex:'#e8e0d4'}],desc:'Handcrafted for family moments. Our dining tables are precision-made from kiln-dried hardwood with a durable lacquered finish that resists heat and daily wear.'},
-  kids:{material:['Birch Plywood','Non-toxic Paint','Steel Joints'],dims:{W:'90cm',D:'200cm',H:'165cm'},colors:[{name:'Sky Blue',hex:'#87ceeb'},{name:'Blush',hex:'#ffb6c1'},{name:'Mint',hex:'#98d9c2'},{name:'Natural',hex:'#c8a876'}],desc:'Safe, fun, and built to grow with your child. All paints and finishes are non-toxic and independently tested.'},
-  chair:{material:['Leather / Mesh','Aluminium Base','Memory Foam'],dims:{W:'65cm',D:'70cm',H:'110-130cm'},colors:[{name:'Black',hex:'#1a1a1a'},{name:'Tan Leather',hex:'#c8a86b'},{name:'Grey',hex:'#9a9a9a'}],desc:'Where ergonomics meets elegance. Designed for long working hours with lumbar support, adjustable armrests, and breathable material.'},
-  desk:{material:['Solid Oak','Steel Legs','Felt-lined Drawers'],dims:{W:'140cm',D:'70cm',H:'75cm'},colors:[{name:'Natural Oak',hex:'#c8a876'},{name:'Walnut Dark',hex:'#3d2b1f'},{name:'White Ash',hex:'#e8e4dc'}],desc:'A workspace you will look forward to every morning. Generous surface area with carefully designed cable management.'},
-  storage:{material:['MDF & Solid Wood','Brass Handles','Adjustable Shelves'],dims:{W:'120cm',D:'35cm',H:'200cm'},colors:[{name:'White',hex:'#f5f5f5'},{name:'Charcoal',hex:'#3a3a3a'},{name:'Oak',hex:'#c8a876'}],desc:'Intelligent storage that looks beautiful. Adjustable shelving accommodates everything from books to decor pieces.'},
-  workstation:{material:['Solid Walnut','Powder-coated Steel','Tempered Glass'],dims:{W:'240cm',D:'80cm',H:'75cm'},colors:[{name:'Walnut',hex:'#5a3e28'},{name:'Black Steel',hex:'#2a2a2a'},{name:'Natural',hex:'#c8a876'}],desc:'The command centre for serious professionals. The L-shaped design maximises your workspace with built-in cable channels.'},
-  restaurant:{material:['Commercial-grade Vinyl','Steel Frame','Anti-scratch Base'],dims:{W:'180cm',D:'90cm',H:'90cm'},colors:[{name:'Burgundy',hex:'#800020'},{name:'Forest Green',hex:'#2d5a27'},{name:'Midnight Blue',hex:'#1a2744'},{name:'Caramel',hex:'#c8914a'}],desc:'Designed for the demands of commercial dining. Our restaurant furniture endures constant use with reinforced frames.'},
-  church:{material:['Solid Pine','Teak Veneer','Non-slip Pads'],dims:{W:'240cm',D:'45cm',H:'90cm'},colors:[{name:'Natural Pine',hex:'#d4a76a'},{name:'Dark Mahogany',hex:'#4a2216'},{name:'Ebony',hex:'#2a2a2a'}],desc:'Crafted with reverence for sacred spaces. Smooth solid-wood construction with optional cushion upgrades.'},
-  school:{material:['Polypropylene','Powder-coated Steel','Anti-graffiti Surface'],dims:{W:'55cm',D:'45cm',H:'75cm'},colors:[{name:'Grey',hex:'#9a9a9a'},{name:'Blue',hex:'#4a80b5'},{name:'Green',hex:'#5a9a68'}],desc:'Built for the rigours of daily classroom life. Stackable, easy to clean, and ergonomically designed.'},
-  bar:{material:['Reclaimed Wood','Brushed Brass','Italian Marble Top'],dims:{W:'240cm',D:'60cm',H:'110cm'},colors:[{name:'Dark Walnut',hex:'#3d2b1f'},{name:'Ebony',hex:'#1a1a1a'},{name:'Natural',hex:'#c8a876'}],desc:'The focal point of every great bar. Crafted from premium reclaimed wood with a marble service surface.'},
-  outdoor:{material:['FSC Teak','Stainless Steel Fittings','UV-resistant Fabric'],dims:{W:'280cm',D:'90cm',H:'80cm'},colors:[{name:'Natural Teak',hex:'#b8934a'},{name:'Greyed Teak',hex:'#8a8a7a'},{name:'Charcoal',hex:'#3a3a3a'}],desc:'Weather-resistant luxury for your outdoor living. Crafted from sustainably-sourced FSC-certified teak.'},
-  walldecor:{material:['Canvas','Kiln-dried Stretcher','Archival Inks'],dims:{W:'90cm',D:'4cm',H:'120cm'},colors:[{name:'Original',hex:'#c8a876'},{name:'Monochrome',hex:'#4a4a4a'},{name:'Muted Palette',hex:'#8faf85'}],desc:'Museum-quality wall art for residential and commercial spaces. Printed on 380gsm cotton canvas using archival pigment inks.'},
-  lightingdecor:{material:['Spun Brass','Marble Base','Linen Shade'],dims:{W:'35cm',D:'35cm',H:'155cm'},colors:[{name:'Antique Brass',hex:'#b8860b'},{name:'Matte Black',hex:'#1a1a1a'},{name:'Chrome',hex:'#c0c0c0'}],desc:'Ambient lighting that transforms any room. Hand-spun brass fittings with a hand-stitched linen shade.'},
-  softfurnishings:{material:['Hand-knotted Wool','Cotton Warp','Natural Dyes'],dims:{W:'200cm',D:'300cm',H:'1.2cm'},colors:[{name:'Ivory & Camel',hex:'#d4c4a8'},{name:'Charcoal & Sand',hex:'#4a4a4a'},{name:'Sage & Cream',hex:'#8faf85'}],desc:'Woven by master craftspeople using generations-old techniques. Our soft furnishings use naturally-sourced wool and plant-based dyes.'},
-  tabletop:{material:['Artisan Ceramic','Kiln-fired','Hand-painted'],dims:{W:'20cm',D:'20cm',H:'35cm'},colors:[{name:'Ivory',hex:'#f8f4ec'},{name:'Terracotta',hex:'#c9704a'},{name:'Sage',hex:'#8faf85'},{name:'Cobalt',hex:'#2a4a8a'}],desc:'Each piece is individually hand-thrown and finished by skilled artisans. Small variations are the mark of authenticity.'},
-  plants:{material:['Live Plant','Ceramic Pot','Premium Soil'],dims:{W:'30cm',D:'30cm',H:'60cm'},colors:[{name:'Terracotta Pot',hex:'#c9704a'},{name:'White Ceramic',hex:'#f8f4ec'},{name:'Matte Black',hex:'#1a1a1a'}],desc:'Bring the outdoors inside with our curated selection of tropical and statement plants. Each comes in a hand-selected pot.'},
-  fragrance:{material:['Soy Wax','Essential Oils','Glass Vessel'],dims:{W:'8cm',D:'8cm',H:'12cm'},colors:[{name:'Clear Glass',hex:'#e8e8e8'},{name:'Amber Glass',hex:'#c8a060'},{name:'Black Glass',hex:'#1a1a1a'}],desc:'Crafted from 100% natural soy wax and blended with premium essential oils, filling every room with warmth.'},
-  seasonal:{material:['Mixed Materials','Handcrafted','Eco-friendly'],dims:{W:'Various',D:'Various',H:'Various'},colors:[{name:'Natural',hex:'#c8a876'},{name:'Festive Red',hex:'#8b0000'},{name:'Gold',hex:'#c4973a'}],desc:'Celebrate every season in style. Our seasonal decor collection brings warmth and character to your home throughout the year.'},
-  african:{material:['Handwoven Fabric','Carved Wood','Bronze'],dims:{W:'Various',D:'Various',H:'Various'},colors:[{name:'Earth Tones',hex:'#8b6340'},{name:'Kente Gold',hex:'#c4973a'},{name:'Indigo',hex:'#2a3a6a'}],desc:'Celebrate the richness of African artistry. Each piece authentically crafted, telling stories of tradition and continental heritage.'},
-  kidsdecor:{material:['Non-toxic Paint','Soft Fabric','BPA-free Plastic'],dims:{W:'Various',D:'Various',H:'Various'},colors:[{name:'Rainbow',hex:'#ff6b6b'},{name:'Pastel Blue',hex:'#87ceeb'},{name:'Mint',hex:'#98d9c2'}],desc:'Make your little one\'s space magical. Safe, colourful, and designed to spark imagination while being durable for everyday play.'}
-};
+let sbClient = null;
 
-const seedP=[
-  {id:1,name:"Velvet Lounge Sofa",price:450000,cat:"living",badge:"Bestseller"},
-  {id:2,name:"Oak Writing Desk",price:280000,cat:"desk"},
-  {id:3,name:"King Canopy Bed",price:620000,cat:"bedroom",badge:"Premium"},
-  {id:4,name:"Mid-Century Armchair",price:85000,cat:"chair"},
-  {id:5,name:"Floating Bookshelf",price:45000,cat:"storage"},
-  {id:6,name:"Solid Wood Dining Table",price:390000,cat:"kitchen"},
-  {id:7,name:"Executive Office Chair",price:125000,cat:"chair"},
-  {id:8,name:"Walnut Nightstand",price:35000,cat:"bedroom"},
-  {id:9,name:"Kids Bunk Bed",price:180000,cat:"kids"},
-  {id:10,name:"Restaurant Booth Set",price:550000,cat:"restaurant",badge:"Commercial"},
-  {id:11,name:"Church Pew Set (6-Seater)",price:320000,cat:"church",badge:"Commercial"},
-  {id:12,name:"School Desk & Chair",price:28000,cat:"school"},
-  {id:13,name:"Mahogany Bar Counter",price:680000,cat:"bar",badge:"Premium"},
-  {id:14,name:"Upholstered Bar Stool",price:75000,cat:"bar"},
-  {id:15,name:"Outdoor Lounge Set",price:420000,cat:"outdoor",badge:"Bestseller"},
-  {id:16,name:"Teak Garden Table",price:310000,cat:"outdoor"},
-  {id:17,name:"Bar Back Cabinet",price:245000,cat:"bar"},
-  {id:18,name:"Rattan Outdoor Chair",price:88000,cat:"outdoor"},
-  {id:19,name:"Artisan Floor Lamp",price:62000,cat:"lightingdecor"},
-  {id:20,name:"Handcrafted Ceramic Vase",price:18500,cat:"tabletop"},
-  {id:21,name:"Oversized Wall Mirror",price:95000,cat:"walldecor"},
-  {id:22,name:"Tropical Potted Plant",price:12000,cat:"plants"},
-  {id:23,name:"Woven Jute Area Rug",price:55000,cat:"softfurnishings"},
-  {id:24,name:"Abstract Canvas Print",price:38000,cat:"walldecor"},
-  {id:25,name:"Brass Pendant Light",price:48000,cat:"lightingdecor"},
-  {id:26,name:"Minimalist Wall Clock",price:22000,cat:"walldecor"},
-  {id:27,name:"L-Shaped Work Station",price:195000,cat:"workstation"},
-  {id:28,name:"Leather Study Chair",price:110000,cat:"chair"},
-  {id:29,name:"Kids Study Desk",price:65000,cat:"kids"},
-  {id:30,name:"Marble Coffee Table",price:285000,cat:"living"},
-  {id:31,name:"Modular Storage Unit",price:155000,cat:"storage"},
-  {id:32,name:"Velvet Accent Stool",price:42000,cat:"living"},
-  {id:33,name:"Corner Bar Unit",price:395000,cat:"bar"},
-  {id:34,name:"Padded Bar Chair",price:58000,cat:"bar"},
-  {id:35,name:"Garden Bench (Hardwood)",price:145000,cat:"outdoor"},
-  {id:36,name:"Outdoor Coffee Table",price:95000,cat:"outdoor"},
-  {id:37,name:"Ceramic Table Lamp",price:32000,cat:"lightingdecor"},
-  {id:38,name:"Arc Floor Lamp",price:78000,cat:"lightingdecor"},
-  {id:39,name:"Sculptural Bookend Set",price:14500,cat:"tabletop"},
-  {id:40,name:"Decorative Tray Set",price:9800,cat:"tabletop"},
-  {id:41,name:"Geometric Wool Rug",price:85000,cat:"softfurnishings"},
-  {id:42,name:"Natural Cotton Runner",price:28000,cat:"softfurnishings"},
-  {id:43,name:"Framed Botanical Set",price:52000,cat:"walldecor"},
-  {id:44,name:"Gallery Wall Frame Kit",price:45000,cat:"walldecor"},
-  {id:45,name:"4-Door Wardrobe",price:340000,cat:"bedroom"},
-  {id:46,name:"Ergonomic Mesh Chair",price:98000,cat:"chair"},
-  {id:47,name:"Kitchen Island Cabinet",price:275000,cat:"kitchen"},
-  {id:48,name:"Standing Desk",price:185000,cat:"workstation"},
-  {id:49,name:"Soy Wax Candle Set",price:15000,cat:"fragrance"},
-  {id:50,name:"Reed Diffuser",price:22000,cat:"fragrance"},
-  {id:51,name:"Kente Throw Pillow",price:18000,cat:"african"},
-  {id:52,name:"Carved Wooden Mask",price:35000,cat:"african"},
-  {id:53,name:"Festive Wreath",price:12000,cat:"seasonal"},
-  {id:54,name:"Kids Wall Sticker Set",price:8500,cat:"kidsdecor"},
-  {id:55,name:"Monstera Plant (Large)",price:28000,cat:"plants"},
-  {id:56,name:"Throw Cushion Set",price:32000,cat:"softfurnishings"}
-];
+function initSB() {
+  if (sbClient) return true;
+  try {
+    sbClient = window.supabase.createClient(SB_URL, SB_KEY);
+    return true;
+  } catch(e) {
+    console.error('Supabase init failed:', e);
+    return false;
+  }
+}
+initSB();
 
-let cart, wishlist, prods, currentSort='all', urlCatFilter='', outdoorActive=false;
-let pdQty=1;
+const catLabels = {bedroom:'Bedroom',kitchen:'Kitchen',living:'Living Room',kids:"Kids' Room",chair:'Chair',desk:'Table / Desk',storage:'Book Storage',workstation:'Work Station',restaurant:'Restaurant',church:'Church',school:'School',bar:'Bar',outdoor:'Outdoor',walldecor:'Wall Decor',lightingdecor:'Lighting Decor',softfurnishings:'Soft Furnishings',tabletop:'Tabletop & Accessories',plants:'Plant & Greenery',fragrance:'Home Fragrance',seasonal:'Seasonal & Festive',african:'Cultural & African',kidsdecor:'Kids Decor'};
+const groupMap = {home:['bedroom','kitchen','living','kids'],office:['chair','desk','storage','workstation'],commercial:['restaurant','church','school','bar'],decor:['walldecor','lightingdecor','softfurnishings','tabletop','plants','fragrance','seasonal','african','kidsdecor'],outdoor:['outdoor']};
+const catParent = {bedroom:'home',kitchen:'home',living:'home',kids:'home',chair:'office',desk:'office',storage:'office',workstation:'office',restaurant:'commercial',church:'commercial',school:'commercial',bar:'commercial',walldecor:'decor',lightingdecor:'decor',softfurnishings:'decor',tabletop:'decor',plants:'decor',fragrance:'decor',seasonal:'decor',african:'decor',kidsdecor:'decor'};
 
-try{
-  cart=JSON.parse(localStorage.getItem('pinniture_cart'))||[];
-  wishlist=JSON.parse(localStorage.getItem('pinniture_wishlist'))||[];
-  prods=JSON.parse(localStorage.getItem('pinniture_products'))||seedP;
-  seedP.forEach(sp=>{if(!prods.find(p=>p.id===sp.id))prods.push(sp);});
-}catch(e){cart=[];wishlist=[];prods=seedP;}
-localStorage.setItem('pinniture_products',JSON.stringify(prods));
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let allProds = [], cart = [], wishlist = [], pdQty = 1;
+let currentSort = 'all', urlCatFilter = '', outdoorActive = false;
 
-function getImgs(cat){return catImages[cat]||catImages.living;}
-function getCardImg(cat){return getImgs(cat)[0];}
+try {
+  cart = JSON.parse(localStorage.getItem('pinniture_cart')) || [];
+  wishlist = JSON.parse(localStorage.getItem('pinniture_wishlist')) || [];
+} catch(e) { cart = []; wishlist = []; }
 
-const catLabels={bedroom:'Bedroom',kitchen:'Kitchen',living:'Living Room',kids:"Kids' Room",chair:'Chair',desk:'Table / Desk',storage:'Book Storage',workstation:'Work Station',restaurant:'Restaurant',church:'Church',school:'School',bar:'Bar',outdoor:'Outdoor',walldecor:'Wall Decor',lightingdecor:'Lighting Decor',softfurnishings:'Soft Furnishings',tabletop:'Tabletop & Accessories',plants:'Plant & Greenery',fragrance:'Home Fragrance',seasonal:'Seasonal & Festive',african:'Cultural & African',kidsdecor:'Kids Decor',home:'Home Collection',office:'Office Spaces',commercial:'Commercial',decor:'Decor'};
-const catParent={bedroom:'home',kitchen:'home',living:'home',kids:'home',chair:'office',desk:'office',storage:'office',workstation:'office',restaurant:'commercial',church:'commercial',school:'commercial',bar:'commercial',walldecor:'decor',lightingdecor:'decor',softfurnishings:'decor',tabletop:'decor',plants:'decor',fragrance:'decor',seasonal:'decor',african:'decor',kidsdecor:'decor'};
-const groupMap={home:['bedroom','kitchen','living','kids'],office:['chair','desk','storage','workstation'],commercial:['restaurant','church','school','bar'],decor:['walldecor','lightingdecor','softfurnishings','tabletop','plants','fragrance','seasonal','african','kidsdecor'],outdoor:['outdoor']};
+/* ══════════════════════════════════════
+   LOAD PRODUCTS FROM SUPABASE
+══════════════════════════════════════ */
+async function loadProducts() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = `<div class="loading-grid"><div class="spinner"></div> Loading products...</div>`;
 
-function readUrlParam(){
-  const params=new URLSearchParams(window.location.search);
-  const cat=params.get('cat')||'';
-  urlCatFilter=cat;
-  if(cat){
-    const label=catLabels[cat]||cat.charAt(0).toUpperCase()+cat.slice(1);
-    document.getElementById('shopTitle').textContent=label;
-    document.getElementById('shopSubtitle').textContent='Showing: '+label;
-    document.getElementById('breadcrumbCat').textContent=label;
-    document.getElementById('activeFilterBar').style.display='flex';
-    document.getElementById('activePillText').textContent=label;
+  if (!sbClient) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-plug-circle-exclamation"></i><h3>Store not configured</h3><p>Please check back soon</p></div>`;
+    return;
+  }
 
-    if(cat==='outdoor'){
-      outdoorActive=true;
+  try {
+    const { data, error } = await sbClient
+      .from('products')
+      .select('*')
+      .eq('status', 'Active')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    allProds = data || [];
+    applyFilters();
+  } catch(e) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><h3>Could not load products</h3><p>${e.message || 'Please try again later'}</p></div>`;
+  }
+}
+
+/* ══════════════════════════════════════
+   FILTERS
+══════════════════════════════════════ */
+function readUrlParam() {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get('cat') || '';
+  urlCatFilter = cat;
+  if (cat) {
+    const label = catLabels[cat] || groupLabel(cat) || cat;
+    document.getElementById('shopTitle').textContent = label;
+    document.getElementById('shopSubtitle').textContent = 'Showing: ' + label;
+    document.getElementById('breadcrumbCat').textContent = label;
+    document.getElementById('activeFilterBar').style.display = 'flex';
+    document.getElementById('activePillText').textContent = label;
+
+    if (cat === 'outdoor') {
+      outdoorActive = true;
       document.getElementById('outdoorBtn').classList.add('active-link');
-    } else if(groupMap[cat]){
-      // group filter — open sidebar group
-      const grp=document.getElementById('cat-'+cat);
-      if(grp){grp.classList.add('show');grp.previousElementSibling.classList.add('active');}
+    } else if (groupMap[cat]) {
+      const grp = document.getElementById('cat-' + cat);
+      if (grp) { grp.classList.add('show'); grp.previousElementSibling.classList.add('active'); }
     } else {
-      // single sub-category — tick checkbox & open parent
-      const cb=document.querySelector(`.f-cat[value="${cat}"]`);
-      if(cb){
-        cb.checked=true;
-        const parent=catParent[cat];
-        if(parent){const grp=document.getElementById('cat-'+parent);if(grp){grp.classList.add('show');grp.previousElementSibling.classList.add('active');}}
+      const cb = document.querySelector(`.f-cat[value="${cat}"]`);
+      if (cb) {
+        cb.checked = true;
+        const parent = catParent[cat];
+        if (parent) {
+          const grp = document.getElementById('cat-' + parent);
+          if (grp) { grp.classList.add('show'); grp.previousElementSibling.classList.add('active'); }
+        }
       }
     }
-  } else {
-    document.getElementById('shopTitle').textContent='All Products';
-    document.getElementById('shopSubtitle').textContent='Curated furniture for every space';
-    document.getElementById('breadcrumbCat').textContent='Shop';
   }
 }
 
-function clearCatFilter(){
-  urlCatFilter='';outdoorActive=false;
-  document.getElementById('activeFilterBar').style.display='none';
-  document.getElementById('shopTitle').textContent='All Products';
-  document.getElementById('shopSubtitle').textContent='Curated furniture for every space';
-  document.getElementById('breadcrumbCat').textContent='Shop';
-  document.querySelectorAll('.f-cat').forEach(cb=>cb.checked=false);
-  document.getElementById('outdoorBtn').classList.remove('active-link');
-  history.replaceState({},'',window.location.pathname);
-  filterProds();
-}
-function clearAllFilters(){
-  urlCatFilter='';outdoorActive=false;
-  document.querySelectorAll('.f-cat').forEach(cb=>cb.checked=false);
-  document.getElementById('priceR').value=1000000;updatePriceDisplay();
-  document.getElementById('activeFilterBar').style.display='none';
-  document.getElementById('shopTitle').textContent='All Products';
-  document.getElementById('shopSubtitle').textContent='Curated furniture for every space';
-  document.getElementById('breadcrumbCat').textContent='Shop';
-  document.getElementById('outdoorBtn').classList.remove('active-link');
-  history.replaceState({},'',window.location.pathname);
-  filterProds();
+function groupLabel(g) {
+  const m = {home:'Home Collection',office:'Office Spaces',commercial:'Commercial',decor:'Decor'};
+  return m[g] || null;
 }
 
-/* Outdoor toggle in sidebar */
-function toggleOutdoorFilter(){
-  outdoorActive=!outdoorActive;
-  document.getElementById('outdoorBtn').classList.toggle('active-link',outdoorActive);
-  if(outdoorActive){
-    document.querySelectorAll('.f-cat').forEach(cb=>cb.checked=false);
-    urlCatFilter='outdoor';
-    document.getElementById('shopTitle').textContent='Outdoor';
-    document.getElementById('shopSubtitle').textContent='Showing: Outdoor';
-    document.getElementById('breadcrumbCat').textContent='Outdoor';
-    document.getElementById('activeFilterBar').style.display='flex';
-    document.getElementById('activePillText').textContent='Outdoor';
-  } else {
-    urlCatFilter='';
-    document.getElementById('activeFilterBar').style.display='none';
-    document.getElementById('shopTitle').textContent='All Products';
-    document.getElementById('shopSubtitle').textContent='Curated furniture for every space';
-    document.getElementById('breadcrumbCat').textContent='Shop';
+function applyFilters() {
+  let f = [...allProds];
+
+  // URL / sidebar outdoor
+  if (outdoorActive || urlCatFilter === 'outdoor') {
+    f = f.filter(p => p.category === 'outdoor');
+  } else if (urlCatFilter && groupMap[urlCatFilter]) {
+    f = f.filter(p => groupMap[urlCatFilter].includes(p.category));
+  } else if (urlCatFilter) {
+    f = f.filter(p => p.category === urlCatFilter);
   }
-  filterProds();
+
+  // Sidebar checkboxes — only apply if at least one is checked AND we don't have a URL filter
+  const checked = [...document.querySelectorAll('.f-cat:checked')].map(c => c.value);
+  if (checked.length && !urlCatFilter) {
+    f = f.filter(p => checked.includes(p.category));
+  }
+
+  // Price
+  const max = parseInt(document.getElementById('priceR').value);
+  f = f.filter(p => (p.price || 0) <= max);
+
+  // Sort tab
+  if (currentSort === 'low') f = f.filter(p => p.price < 100000);
+  else if (currentSort === 'high') f = f.filter(p => p.price >= 100000);
+
+  renderGrid(f);
 }
 
-function openMobNav(){document.getElementById('mobNav').classList.add('open');document.body.style.overflow='hidden'}
-function closeMobNav(){document.getElementById('mobNav').classList.remove('open');document.body.style.overflow=''}
-function toggleMobCats(){const c=document.getElementById('mobCats'),b=document.getElementById('mobExpand');const o=c.classList.toggle('open');b.classList.toggle('open',o);}
-function toggleCatGroup(cat){const sub=document.getElementById('cat-'+cat);const main=sub.previousElementSibling;sub.classList.toggle('show');main.classList.toggle('active');}
-function setSort(type,el){currentSort=type;document.querySelectorAll('.sort-tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');filterProds();}
-function updatePriceDisplay(){const val=parseInt(document.getElementById('priceR').value);document.getElementById('priceDisplay').textContent='Up to ₦'+val.toLocaleString();}
-
-function filterProds(){
-  let f=[...prods];
-  if(outdoorActive||urlCatFilter==='outdoor'){
-    f=f.filter(p=>p.cat==='outdoor');
-  } else if(urlCatFilter){
-    if(groupMap[urlCatFilter])f=f.filter(p=>groupMap[urlCatFilter].includes(p.cat));
-    else f=f.filter(p=>p.cat===urlCatFilter);
+function renderGrid(list) {
+  const g = document.getElementById('grid');
+  if (allProds.length === 0) {
+    g.innerHTML = `<div class="empty-state"><i class="fas fa-couch"></i><h3>No products yet</h3><p>Check back soon for our curated collection</p></div>`;
+    return;
   }
-  const checked=[...document.querySelectorAll('.f-cat:checked')].map(c=>c.value);
-  if(checked.length)f=f.filter(p=>checked.includes(p.cat));
-  const max=parseInt(document.getElementById('priceR').value);f=f.filter(p=>p.price<=max);
-  if(currentSort==='low')f=f.filter(p=>p.price<100000);
-  else if(currentSort==='high')f=f.filter(p=>p.price>=100000);
-  const g=document.getElementById('grid');
-  if(!f.length){g.innerHTML=`<div class="empty-state"><i class="fas fa-couch"></i><h3>No products found</h3><p>Try adjusting your filters or <button onclick="clearAllFilters()" style="color:var(--gold);font-weight:600;background:none;border:none;cursor:pointer;font-size:.88rem">clear all filters</button></p></div>`;return;}
-  g.innerHTML=f.map((p,i)=>{
-    const img=getCardImg(p.cat);
-    return `<div class="p-card" style="animation:fadeUp .4s ${i*.04}s ease both" onclick="openPD(${p.id})">
-      <button class="p-wish ${wishlist.includes(p.id)?'active':''}" onclick="event.stopPropagation();toggleWish(${p.id},this)">
+  if (!list.length) {
+    g.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h3>No products found</h3><p>Try adjusting your filters or <button onclick="clearAllFilters()" style="color:var(--gold);font-weight:600;background:none;border:none;cursor:pointer;font-size:.88rem">clear all filters</button></p></div>`;
+    return;
+  }
+  g.innerHTML = list.map((p, i) => {
+    const img = Array.isArray(p.images) && p.images[0] ? p.images[0] : null;
+    return `<div class="p-card" style="animation:fadeUp .4s ${i*.04}s ease both" onclick="openPD('${p.id}')">
+      <button class="p-wish ${wishlist.includes(p.id)?'active':''}" onclick="event.stopPropagation();toggleWish('${p.id}',this)">
         <i class="${wishlist.includes(p.id)?'fas':'far'} fa-heart"></i>
       </button>
       <div class="p-img-wrap">
-        ${p.badge?`<span class="p-badge">${p.badge}</span>`:''}
-        <img src="${img}" alt="${p.name}" loading="lazy">
+        ${p.badge ? `<span class="p-badge">${p.badge}</span>` : ''}
+        ${img ? `<img src="${img}" alt="${p.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:grid;place-items:center;background:#f0ede8"><i class="fas fa-image" style="font-size:2rem;color:#ccc"></i></div>`}
       </div>
       <div class="p-body">
         <div class="p-brand">Pinniture</div>
         <h3>${p.name}</h3>
         <div class="p-price-row">
-          <div class="p-price">₦${p.price.toLocaleString()}</div>
-          <button class="p-add" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
+          <div class="p-price">₦${(p.price||0).toLocaleString()}</div>
+          <button class="p-add" onclick="event.stopPropagation();addToCart('${p.id}')">Add to Cart</button>
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-/* Product Detail Modal */
-function openPD(id){
-  const p=prods.find(x=>x.id===id);if(!p)return;
-  pdQty=1;
-  const imgs=getImgs(p.cat);
-  const det=catDetails[p.cat]||catDetails.living;
-  document.getElementById('pdMainImg').src=imgs[0];
-  document.getElementById('pdThumbs').innerHTML=imgs.map((src,i)=>
-    `<div class="pd-thumb ${i===0?'active':''}" onclick="switchPDImg('${src}',this)"><img src="${src}" alt="View ${i+1}" loading="lazy"></div>`
-  ).join('');
-  const inWish=wishlist.includes(p.id);
-  document.getElementById('pdInfo').innerHTML=`
+function setSort(type, el) {
+  currentSort = type;
+  document.querySelectorAll('.sort-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  applyFilters();
+}
+
+function updatePriceDisplay() {
+  const val = parseInt(document.getElementById('priceR').value);
+  document.getElementById('priceDisplay').textContent = 'Up to ₦' + val.toLocaleString();
+}
+
+function toggleCatGroup(cat) {
+  const sub = document.getElementById('cat-' + cat);
+  const main = sub.previousElementSibling;
+  sub.classList.toggle('show');
+  main.classList.toggle('active');
+}
+
+function toggleOutdoorFilter() {
+  outdoorActive = !outdoorActive;
+  document.getElementById('outdoorBtn').classList.toggle('active-link', outdoorActive);
+  if (outdoorActive) {
+    document.querySelectorAll('.f-cat').forEach(cb => cb.checked = false);
+    urlCatFilter = 'outdoor';
+    document.getElementById('shopTitle').textContent = 'Outdoor';
+    document.getElementById('shopSubtitle').textContent = 'Showing: Outdoor';
+    document.getElementById('breadcrumbCat').textContent = 'Outdoor';
+    document.getElementById('activeFilterBar').style.display = 'flex';
+    document.getElementById('activePillText').textContent = 'Outdoor';
+  } else {
+    urlCatFilter = '';
+    document.getElementById('activeFilterBar').style.display = 'none';
+    document.getElementById('shopTitle').textContent = 'All Products';
+    document.getElementById('shopSubtitle').textContent = 'Curated furniture for every space';
+    document.getElementById('breadcrumbCat').textContent = 'Shop';
+  }
+  applyFilters();
+}
+
+function clearCatFilter() {
+  urlCatFilter = ''; outdoorActive = false;
+  document.getElementById('activeFilterBar').style.display = 'none';
+  document.getElementById('shopTitle').textContent = 'All Products';
+  document.getElementById('shopSubtitle').textContent = 'Curated furniture for every space';
+  document.getElementById('breadcrumbCat').textContent = 'Shop';
+  document.querySelectorAll('.f-cat').forEach(cb => cb.checked = false);
+  document.getElementById('outdoorBtn').classList.remove('active-link');
+  history.replaceState({}, '', window.location.pathname);
+  applyFilters();
+}
+
+function clearAllFilters() {
+  urlCatFilter = ''; outdoorActive = false;
+  document.querySelectorAll('.f-cat').forEach(cb => cb.checked = false);
+  document.getElementById('priceR').value = 1000000;
+  updatePriceDisplay();
+  document.getElementById('activeFilterBar').style.display = 'none';
+  document.getElementById('shopTitle').textContent = 'All Products';
+  document.getElementById('shopSubtitle').textContent = 'Curated furniture for every space';
+  document.getElementById('breadcrumbCat').textContent = 'Shop';
+  document.getElementById('outdoorBtn').classList.remove('active-link');
+  history.replaceState({}, '', window.location.pathname);
+  applyFilters();
+}
+
+/* ══════════════════════════════════════
+   PRODUCT DETAIL MODAL
+══════════════════════════════════════ */
+function openPD(id) {
+  const p = allProds.find(x => x.id === id);
+  if (!p) return;
+  pdQty = 1;
+  const imgs = Array.isArray(p.images) && p.images.length ? p.images : [];
+  const colors = Array.isArray(p.colors) ? p.colors : [];
+  const materials = Array.isArray(p.materials) ? p.materials : [];
+  const inWish = wishlist.includes(p.id);
+
+  // Gallery
+  const galleryEl = document.getElementById('pdGallery');
+  if (imgs.length) {
+    galleryEl.innerHTML = `
+      <img id="pdMainImg" class="pd-main-img" src="${imgs[0]}" alt="${p.name}">
+      <div class="pd-thumbs" id="pdThumbs">${imgs.map((src, i) =>
+        `<div class="pd-thumb ${i===0?'active':''}" onclick="switchPDImg('${src}',this)"><img src="${src}" alt="View ${i+1}" loading="lazy"></div>`
+      ).join('')}</div>`;
+  } else {
+    galleryEl.innerHTML = `<div class="pd-no-img"><i class="fas fa-image"></i></div><div class="pd-thumbs" id="pdThumbs"></div>`;
+  }
+
+  document.getElementById('pdInfo').innerHTML = `
     <div class="pd-brand-tag">Pinniture Collection</div>
     <h2 class="pd-name">${p.name}</h2>
     <div class="pd-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>4.8 (24 reviews)</span></div>
-    <div class="pd-price-block"><div class="pd-price">₦${p.price.toLocaleString()}</div><div class="pd-price-note">Free delivery nationwide</div></div>
-    <div class="pd-section-label">Available Colours</div>
-    <div class="pd-colors" id="pdColors">${det.colors.map((c,i)=>`<div class="pd-color-swatch ${i===0?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="selectColor(this,'${c.name}')"></div>`).join('')}</div>
-    <div class="pd-color-name" id="pdColorName">${det.colors[0].name}</div>
-    <div class="pd-section-label">Dimensions</div>
-    <div class="pd-dims">
-      <div class="pd-dim"><div class="pd-dim-val">${det.dims.W}</div><div class="pd-dim-key">Width</div></div>
-      <div class="pd-dim"><div class="pd-dim-val">${det.dims.D}</div><div class="pd-dim-key">Depth</div></div>
-      <div class="pd-dim"><div class="pd-dim-val">${det.dims.H}</div><div class="pd-dim-key">Height</div></div>
+    <div class="pd-price-block">
+      <div class="pd-price">₦${(p.price||0).toLocaleString()}</div>
+      <div class="pd-price-note">Nationwide delivery on all orders</div>
     </div>
+    ${colors.length ? `
+    <div class="pd-section-label">Available Colours</div>
+    <div class="pd-colors" id="pdColors">${colors.map((c, i) =>
+      `<span class="pd-color-tag ${i===0?'active':''}" onclick="selectColor(this)">${c}</span>`
+    ).join('')}</div>` : ''}
+    ${materials.length ? `
     <div class="pd-section-label">Materials</div>
-    <div class="pd-material-row">${det.material.map(m=>`<span class="pd-material-tag">${m}</span>`).join('')}</div>
+    <div class="pd-material-row">${materials.map(m => `<span class="pd-material-tag">${m}</span>`).join('')}</div>` : ''}
+    ${p.description ? `
     <div class="pd-section-label">Description</div>
-    <p class="pd-desc">${det.desc}</p>
+    <p class="pd-desc">${p.description}</p>` : ''}
     <div class="pd-qty-row">
-      <div class="pd-qty-ctrl"><button onclick="changePDQty(-1)">−</button><span id="pdQtyDisplay">1</span><button onclick="changePDQty(1)">+</button></div>
-      <button class="btn btn-gold pd-cta" onclick="addToCartFromPD(${p.id})"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
-      <button class="pd-wish-btn ${inWish?'active':''}" id="pdWishBtn" onclick="toggleWishPD(${p.id})"><i class="${inWish?'fas':'far'} fa-heart"></i></button>
+      <div class="pd-qty-ctrl">
+        <button onclick="changePDQty(-1)">−</button>
+        <span id="pdQtyDisplay">1</span>
+        <button onclick="changePDQty(1)">+</button>
+      </div>
+      <button class="btn btn-gold pd-cta" onclick="addToCartFromPD('${p.id}')"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      <button class="pd-wish-btn ${inWish?'active':''}" id="pdWishBtn" onclick="toggleWishPD('${p.id}')">
+        <i class="${inWish?'fas':'far'} fa-heart"></i>
+      </button>
     </div>
     <div class="pd-features">
-      <div class="pd-feature"><i class="fas fa-truck-fast"></i> Free nationwide delivery on all orders</div>
+      <div class="pd-feature"><i class="fas fa-truck-fast"></i>Nationwide delivery on all orders</div>
       <div class="pd-feature"><i class="fas fa-rotate-left"></i> 30-day hassle-free returns</div>
       <div class="pd-feature"><i class="fas fa-shield-halved"></i> 2-year manufacturer's warranty</div>
       <div class="pd-feature"><i class="fas fa-ruler-combined"></i> Custom sizing available — contact us</div>
     </div>`;
+
   document.getElementById('pdOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function switchPDImg(src,el){document.getElementById('pdMainImg').src=src;document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
-function closePD(e){if(e.target===document.getElementById('pdOverlay'))closePDBtn();}
-function closePDBtn(){document.getElementById('pdOverlay').classList.remove('open');document.body.style.overflow='';}
-function selectColor(el,name){document.querySelectorAll('.pd-color-swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');document.getElementById('pdColorName').textContent=name;}
-function changePDQty(d){pdQty=Math.max(1,pdQty+d);document.getElementById('pdQtyDisplay').textContent=pdQty;}
-function addToCartFromPD(id){
-  const p=prods.find(x=>x.id===id);if(!p)return;
-  const ex=cart.find(x=>x.productId===id);
-  if(ex)ex.qty+=pdQty;else cart.push({productId:id,name:p.name,price:p.price,qty:pdQty,img:getCardImg(p.cat)});
-  saveCart();toast('Added to cart');closePDBtn();openCart();
-}
-function toggleWishPD(id){
-  const btn=document.getElementById('pdWishBtn');
-  if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);btn.classList.remove('active');btn.querySelector('i').className='far fa-heart';}
-  else{wishlist.push(id);btn.classList.add('active');btn.querySelector('i').className='fas fa-heart';}
-  saveCart();toast('Wishlist updated');
+  document.body.style.overflow = 'hidden';
 }
 
-function openCart(){document.getElementById('cartD').classList.add('open');switchTab('cart')}
-function closeCart(){document.getElementById('cartD').classList.remove('open')}
-function switchTab(t){
-  document.querySelectorAll('.c-tab').forEach(e=>e.classList.remove('active'));
+function switchPDImg(src, el) {
+  document.getElementById('pdMainImg').src = src;
+  document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectColor(el) {
+  document.querySelectorAll('.pd-color-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function closePD(e) { if (e.target === document.getElementById('pdOverlay')) closePDBtn(); }
+function closePDBtn() { document.getElementById('pdOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function changePDQty(d) { pdQty = Math.max(1, pdQty + d); document.getElementById('pdQtyDisplay').textContent = pdQty; }
+
+function addToCartFromPD(id) {
+  const p = allProds.find(x => x.id === id);
+  if (!p) return;
+  const img = Array.isArray(p.images) && p.images[0] ? p.images[0] : '';
+  const ex = cart.find(x => x.productId === id);
+  if (ex) ex.qty += pdQty;
+  else cart.push({ productId: id, name: p.name, price: p.price, qty: pdQty, img });
+  saveCart(); toast('Added to cart'); closePDBtn(); openCart();
+}
+
+function toggleWishPD(id) {
+  const btn = document.getElementById('pdWishBtn');
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(x => x !== id);
+    btn.classList.remove('active'); btn.querySelector('i').className = 'far fa-heart';
+  } else {
+    wishlist.push(id);
+    btn.classList.add('active'); btn.querySelector('i').className = 'fas fa-heart';
+  }
+  saveCart(); toast('Wishlist updated');
+}
+
+/* ══════════════════════════════════════
+   CART
+══════════════════════════════════════ */
+function openCart() { document.getElementById('cartD').classList.add('open'); switchTab('cart'); }
+function closeCart() { document.getElementById('cartD').classList.remove('open'); }
+
+function switchTab(t) {
+  document.querySelectorAll('.c-tab').forEach(e => e.classList.remove('active'));
   document.querySelector(`.c-tab:nth-child(${t==='cart'?1:2})`).classList.add('active');
-  const b=document.getElementById('cartBody');if(!b)return;
-  if(t==='cart'){
-    b.innerHTML=cart.length?cart.map(i=>`
+  const b = document.getElementById('cartBody'); if (!b) return;
+  if (t === 'cart') {
+    b.innerHTML = cart.length ? cart.map(i => `
       <div class="c-item">
-        <div class="c-img"><img src="${i.img||getCardImg('living')}" alt="${i.name}"></div>
-        <div class="c-info"><h4>${i.name}</h4><div class="c-price">₦${i.price.toLocaleString()}</div>
-        <div class="qty"><button onclick="updateQty(${i.productId},-1)">−</button><span>${i.qty}</span><button onclick="updateQty(${i.productId},1)">+</button></div></div>
-      </div>`).join(''):'<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your cart is empty</p>';
-  }else{
-    b.innerHTML=wishlist.length?wishlist.map(id=>{const p=prods.find(x=>x.id===id);return p?`
-      <div class="c-item">
-        <div class="c-img"><img src="${getCardImg(p.cat)}" alt="${p.name}"></div>
-        <div class="c-info"><h4>${p.name}</h4><div class="c-price">₦${p.price.toLocaleString()}</div>
-        <button class="p-add" style="margin-top:7px;padding:7px 0;font-size:10px;display:block;width:100%;text-align:center;border-radius:2px;cursor:pointer;background:var(--charcoal);color:#fff;letter-spacing:.5px;font-weight:600;text-transform:uppercase;border:none" onclick="addToCart(${p.id})">Move to Cart</button></div>
-      </div>`:''}).join(''):'<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your wishlist is empty</p>';
+        <div class="c-img">${i.img ? `<img src="${i.img}" alt="${i.name}">` : ''}</div>
+        <div class="c-info"><h4>${i.name}</h4><div class="c-price">₦${(i.price||0).toLocaleString()}</div>
+        <div class="qty"><button onclick="updateQty('${i.productId}',-1)">−</button><span>${i.qty}</span><button onclick="updateQty('${i.productId}',1)">+</button></div></div>
+      </div>`).join('') : '<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your cart is empty</p>';
+  } else {
+    b.innerHTML = wishlist.length ? wishlist.map(id => {
+      const p = allProds.find(x => x.id === id);
+      const img = p && Array.isArray(p.images) && p.images[0] ? p.images[0] : '';
+      return p ? `<div class="c-item">
+        <div class="c-img">${img ? `<img src="${img}" alt="${p.name}">` : ''}</div>
+        <div class="c-info"><h4>${p.name}</h4><div class="c-price">₦${(p.price||0).toLocaleString()}</div>
+        <button class="p-add" style="margin-top:7px;padding:7px 0;font-size:10px;display:block;width:100%;text-align:center;border-radius:2px;cursor:pointer;background:var(--charcoal);color:#fff;letter-spacing:.5px;font-weight:600;text-transform:uppercase;border:none" onclick="addToCart('${p.id}')">Move to Cart</button></div>
+      </div>` : '';
+    }).join('') : '<p style="text-align:center;color:#bbb;padding:40px 0;font-size:.88rem">Your wishlist is empty</p>';
   }
 }
-function addToCart(id){
-  const p=prods.find(x=>x.id===id);if(!p)return;
-  const ex=cart.find(x=>x.productId===id);
-  if(ex)ex.qty++;else cart.push({productId:id,name:p.name,price:p.price,qty:1,img:getCardImg(p.cat)});
-  saveCart();toast('Added to cart');openCart();
-}
-function updateQty(id,d){
-  const i=cart.find(x=>x.productId===id);if(!i)return;
-  i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.productId!==id);saveCart();
-}
-function toggleWish(id,btn){
-  if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);btn.classList.remove('active');btn.querySelector('i').className='far fa-heart';}
-  else{wishlist.push(id);btn.classList.add('active');btn.querySelector('i').className='fas fa-heart';}
-  saveCart();toast('Wishlist updated');
-}
-function saveCart(){
-  try{localStorage.setItem('pinniture_cart',JSON.stringify(cart));localStorage.setItem('pinniture_wishlist',JSON.stringify(wishlist));}catch(e){}
-  updateUI();
-  const active=document.querySelector('.c-tab.active');
-  if(active)switchTab(active.textContent==='Wishlist'?'wish':'cart');
-}
-function updateUI(){
-  const n=cart.reduce((a,i)=>a+i.qty,0);
-  const el=document.getElementById('cartC'),mob=document.getElementById('mobCartN'),tot=document.getElementById('cartTot');
-  if(el)el.textContent=n;if(mob)mob.textContent=n;
-  if(tot)tot.textContent='₦'+cart.reduce((a,i)=>a+(i.price*i.qty),0).toLocaleString();
-}
-function openCheckout(){if(!cart.length){toast('Cart is empty');return}closeCart();document.getElementById('checkoutM').classList.add('open')}
-function closeCheckout(){document.getElementById('checkoutM').classList.remove('open')}
-function processPay(){
-  if(!document.getElementById('em').value){toast('Email required');return}
-  toast('Processing payment...');
-  setTimeout(()=>showSuccess(Math.random().toString(36).substring(2,8).toUpperCase()),1500);
-}
-function showSuccess(ref){closeCheckout();const r=document.getElementById('refId');if(r)r.textContent=ref;document.getElementById('successM').classList.add('open');cart=[];saveCart();}
-function closeSuccess(){document.getElementById('successM').classList.remove('open')}
-function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-function init(){updatePriceDisplay();readUrlParam();filterProds();updateUI();}
-document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+function addToCart(id) {
+  const p = allProds.find(x => x.id === id);
+  if (!p) return;
+  const img = Array.isArray(p.images) && p.images[0] ? p.images[0] : '';
+  const ex = cart.find(x => x.productId === id);
+  if (ex) ex.qty++; else cart.push({ productId: id, name: p.name, price: p.price, qty: 1, img });
+  saveCart(); toast('Added to cart'); openCart();
+}
+
+function updateQty(id, d) {
+  const i = cart.find(x => x.productId === id); if (!i) return;
+  i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.productId !== id);
+  saveCart();
+}
+
+function toggleWish(id, btn) {
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(x => x !== id); btn.classList.remove('active'); btn.querySelector('i').className = 'far fa-heart';
+  } else {
+    wishlist.push(id); btn.classList.add('active'); btn.querySelector('i').className = 'fas fa-heart';
+  }
+  saveCart(); toast('Wishlist updated');
+}
+
+function saveCart() {
+  try {
+    localStorage.setItem('pinniture_cart', JSON.stringify(cart));
+    localStorage.setItem('pinniture_wishlist', JSON.stringify(wishlist));
+  } catch(e) {}
+  updateUI();
+  const active = document.querySelector('.c-tab.active');
+  if (active) switchTab(active.textContent === 'Wishlist' ? 'wish' : 'cart');
+}
+
+function updateUI() {
+  const n = cart.reduce((a, i) => a + i.qty, 0);
+  const el = document.getElementById('cartC'), mob = document.getElementById('mobCartN'), tot = document.getElementById('cartTot');
+  if (el) el.textContent = n; if (mob) mob.textContent = n;
+  if (tot) tot.textContent = '₦' + cart.reduce((a, i) => a + ((i.price||0) * i.qty), 0).toLocaleString();
+}
+
+/* ══════════════════════════════════════
+   CHECKOUT — saves to Supabase orders
+══════════════════════════════════════ */
+function openCheckout() { if (!cart.length) { toast('Cart is empty'); return; } closeCart(); document.getElementById('checkoutM').classList.add('open'); }
+function closeCheckout() { document.getElementById('checkoutM').classList.remove('open'); }
+
+async function processPay() {
+  const fn = document.getElementById('fn').value.trim();
+  const ln = document.getElementById('ln').value.trim();
+  const em = document.getElementById('em').value.trim();
+  const ph = document.getElementById('ph').value.trim();
+  const addr = [document.getElementById('addr1').value.trim(), document.getElementById('addr2').value.trim(), document.getElementById('city').value.trim(), document.getElementById('state').value].filter(Boolean).join(', ');
+
+  if (!fn || !em || !ph) { toast('Please fill all required fields'); return; }
+
+  const btn = document.getElementById('payBtn');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+  btn.disabled = true;
+
+  const ref = 'PC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+  const total = cart.reduce((a, i) => a + ((i.price||0) * i.qty), 0);
+
+  const orderData = {
+    ref,
+    customer_name: fn + ' ' + ln,
+    email: em,
+    phone: ph,
+    address: addr,
+    items: cart.map(i => ({ productId: i.productId, name: i.name, price: i.price, qty: i.qty })),
+    total,
+    status: 'Processing'
+  };
+
+  try {
+    if (sbClient) {
+      const { error } = await sbClient.from('orders').insert([orderData]);
+      if (error) throw error;
+    }
+    showSuccess(ref);
+  } catch(e) {
+    toast(e.message || 'Payment failed. Please try again.', 'error');
+  } finally {
+    btn.innerHTML = '<i class="fas fa-lock"></i> PAY SECURELY';
+    btn.disabled = false;
+  }
+}
+
+function showSuccess(ref) {
+  closeCheckout();
+  document.getElementById('refId').textContent = ref;
+  document.getElementById('successM').classList.add('open');
+  cart = []; saveCart();
+}
+function closeSuccess() { document.getElementById('successM').classList.remove('open'); }
+
+function toast(msg) {
+  const t = document.getElementById('toast'); if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function openMobNav() { document.getElementById('mobNav').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobNav() { document.getElementById('mobNav').classList.remove('open'); document.body.style.overflow = ''; }
+function toggleMobCats() {
+  const c = document.getElementById('mobCats'), b = document.getElementById('mobExpand');
+  const o = c.classList.toggle('open'); b.classList.toggle('open', o);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+function init() {
+  updatePriceDisplay();
+  readUrlParam();
+  updateUI();
+  loadProducts();
+}
+document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
 </script>
-<script src="https://js.paystack.co/v1/inline.js" async></script>
 </body>
 </html>
