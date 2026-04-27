@@ -8,6 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Paystack -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 <style>
 :root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .3s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
@@ -182,6 +187,9 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .pd-color-tag.active{background:var(--charcoal);color:#fff;border-color:var(--charcoal)}
 .pd-material-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
 .pd-material-tag{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text-light);font-weight:500}
+.pd-dims-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.pd-dim-chip{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:6px;border:1px solid var(--border);background:var(--sand);font-size:13px;font-weight:600;color:var(--text)}
+.pd-dim-chip span{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-light);background:rgba(0,0,0,.07);padding:2px 6px;border-radius:3px}
 .pd-desc{font-size:.875rem;color:var(--text-light);line-height:1.75;margin-bottom:22px}
 .pd-qty-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .pd-qty-ctrl{display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;overflow:hidden}
@@ -230,6 +238,14 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 .toast.show{transform:translateX(0)}
 .success-svg{width:54px;height:54px;stroke:var(--gold);stroke-width:2;stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s forwards}
 
+/* PAYSTACK REVIEW SECTION */
+.checkout-summary{background:var(--sand);border-radius:8px;padding:14px;margin:14px 0;border:1px solid var(--border)}
+.checkout-summary-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px}
+.checkout-item-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;border-bottom:1px solid rgba(0,0,0,.06)}
+.checkout-item-row:last-child{border-bottom:none;font-weight:700;font-size:14px;padding-top:9px;color:var(--charcoal)}
+.paystack-badge{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-light);margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.paystack-badge i{color:#00C3F7}
+
 @keyframes popIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -252,6 +268,8 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
   .sort-tab{padding:12px 14px;font-size:12px}
   .pd-info{padding:20px 18px 18px}
   .pd-name{font-size:1.35rem}
+  .form-g{grid-template-columns:1fr}
+  .form-g .full{grid-column:1}
 }
 </style>
 </head>
@@ -294,14 +312,14 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
     <div class="mob-header">
       <a href="index.html" class="logo" style="gap:7px" onclick="closeMobNav()">
         <img src="img/Pinniture logo.png" alt="Logo" style="width:1.9em">
-        <div class="brand"><span class="brand-name" style="color:var(--text);font-size:14px">PINNITURE</span><span class="brand-sub" style="color:var(--text-light)">An interior design company</span></div>
+        <div class="brand"><span class="brand-name" style="color:var(--text);font-size:23px">PINNITURE</span><span class="brand-sub" style="color:var(--text-light)">An interior design company</span></div>
       </a>
       <button class="mob-x" onclick="closeMobNav()"><i class="fas fa-xmark"></i></button>
     </div>
     <div class="mob-list">
       <div class="mob-row"><a href="index.html" onclick="closeMobNav()"><i class="fas fa-house ni"></i>Home</a></div>
       <div class="mob-shop-row">
-        <a href="shop.html" onclick="closeMobNav()"><i class="fas fa-store ni"></i>Shop</a>
+        <a href="shop.html" onclick="closeMobNav()" style="color: #C4973A;"><i class="fas fa-store ni"></i>Shop</a>
         <button class="mob-expand" id="mobExpand" onclick="toggleMobCats()"><i class="fas fa-plus"></i></button>
       </div>
       <div class="mob-cats" id="mobCats">
@@ -440,7 +458,7 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 <!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutM">
   <div class="m-box">
-    <div class="close-btn" onclick="closeCheckout()"><i class="fas fa-xmark"></i></div>
+    <button class="close-btn" onclick="closeCheckout()"><i class="fas fa-xmark"></i></button>
     <h2 style="font-family:var(--font-head)">Secure Checkout</h2>
     <h4 style="margin:12px 0 4px;color:var(--text-light);font-size:.82rem;font-weight:500">Delivery Information</h4>
     <div class="form-g">
@@ -451,13 +469,24 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
       <input type="text" id="addr1" placeholder="Street Address" class="full" required>
       <input type="text" id="addr2" placeholder="Apt, Suite, Floor (Optional)" class="full">
       <input type="text" id="city" placeholder="City" required>
-      <select id="state" required><option value="">Select State</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option><option>Enugu</option><option>Other</option></select>
-      <input type="text" id="zip" placeholder="ZIP / Postal Code" class="full" required>
+      <select id="state" required><option value="">Select State</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option><option>Enugu</option><option>Akwa Ibom</option><option>Other</option></select>
       <input type="text" id="notes" placeholder="Delivery Instructions" class="full">
+<div class="full" style="display:flex;align-items:flex-start;gap:7px;background:#FFF8EC;border:1px solid #F0C060;border-radius:6px;padding:9px 12px;margin-top:-4px">
+  <i class="fas fa-triangle-exclamation" style="color:#C4973A;font-size:13px;margin-top:1px;flex-shrink:0"></i>
+  <span style="font-size:12px;color:#7A5C1E;line-height:1.5">Shipping cost will be communicated before delivery as it's a third-party service.</span>
+</div>
     </div>
-    <button type="button" class="btn btn-gold" style="width:100%;padding:14px;justify-content:center;margin-top:4px" id="payBtn" onclick="processPay()">
-      <i class="fas fa-lock"></i> PAY SECURELY
+
+    <!-- Order Summary -->
+    <div class="checkout-summary" id="checkoutSummary"></div>
+
+    <button type="button" class="btn btn-gold" style="width:100%;padding:14px;justify-content:center;margin-top:4px" id="payBtn" onclick="initiatePaystack()">
+      <i class="fas fa-lock"></i> PAY WITH PAYSTACK
     </button>
+    <div class="paystack-badge">
+      <i class="fas fa-shield-halved"></i>
+      Secured by Paystack — your card details are never stored on our servers
+    </div>
   </div>
 </div>
 
@@ -465,9 +494,10 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 <div class="modal" id="successM">
   <div class="m-box" style="text-align:center;padding:36px">
     <svg class="success-svg" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg>
-    <h2 style="font-family:var(--font-head);margin-top:14px">Order Confirmed!</h2>
-    <p style="color:var(--text-light);margin:8px 0 16px">Thank you. Your premium furniture is on its way.</p>
-    <div style="background:var(--sand);padding:10px;border-radius:5px;font-weight:600;margin-bottom:18px">Ref: <span id="refId"></span></div>
+    <h2 style="font-family:var(--font-head);margin-top:14px">Payment Confirmed!</h2>
+    <p style="color:var(--text-light);margin:8px 0 16px">Thank you! Your order has been received and is being processed.</p>
+    <div style="background:var(--sand);padding:10px;border-radius:5px;font-weight:600;margin-bottom:18px">Order Ref: <span id="refId"></span></div>
+    <p style="font-size:.82rem;color:var(--text-light);margin-bottom:18px">A confirmation has been sent to your email address.</p>
     <button class="btn btn-gold" onclick="closeSuccess()">Continue Shopping</button>
   </div>
 </div>
@@ -475,27 +505,35 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 <div class="toast" id="toast"></div>
 
 <script>
+
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
+const PAYSTACK_KEY     = 'pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const EJS_SERVICE      = 'YOUR_SERVICE_ID';
+const EJS_TEMPLATE     = 'YOUR_TEMPLATE_ID';
+const EJS_PUBLIC       = 'YOUR_PUBLIC_KEY';
+const OWNER_EMAIL      = 'efosagodwin081@gmail.com';
+const SENDGRID_RELAY   = 'https://wwvquutrupwwziuiuucr.supabase.co/functions/v1/send-receipt';
+
 /* ══════════════════════════════════════
    SUPABASE INIT
-   — Hardcoded credentials (same as admin)
-   — No localStorage dependency
 ══════════════════════════════════════ */
 const SB_URL = 'https://wwvquutrupwwziuiuucr.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3dnF1dXRydXB3d3ppdWl1dWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjQzNzAsImV4cCI6MjA5MjU0MDM3MH0.ImfBqt5JOrKnrsBdjuEFWxVwLBlIUwUnvFCruXtXEGk';
 
 let sbClient = null;
-
 function initSB() {
   if (sbClient) return true;
-  try {
-    sbClient = window.supabase.createClient(SB_URL, SB_KEY);
-    return true;
-  } catch(e) {
-    console.error('Supabase init failed:', e);
-    return false;
-  }
+  try { sbClient = window.supabase.createClient(SB_URL, SB_KEY); return true; }
+  catch(e) { console.error('Supabase init failed:', e); return false; }
 }
 initSB();
+
+// Init EmailJS
+(function() {
+  try { emailjs.init(EJS_PUBLIC); } catch(e) {}
+})();
 
 const catLabels = {bedroom:'Bedroom',kitchen:'Kitchen',living:'Living Room',kids:"Kids' Room",chair:'Chair',desk:'Table / Desk',storage:'Book Storage',workstation:'Work Station',restaurant:'Restaurant',church:'Church',school:'School',bar:'Bar',outdoor:'Outdoor',walldecor:'Wall Decor',lightingdecor:'Lighting Decor',softfurnishings:'Soft Furnishings',tabletop:'Tabletop & Accessories',plants:'Plant & Greenery',fragrance:'Home Fragrance',seasonal:'Seasonal & Festive',african:'Cultural & African',kidsdecor:'Kids Decor'};
 const groupMap = {home:['bedroom','kitchen','living','kids'],office:['chair','desk','storage','workstation'],commercial:['restaurant','church','school','bar'],decor:['walldecor','lightingdecor','softfurnishings','tabletop','plants','fragrance','seasonal','african','kidsdecor'],outdoor:['outdoor']};
@@ -506,6 +544,8 @@ const catParent = {bedroom:'home',kitchen:'home',living:'home',kids:'home',chair
 ══════════════════════════════════════ */
 let allProds = [], cart = [], wishlist = [], pdQty = 1;
 let currentSort = 'all', urlCatFilter = '', outdoorActive = false;
+// Holds delivery info between form → paystack → success
+let pendingOrder = null;
 
 try {
   cart = JSON.parse(localStorage.getItem('pinniture_cart')) || [];
@@ -518,19 +558,12 @@ try {
 async function loadProducts() {
   const grid = document.getElementById('grid');
   grid.innerHTML = `<div class="loading-grid"><div class="spinner"></div> Loading products...</div>`;
-
   if (!sbClient) {
     grid.innerHTML = `<div class="empty-state"><i class="fas fa-plug-circle-exclamation"></i><h3>Store not configured</h3><p>Please check back soon</p></div>`;
     return;
   }
-
   try {
-    const { data, error } = await sbClient
-      .from('products')
-      .select('*')
-      .eq('status', 'Active')
-      .order('created_at', { ascending: false });
-
+    const { data, error } = await sbClient.from('products').select('*').eq('status', 'Active').order('created_at', { ascending: false });
     if (error) throw error;
     allProds = data || [];
     applyFilters();
@@ -553,7 +586,6 @@ function readUrlParam() {
     document.getElementById('breadcrumbCat').textContent = label;
     document.getElementById('activeFilterBar').style.display = 'flex';
     document.getElementById('activePillText').textContent = label;
-
     if (cat === 'outdoor') {
       outdoorActive = true;
       document.getElementById('outdoorBtn').classList.add('active-link');
@@ -581,8 +613,6 @@ function groupLabel(g) {
 
 function applyFilters() {
   let f = [...allProds];
-
-  // URL / sidebar outdoor
   if (outdoorActive || urlCatFilter === 'outdoor') {
     f = f.filter(p => p.category === 'outdoor');
   } else if (urlCatFilter && groupMap[urlCatFilter]) {
@@ -590,21 +620,12 @@ function applyFilters() {
   } else if (urlCatFilter) {
     f = f.filter(p => p.category === urlCatFilter);
   }
-
-  // Sidebar checkboxes — only apply if at least one is checked AND we don't have a URL filter
   const checked = [...document.querySelectorAll('.f-cat:checked')].map(c => c.value);
-  if (checked.length && !urlCatFilter) {
-    f = f.filter(p => checked.includes(p.category));
-  }
-
-  // Price
+  if (checked.length && !urlCatFilter) f = f.filter(p => checked.includes(p.category));
   const max = parseInt(document.getElementById('priceR').value);
   f = f.filter(p => (p.price || 0) <= max);
-
-  // Sort tab
   if (currentSort === 'low') f = f.filter(p => p.price < 100000);
   else if (currentSort === 'high') f = f.filter(p => p.price >= 100000);
-
   renderGrid(f);
 }
 
@@ -717,8 +738,6 @@ function openPD(id) {
   const colors = Array.isArray(p.colors) ? p.colors : [];
   const materials = Array.isArray(p.materials) ? p.materials : [];
   const inWish = wishlist.includes(p.id);
-
-  // Gallery
   const galleryEl = document.getElementById('pdGallery');
   if (imgs.length) {
     galleryEl.innerHTML = `
@@ -729,7 +748,6 @@ function openPD(id) {
   } else {
     galleryEl.innerHTML = `<div class="pd-no-img"><i class="fas fa-image"></i></div><div class="pd-thumbs" id="pdThumbs"></div>`;
   }
-
   document.getElementById('pdInfo').innerHTML = `
     <div class="pd-brand-tag">Pinniture Collection</div>
     <h2 class="pd-name">${p.name}</h2>
@@ -746,6 +764,13 @@ function openPD(id) {
     ${materials.length ? `
     <div class="pd-section-label">Materials</div>
     <div class="pd-material-row">${materials.map(m => `<span class="pd-material-tag">${m}</span>`).join('')}</div>` : ''}
+    ${p.dimensions && (p.dimensions.width || p.dimensions.depth || p.dimensions.height) ? `
+    <div class="pd-section-label">Dimensions</div>
+    <div class="pd-dims-row">
+      ${p.dimensions.width  ? `<div class="pd-dim-chip"><span>W</span>${p.dimensions.width}${p.dimensions.unit||'cm'}</div>` : ''}
+      ${p.dimensions.depth  ? `<div class="pd-dim-chip"><span>D</span>${p.dimensions.depth}${p.dimensions.unit||'cm'}</div>` : ''}
+      ${p.dimensions.height ? `<div class="pd-dim-chip"><span>H</span>${p.dimensions.height}${p.dimensions.unit||'cm'}</div>` : ''}
+    </div>` : ''}
     ${p.description ? `
     <div class="pd-section-label">Description</div>
     <p class="pd-desc">${p.description}</p>` : ''}
@@ -762,11 +787,10 @@ function openPD(id) {
     </div>
     <div class="pd-features">
       <div class="pd-feature"><i class="fas fa-truck-fast"></i>Nationwide delivery on all orders</div>
-      <div class="pd-feature"><i class="fas fa-rotate-left"></i> 30-day hassle-free returns</div>
+      <div class="pd-feature"><i class="fas fa-rotate-left"></i> Aftersales services (Lagos only)</div>
       <div class="pd-feature"><i class="fas fa-shield-halved"></i> 2-year manufacturer's warranty</div>
       <div class="pd-feature"><i class="fas fa-ruler-combined"></i> Custom sizing available — contact us</div>
     </div>`;
-
   document.getElementById('pdOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -789,8 +813,7 @@ function addToCartFromPD(id) {
   if (!p) return;
   const img = Array.isArray(p.images) && p.images[0] ? p.images[0] : '';
   const ex = cart.find(x => x.productId === id);
-  if (ex) ex.qty += pdQty;
-  else cart.push({ productId: id, name: p.name, price: p.price, qty: pdQty, img });
+  if (ex) ex.qty += pdQty; else cart.push({ productId: id, name: p.name, price: p.price, qty: pdQty, img });
   saveCart(); toast('Added to cart'); closePDBtn(); openCart();
 }
 
@@ -842,7 +865,7 @@ function addToCart(id) {
   const img = Array.isArray(p.images) && p.images[0] ? p.images[0] : '';
   const ex = cart.find(x => x.productId === id);
   if (ex) ex.qty++; else cart.push({ productId: id, name: p.name, price: p.price, qty: 1, img });
-  saveCart(); toast('Added to cart'); openCart();
+  saveCart(); toast('Added to cart');
 }
 
 function updateQty(id, d) {
@@ -878,54 +901,199 @@ function updateUI() {
 }
 
 /* ══════════════════════════════════════
-   CHECKOUT — saves to Supabase orders
+   CHECKOUT — Opens form + shows summary
 ══════════════════════════════════════ */
-function openCheckout() { if (!cart.length) { toast('Cart is empty'); return; } closeCart(); document.getElementById('checkoutM').classList.add('open'); }
+function openCheckout() {
+  if (!cart.length) { toast('Cart is empty'); return; }
+  closeCart();
+  // Build order summary
+  const total = cart.reduce((a, i) => a + ((i.price||0) * i.qty), 0);
+  const rows = cart.map(i =>
+    `<div class="checkout-item-row">
+      <span>${i.name} × ${i.qty}</span>
+      <span>₦${((i.price||0)*i.qty).toLocaleString()}</span>
+    </div>`
+  ).join('');
+  document.getElementById('checkoutSummary').innerHTML = `
+    <div class="checkout-summary-title">Order Summary</div>
+    ${rows}
+    <div class="checkout-item-row">
+      <span>Total</span>
+      <span>₦${total.toLocaleString()}</span>
+    </div>`;
+  document.getElementById('checkoutM').classList.add('open');
+}
+
 function closeCheckout() { document.getElementById('checkoutM').classList.remove('open'); }
 
-async function processPay() {
-  const fn = document.getElementById('fn').value.trim();
-  const ln = document.getElementById('ln').value.trim();
-  const em = document.getElementById('em').value.trim();
-  const ph = document.getElementById('ph').value.trim();
-  const addr = [document.getElementById('addr1').value.trim(), document.getElementById('addr2').value.trim(), document.getElementById('city').value.trim(), document.getElementById('state').value].filter(Boolean).join(', ');
+/* ══════════════════════════════════════
+   PAYSTACK INTEGRATION
+   — Validates form, then opens Paystack
+   — Success ONLY fires after payment
+══════════════════════════════════════ */
+function initiatePaystack() {
+  const fn    = document.getElementById('fn').value.trim();
+  const ln    = document.getElementById('ln').value.trim();
+  const em    = document.getElementById('em').value.trim();
+  const ph    = document.getElementById('ph').value.trim();
+  const a1    = document.getElementById('addr1').value.trim();
+  const city  = document.getElementById('city').value.trim();
+  const state = document.getElementById('state').value;
 
-  if (!fn || !em || !ph) { toast('Please fill all required fields'); return; }
+  if (!fn || !em || !ph || !a1 || !city || !state) {
+    toast('Please fill all required fields'); return;
+  }
+  if (!/\S+@\S+\.\S+/.test(em)) {
+    toast('Please enter a valid email address'); return;
+  }
 
-  const btn = document.getElementById('payBtn');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-  btn.disabled = true;
+  const total    = cart.reduce((a, i) => a + ((i.price||0) * i.qty), 0);
+  const ref      = 'PC-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now();
+  const address  = [a1, document.getElementById('addr2').value.trim(), city, state].filter(Boolean).join(', ');
 
-  const ref = 'PC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-  const total = cart.reduce((a, i) => a + ((i.price||0) * i.qty), 0);
-
-  const orderData = {
+  // Save pending order data — only committed on successful payment
+  pendingOrder = {
     ref,
     customer_name: fn + ' ' + ln,
     email: em,
     phone: ph,
-    address: addr,
+    address,
     items: cart.map(i => ({ productId: i.productId, name: i.name, price: i.price, qty: i.qty })),
     total,
     status: 'Processing'
   };
 
+  // Close the checkout form and open Paystack popup
+  closeCheckout();
+
+  const handler = PaystackPop.setup({
+    key:       PAYSTACK_KEY,
+    email:     em,
+    amount:    total * 100,          // Paystack uses kobo (multiply by 100)
+    currency:  'NGN',
+    ref:       ref,
+    firstname: fn,
+    lastname:  ln,
+    phone:     ph,
+    metadata: {
+      custom_fields: [
+        { display_name: 'Customer Name',    variable_name: 'customer_name',    value: fn + ' ' + ln },
+        { display_name: 'Delivery Address', variable_name: 'delivery_address', value: address },
+        { display_name: 'Order Ref',        variable_name: 'order_ref',        value: ref }
+      ]
+    },
+   // Your Paystack popup — update the callback part:
+callback: function(response) {
+  onPaymentSuccess(response);
+},
+    onClose: function() {
+      // User closed Paystack without paying — do nothing
+      toast('Payment was not completed. Your cart is saved.');
+      pendingOrder = null;
+    }
+  });
+
+  handler.openIframe();
+}
+
+/* ══════════════════════════════════════
+   AFTER SUCCESSFUL PAYMENT
+══════════════════════════════════════ */
+async function onPaymentSuccess(paystackResponse) {
+  if (!pendingOrder) return;
+
+  const order = { ...pendingOrder, paystack_ref: paystackResponse.reference, status: 'Paid' };
+
+  // 1. Save order to Supabase
   try {
     if (sbClient) {
-      const { error } = await sbClient.from('orders').insert([orderData]);
-      if (error) throw error;
+      const { error } = await sbClient.from('orders').insert([order]);
+      if (error) console.error('Order save error:', error);
     }
-    showSuccess(ref);
+  } catch(e) { console.error('Supabase error:', e); }
+
+  // 2. Send owner notification via EmailJS (existing)
+  sendOrderEmail(order);
+
+  // 3. Send customer receipt via SendGrid ← NEW
+  sendCustomerReceipt(order);
+
+  // 4. Show success, clear cart
+  showSuccess(order.ref);
+  pendingOrder = null;
+}
+
+/* ══════════════════════════════════════
+   EMAIL NOTIFICATION VIA EMAILJS
+══════════════════════════════════════ */
+function sendOrderEmail(order) {
+  try {
+    const itemsList = order.items.map(i => `• ${i.name} × ${i.qty}  →  ₦${((i.price||0)*i.qty).toLocaleString()}`).join('\n');
+
+    emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
+      to_email:      OWNER_EMAIL,
+      to_name:       'Pinniture Team',
+      order_ref:     order.ref,
+      customer_name: order.customer_name,
+      customer_email:order.email,
+      customer_phone:order.phone,
+      delivery_address: order.address,
+      items_list:    itemsList,
+      order_total:   '₦' + order.total.toLocaleString(),
+      paystack_ref:  order.paystack_ref || 'N/A',
+      order_date:    new Date().toLocaleString('en-NG', { dateStyle: 'full', timeStyle: 'short' })
+    });
   } catch(e) {
-    toast(e.message || 'Payment failed. Please try again.', 'error');
-  } finally {
-    btn.innerHTML = '<i class="fas fa-lock"></i> PAY SECURELY';
-    btn.disabled = false;
+    console.error('EmailJS error:', e);
   }
 }
 
+/* ══════════════════════════════════════
+   CUSTOMER RECEIPT VIA SENDGRID
+   (relayed through Supabase Edge Function)
+══════════════════════════════════════ */
+async function sendCustomerReceipt(order) {
+  try {
+    const firstName = order.customer_name.split(' ')[0];
+    const year = new Date().getFullYear();
+
+    let itemRows = '';
+    order.items.forEach(function(i) {
+      itemRows += '<tr>' +
+        '<td style="padding:8px 12px;border-bottom:1px solid #f0ede8;font-size:14px">' + i.name + '</td>' +
+        '<td style="padding:8px 12px;border-bottom:1px solid #f0ede8;text-align:center;font-size:14px">' + i.qty + '</td>' +
+        '<td style="padding:8px 12px;border-bottom:1px solid #f0ede8;text-align:right;font-size:14px">&#8358;' + ((i.price || 0) * i.qty).toLocaleString() + '</td>' +
+        '</tr>';
+    });
+
+    const html =
+      '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1.0"></head>' +
+      '<body style="margin:0;padding:0;background:#FAF7F2;font-family:Arial,sans-serif">' +
+      '<div style="max-width:600px;margin:0 auto;padding:32px 16px">' +
+
+      '<div style="background:#1C1C1E;border-radius:12px 12px 0 0;padding:28px 32px;text-align:center">' +
+
+    await fetch(SENDGRID_RELAY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to:      order.email,
+        toName:  order.customer_name,
+        subject: `Your Pinniture Order is Confirmed — ${order.ref}`,
+        html
+      })
+    });
+  } catch(e) {
+    console.error('SendGrid receipt error:', e);
+    // Non-fatal — order is already saved, don't block the user
+  }
+}
+
+/* ══════════════════════════════════════
+   SUCCESS MODAL
+══════════════════════════════════════ */
 function showSuccess(ref) {
-  closeCheckout();
   document.getElementById('refId').textContent = ref;
   document.getElementById('successM').classList.add('open');
   cart = []; saveCart();
@@ -935,7 +1103,7 @@ function closeSuccess() { document.getElementById('successM').classList.remove('
 function toast(msg) {
   const t = document.getElementById('toast'); if (!t) return;
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3200);
 }
 
 function openMobNav() { document.getElementById('mobNav').classList.add('open'); document.body.style.overflow = 'hidden'; }
@@ -955,6 +1123,7 @@ function init() {
   loadProducts();
 }
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
+
 </script>
 </body>
 </html>

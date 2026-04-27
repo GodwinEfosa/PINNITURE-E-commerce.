@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- Added Supabase JS for dynamic product loading -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
 :root{--cream:#FAF7F2;--charcoal:#1C1C1E;--terracotta:#C9704A;--sage:#8FAF85;--sand:#E8DCC8;--text:#1A1A1A;--text-light:#6B6B6B;--white:#FFFFFF;--gold:#C4973A;--border:#E2D9CC;--shadow:0 8px 30px rgba(0,0,0,.08);--trans:all .3s cubic-bezier(.25,.46,.45,.94);--font-head:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;--font-price:'Cormorant Garamond',serif}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -110,7 +112,7 @@ animation:slideIn .28s ease;
 .mob-cart-badge{background:var(--gold);color:#fff;padding:1px 9px;border-radius:20px;font-size:12px;font-weight:700}
 .mob-cart-cta:hover .mob-cart-badge{background:rgba(255,255,255,.25)}
 /* HERO */
-.hero{min-height:100vh;display:grid;place-items:center;position:relative;background:url('https://plus.unsplash.com/premium_photo-1705169538590-d1a4cecf7bd8?w=1600&auto=format&fit=crop&q=90') center/cover no-repeat fixed;overflow:hidden;text-align:center;color:#fff}
+.hero{min-height:100vh;display:grid;place-items:center;position:relative;background:url('img/interior\ img.jpeg') center/cover no-repeat fixed;overflow:hidden;text-align:center;color:#fff}
 .hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:1}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:30%;background:linear-gradient(to top,var(--cream),transparent);z-index:1}
 .hero-c{position:relative;z-index:2;max-width:800px;padding:20px}
@@ -119,7 +121,7 @@ animation:slideIn .28s ease;
 .hero-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;animation:fadeUp .8s .6s ease both}
 .scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;animation:bounce 2s infinite;color:rgba(255,255,255,.8)}
 @media(max-width:768px){
-.hero{background:url('https://plus.unsplash.com/premium_photo-1678074057896-eee996d4a23e?w=500&auto=format&fit=crop&q=90') center/cover no-repeat fixed}
+.hero{background:url('img/interior\ img.jpeg') center/cover no-repeat fixed}
 }
 /* SECTIONS */
 .sec{padding:80px 0}
@@ -169,11 +171,11 @@ animation:slideIn .28s ease;
 /* ── SHOP BY ROOM ── */
 .cats{background:var(--sand);padding:80px 80px}
 .cats-inner{max-width:1400px;margin:0 auto;padding:0 20px}
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .cat-card:first-child{grid-column:1/-1}
 .cat-card{position:relative;overflow:hidden;display:block;background:#ccc;cursor:pointer;}
 .cat-card:first-child{aspect-ratio:21/9}
-.cat-card:not(:first-child){aspect-ratio:1/1}
+.cat-card:not(:first-child){aspect-ratio:3/4}
 .cat-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease;}
 .cat-card:hover img{transform:scale(1.04)}
 .cat-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 60%);}
@@ -185,7 +187,7 @@ animation:slideIn .28s ease;
 .cats-inner{padding:0 12px}
 .cat-grid{gap:7px}
 .cat-card:first-child{aspect-ratio:16/7}
-.cat-card:not(:first-child){aspect-ratio:4/4}
+.cat-card:not(:first-child){aspect-ratio:3/4}
 .cat-label{padding:10px 11px}
 .cat-label-top{display:none}
 .cat-label h3{font-size:.82rem}
@@ -317,6 +319,28 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 .hamburger{display:flex}
 .shop-btn-desktop{display:none}
 }
+
+/* ── BOTTOM PANELS ── */
+.bp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2010;opacity:0;visibility:hidden;transition:all .3s ease}
+.bp-overlay.open{opacity:1;visibility:visible}
+.bottom-panel{position:fixed;bottom:0;left:0;right:0;z-index:2011;background:#fff;border-radius:18px 18px 0 0;max-height:82vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .38s cubic-bezier(.25,.46,.45,.94);box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.bottom-panel.open{transform:translateY(0)}
+.bp-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.bp-header h3{font-family:var(--font-head);font-size:1.25rem;color:var(--text)}
+.bp-close{width:32px;height:32px;border-radius:50%;background:var(--sand);display:grid;place-items:center;cursor:pointer;font-size:13px;color:var(--text);transition:var(--trans);border:none;flex-shrink:0}
+.bp-close:hover{background:var(--charcoal);color:#fff}
+.bp-body{padding:22px 24px 40px;overflow-y:auto;line-height:1.75;color:var(--text-light);font-size:.9rem}
+.bp-body h4{font-size:.92rem;font-weight:700;color:var(--text);margin:18px 0 6px}
+.bp-body h4:first-of-type{margin-top:0}
+.bp-body p{margin-bottom:6px}
+.bp-body ul{margin:6px 0 10px 18px;list-style:disc}
+.bp-body ul li{margin-bottom:4px}
+.bp-updated{font-size:.78rem;color:var(--gold);font-weight:600;margin-bottom:16px}
+@media(min-width:768px){.bottom-panel{left:50%;right:auto;width:100%;max-width:680px;transform:translateX(-50%) translateY(100%);border-radius:18px 18px 0 0}.bottom-panel.open{transform:translateX(-50%) translateY(0)}}
+
+.pd-dims-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.pd-dim-chip{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:6px;border:1px solid var(--border);background:var(--sand);font-size:13px;font-weight:600;color:var(--text)}
+.pd-dim-chip span{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-light);background:rgba(0,0,0,.07);padding:2px 6px;border-radius:3px}
 </style>
 </head>
 <body>
@@ -389,14 +413,14 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 <a href="index.html" class="logo" style="gap:7px" onclick="closeMobNav()">
 <img src="img/Pinniture logo.png" alt="Logo" style="width:1.9em">
 <div class="brand">
-<span class="brand-name" style="color:var(--text);font-size:14px">PINNITURE</span>
+<span class="brand-name" style="color:var(--text);font-size:23px; letter-spacing: 0.1em;">PINNITURE</span>
 <span class="brand-sub" style="color:var(--text-light)">An interior design company</span>
 </div>
 </a>
 <button class="mob-x" onclick="closeMobNav()"><i class="fas fa-xmark"></i></button>
 </div>
 <div class="mob-list">
-<div class="mob-row"><a href="index.html" onclick="closeMobNav()"><i class="fas fa-house ni"></i>Home</a></div>
+<div class="mob-row"><a href="index.html" onclick="closeMobNav()" style="color: #C4973A;"><i class="fas fa-house ni"></i>Home</a></div>
 <div class="mob-shop-row">
 <a href="shop.html" onclick="closeMobNav()"><i class="fas fa-store ni"></i>Shop</a>
 <button class="mob-expand" id="mobExpand" onclick="toggleMobCats()"><i class="fas fa-plus"></i></button>
@@ -505,6 +529,22 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 <div class="cat-label-arrow">Explore →</div>
 </div>
 </a>
+<a href="shop.html?cat=decor" class="cat-card">
+  <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80" alt="Decor" loading="lazy">
+  <div class="cat-label">
+    <div class="cat-label-top">Pinniture</div>
+    <h3>Decor</h3>
+    <div class="cat-label-arrow">Explore →</div>
+  </div>
+</a>
+<a href="shop.html?cat=outdoor" class="cat-card">
+  <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=800&auto=format&fit=crop&q=80" alt="Outdoor" loading="lazy">
+  <div class="cat-label">
+    <div class="cat-label-top">Pinniture</div>
+    <h3>Outdoor</h3>
+    <div class="cat-label-arrow">Explore →</div>
+  </div>
+</a>
 </div>
 </div>
 </section>
@@ -550,6 +590,8 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 <a href="shop.html">Shop</a>
 <a href="interior-design.html">Interior Design</a>
 <a href="about.html">About</a>
+<a href="#" onclick="event.preventDefault();openPanel('terms')">Terms & Conditions</a>
+  <a href="#" onclick="event.preventDefault();openPanel('refund')">Refund Policy</a>
 </div>
 <div class="ft-col">
 <h4>Categories</h4>
@@ -593,39 +635,133 @@ footer{background:var(--charcoal);color:#fff;padding:60px 24px 20px;border-top:4
 <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="openCheckout()">Proceed to Checkout</button>
 </div>
 </div>
+
 <!-- CHECKOUT -->
 <div class="modal" id="checkoutM">
-<div class="m-box">
-<div class="close-btn" onclick="closeCheckout()"><i class="fas fa-xmark"></i></div>
-<h2 style="font-family:var(--font-head)">Secure Checkout</h2>
-<h4 style="margin:12px 0 4px;color:var(--text-light);font-size:.82rem;font-weight:500">Delivery Information</h4>
-<div class="form-g">
-<input type="text" id="fn" placeholder="First Name" required>
-<input type="text" id="ln" placeholder="Last Name" required>
-<input type="email" id="em" placeholder="Email Address" class="full" required>
-<input type="tel" id="ph" placeholder="Phone Number" class="full" required>
-<input type="text" id="addr1" placeholder="Street Address" class="full" required>
-<input type="text" id="addr2" placeholder="Apt, Suite, Floor (Optional)" class="full">
-<input type="text" id="city" placeholder="City" required>
-<select id="state" required><option value="">Select State</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option><option>Enugu</option><option>Other</option></select>
-<input type="text" id="zip" placeholder="ZIP / Postal Code" class="full" required>
-<input type="text" id="notes" placeholder="Delivery Instructions" class="full">
-</div>
-<button type="button" class="btn btn-gold" style="width:100%;padding:14px;justify-content:center;margin-top:4px" onclick="processPay()">
-<i class="fas fa-lock"></i> PAY SECURELY
-</button>
-</div>
+  <div class="m-box">
+    <button class="close-btn" onclick="closeCheckout()"><i class="fas fa-xmark"></i></button>
+    <h2 style="font-family:var(--font-head)">Secure Checkout</h2>
+    <h4 style="margin:12px 0 4px;color:var(--text-light);font-size:.82rem;font-weight:500">Delivery Information</h4>
+    <div class="form-g">
+      <input type="text" id="fn" placeholder="First Name" required>
+      <input type="text" id="ln" placeholder="Last Name" required>
+      <input type="email" id="em" placeholder="Email Address" class="full" required>
+      <input type="tel" id="ph" placeholder="Phone Number" class="full" required>
+      <input type="text" id="addr1" placeholder="Street Address" class="full" required>
+      <input type="text" id="addr2" placeholder="Apt, Suite, Floor (Optional)" class="full">
+      <input type="text" id="city" placeholder="City" required>
+      <select id="state" required><option value="">Select State</option><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option><option>Enugu</option><option>Akwa Ibom</option><option>Other</option></select>
+      <input type="text" id="notes" placeholder="Delivery Instructions" class="full">
+      <div class="full" style="display:flex;align-items:flex-start;gap:7px;background:#FFF8EC;border:1px solid #F0C060;border-radius:6px;padding:9px 12px;margin-top:-4px">
+        <i class="fas fa-triangle-exclamation" style="color:#C4973A;font-size:13px;margin-top:1px;flex-shrink:0"></i>
+        <span style="font-size:12px;color:#7A5C1E;line-height:1.5">Shipping cost will be communicated before delivery as it's a third-party service.</span>
+      </div>
+    </div>
+    <div style="background:var(--sand);border-radius:8px;padding:14px;margin:14px 0;border:1px solid var(--border)" id="checkoutSummary"></div>
+    <button type="button" class="btn btn-gold" style="width:100%;padding:14px;justify-content:center;margin-top:4px" onclick="initiatePaystack()">
+      <i class="fas fa-lock"></i> PAY WITH PAYSTACK
+    </button>
+    <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-light);margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+      <i class="fas fa-shield-halved" style="color:#00C3F7"></i>
+      Secured by Paystack — your card details are never stored on our servers
+    </div>
+  </div>
 </div>
 <!-- SUCCESS -->
+<!-- SUCCESS -->
 <div class="modal" id="successM">
-<div class="m-box" style="text-align:center;padding:36px">
-<svg class="success-svg" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg>
-<h2 style="font-family:var(--font-head);margin-top:14px">Order Confirmed!</h2>
-<p style="color:var(--text-light);margin:8px 0 16px">Thank you. Your premium furniture is on its way.</p>
-<div style="background:var(--sand);padding:10px;border-radius:5px;font-weight:600;margin-bottom:18px">Ref: PC-<span id="refId"></span></div>
-<button class="btn btn-gold" onclick="closeSuccess()">Continue Shopping</button>
+  <div class="m-box" style="text-align:center;padding:36px">
+    <svg style="width:54px;height:54px;stroke:var(--gold);stroke-width:2;stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s forwards" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg>
+    <h2 style="font-family:var(--font-head);margin-top:14px">Payment Confirmed!</h2>
+    <p style="color:var(--text-light);margin:8px 0 16px">Thank you! Your order has been received and is being processed.</p>
+    <div style="background:var(--sand);padding:10px;border-radius:5px;font-weight:600;margin-bottom:18px">Order Ref: <span id="refId"></span></div>
+    <p style="font-size:.82rem;color:var(--text-light);margin-bottom:18px">A confirmation has been sent to your email address.</p>
+    <button class="btn btn-gold" onclick="closeSuccess()">Continue Shopping</button>
+  </div>
 </div>
+
+<!-- BOTTOM PANELS -->
+<div class="bp-overlay" id="bpOverlay" onclick="closePanel()"></div>
+
+<div class="bottom-panel" id="termsPanel">
+  <div class="bp-header">
+    <h3>Terms &amp; Conditions</h3>
+    <button class="bp-close" onclick="closePanel()"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="bp-body">
+    <p class="bp-updated">Last updated: April 2026</p>
+
+    <h4>1. Acceptance of Terms</h4>
+    <p>By accessing or placing an order on the Pinniture website, you agree to be bound by these Terms & Conditions. If you do not agree, please do not use our services.</p>
+
+    <h4>2. Products & Pricing</h4>
+    <p>All prices are displayed in Nigerian Naira (₦) and are subject to change without notice. We reserve the right to cancel any order placed at an incorrect price due to a typographical error.</p>
+
+    <h4>3. Orders & Payment</h4>
+    <p>Orders are confirmed only upon successful payment. We accept bank transfers and online card payments via our secure checkout. Pinniture reserves the right to refuse or cancel any order at our discretion.</p>
+
+    <h4>4. Delivery</h4>
+    <p>We deliver nationwide across Nigeria. Delivery timelines vary by location and product availability. Standard delivery takes 5–14 business days. Custom orders may take 4–8 weeks depending on specifications.</p>
+
+    <h4>5. Custom Orders</h4>
+    <p>Custom or bespoke orders require a 50% deposit upfront and are non-refundable once production has commenced. The balance is due before delivery.</p>
+
+    <h4>6. Intellectual Property</h4>
+    <p>All content on this website — including images, text, and designs — is the property of Pinniture and may not be reproduced without written permission.</p>
+
+    <h4>7. Limitation of Liability</h4>
+    <p>Pinniture is not liable for any indirect or consequential loss arising from the use of our products or website beyond the original purchase value of the item in question.</p>
+
+    <h4>8. Governing Law</h4>
+    <p>These terms are governed by the laws of the Federal Republic of Nigeria. Any disputes shall be resolved under Nigerian jurisdiction.</p>
+
+    <h4>9. Contact</h4>
+    <p>For any questions regarding these terms, please contact us at <strong>hello@pinniture.com</strong> or call <strong>+234 800 PINN</strong>.</p>
+  </div>
 </div>
+
+<div class="bottom-panel" id="refundPanel">
+  <div class="bp-header">
+    <h3>Refund Policy</h3>
+    <button class="bp-close" onclick="closePanel()"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="bp-body">
+    <p class="bp-updated">Last updated: April 2026</p>
+
+    <h4>1. Return Window</h4>
+    <p>We offer a <strong>30-day return window</strong> from the date of delivery for eligible items. Items must be in their original, unused condition with all packaging intact.</p>
+
+    <h4>2. Eligible Items</h4>
+    <p>Standard catalogue items are eligible for return. Items must show no signs of use, assembly, or damage caused after delivery. Pinniture reserves the right to assess the condition of returned items before processing any refund.</p>
+
+    <h4>3. Non-Refundable Items</h4>
+    <ul>
+      <li>Custom or bespoke orders made to your specifications</li>
+      <li>Items damaged due to improper use or self-assembly errors</li>
+      <li>Items returned without original packaging</li>
+      <li>Clearance or final sale items</li>
+    </ul>
+
+    <h4>4. How to Initiate a Return</h4>
+    <p>Contact us at <strong>hello@pinniture.com</strong> within 30 days of delivery with your order reference number and reason for return. Our team will respond within 2 business days with return instructions.</p>
+
+    <h4>5. Return Shipping</h4>
+    <p>Customers are responsible for the cost of return shipping unless the return is due to a defect or an error on our part, in which case Pinniture will arrange and cover the collection.</p>
+
+    <h4>6. Refund Processing</h4>
+    <p>Once we receive and inspect the returned item, refunds are processed within <strong>7–10 business days</strong> to the original payment method. You will receive an email confirmation when the refund is issued.</p>
+
+    <h4>7. Damaged or Defective Items</h4>
+    <p>If your item arrives damaged or defective, please photograph it immediately and contact us within <strong>48 hours</strong> of delivery. We will arrange a replacement or full refund at no cost to you.</p>
+
+    <h4>8. Exchanges</h4>
+    <p>We do not offer direct exchanges at this time. Please return the original item and place a new order for the desired product.</p>
+
+    <h4>9. Contact</h4>
+    <p>For all refund enquiries, reach us at <strong>hello@pinniture.com</strong> or <strong>+234 800 PINN</strong>. We're here to help.</p>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <script>
 /* ── Supabase Configuration ── */
@@ -697,7 +833,7 @@ function addToCart(id) {
   const ex = cart.find(x => x.productId == id);
   if (ex) ex.qty++;
   else cart.push({ productId: id, name: p.name, price: p.price, qty: 1, img: (p.images?.[0]) || '' });
-  saveCart(); toast('Added to cart'); openCart();
+  saveCart(); toast('Added to cart');
 }
 
 /* ── Product Detail Modal ── */
@@ -716,7 +852,7 @@ function openPD(id) {
   <h2 class="pd-name">${p.name}</h2>
   <div class="pd-price-block">
     <div class="pd-price">₦${(p.price||0).toLocaleString()}</div>
-    <div class="pd-price-note">Free delivery nationwide</div>
+    <div class="pd-price-note">Nationwide shipping on all orders.</div>
   </div>`;
   
   if (p.colors?.length) {
@@ -730,6 +866,16 @@ function openPD(id) {
     html += `<div class="pd-section-label">Materials</div>
     <div class="pd-material-row">${p.materials.map(m => `<span class="pd-material-tag">${m}</span>`).join('')}</div>`;
   }
+
+  if (p.dimensions && (p.dimensions.width || p.dimensions.depth || p.dimensions.height)) {
+    html += `<div class="pd-section-label">Dimensions</div>
+    <div class="pd-dims-row">
+      ${p.dimensions.width  ? `<div class="pd-dim-chip"><span>W</span>${p.dimensions.width}${p.dimensions.unit||'cm'}</div>` : ''}
+      ${p.dimensions.depth  ? `<div class="pd-dim-chip"><span>D</span>${p.dimensions.depth}${p.dimensions.unit||'cm'}</div>` : ''}
+      ${p.dimensions.height ? `<div class="pd-dim-chip"><span>H</span>${p.dimensions.height}${p.dimensions.unit||'cm'}</div>` : ''}
+    </div>`;
+  }
+
   
   if (p.description) {
     html += `<div class="pd-section-label">Description</div><p class="pd-desc">${p.description}</p>`;
@@ -746,8 +892,8 @@ function openPD(id) {
     </button>
   </div>
   <div class="pd-features">
-    <div class="pd-feature"><i class="fas fa-truck-fast"></i> Free nationwide delivery on all orders</div>
-    <div class="pd-feature"><i class="fas fa-rotate-left"></i> 30-day hassle-free returns</div>
+    <div class="pd-feature"><i class="fas fa-truck-fast"></i> Nationwide shipping on all orders.</div>
+    <div class="pd-feature"><i class="fas fa-rotate-left"></i> Aftersales services (Lagos only)</div>
     <div class="pd-feature"><i class="fas fa-shield-halved"></i> 2-year manufacturer's warranty</div>
     <div class="pd-feature"><i class="fas fa-ruler-combined"></i> Custom sizing available — contact us</div>
   </div>`;
@@ -820,11 +966,102 @@ function updateUI() {
   if (tot) tot.textContent = '₦' + cart.reduce((a, i) => a + (i.price * i.qty), 0).toLocaleString();
 }
 
-/* ── Checkout & Toast ── */
-function openCheckout() { if (!cart.length) { toast('Cart is empty'); return; } closeCart(); document.getElementById('checkoutM').classList.add('open'); }
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
+const PAYSTACK_PUBLIC_KEY = 'pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+const OWNER_EMAIL = 'efosagodwin081@gmail.com';
+let pendingOrder = null;
+
+// Init EmailJS
+(function(){ try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e) {} })();
+
+/* ── Checkout ── */
+function openCheckout() {
+  if (!cart.length) { toast('Cart is empty'); return; }
+  closeCart();
+  const total = cart.reduce((a, i) => a + ((i.price || 0) * i.qty), 0);
+  const rows = cart.map(i =>
+    `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;border-bottom:1px solid rgba(0,0,0,.06)">
+      <span>${i.name} × ${i.qty}</span><span>₦${((i.price||0)*i.qty).toLocaleString()}</span>
+    </div>`
+  ).join('');
+  document.getElementById('checkoutSummary').innerHTML = `
+    <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px">Order Summary</div>
+    ${rows}
+    <div style="display:flex;justify-content:space-between;font-weight:700;font-size:14px;padding-top:9px;color:var(--charcoal)">
+      <span>Total</span><span>₦${total.toLocaleString()}</span>
+    </div>`;
+  document.getElementById('checkoutM').classList.add('open');
+}
 function closeCheckout() { document.getElementById('checkoutM').classList.remove('open'); }
-function processPay() { if (!document.getElementById('em').value) { toast('Email required'); return; } toast('Processing payment...'); setTimeout(() => showSuccess(Math.random().toString(36).substring(2,8).toUpperCase()), 1500); }
-function showSuccess(ref) { closeCheckout(); const r = document.getElementById('refId'); if (r) r.textContent = ref; document.getElementById('successM').classList.add('open'); cart = []; saveCart(); }
+
+/* ── Paystack ── */
+function initiatePaystack() {
+  const fn    = document.getElementById('fn').value.trim();
+  const ln    = document.getElementById('ln').value.trim();
+  const em    = document.getElementById('em').value.trim();
+  const ph    = document.getElementById('ph').value.trim();
+  const a1    = document.getElementById('addr1').value.trim();
+  const city  = document.getElementById('city').value.trim();
+  const state = document.getElementById('state').value;
+  if (!fn || !em || !ph || !a1 || !city || !state) { toast('Please fill all required fields'); return; }
+  if (!/\S+@\S+\.\S+/.test(em)) { toast('Please enter a valid email address'); return; }
+  const total   = cart.reduce((a, i) => a + ((i.price || 0) * i.qty), 0);
+  const ref     = 'PC-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now();
+  const address = [a1, document.getElementById('addr2').value.trim(), city, state].filter(Boolean).join(', ');
+  pendingOrder  = {
+    ref, customer_name: fn + ' ' + ln, email: em, phone: ph, address,
+    items: cart.map(i => ({ productId: i.productId, name: i.name, price: i.price, qty: i.qty })),
+    total, status: 'Processing'
+  };
+  closeCheckout();
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY, email: em, amount: total * 100, currency: 'NGN', ref,
+    firstname: fn, lastname: ln, phone: ph,
+    metadata: { custom_fields: [
+      { display_name:'Customer Name',    variable_name:'customer_name',    value: fn+' '+ln },
+      { display_name:'Delivery Address', variable_name:'delivery_address', value: address },
+      { display_name:'Order Ref',        variable_name:'order_ref',        value: ref }
+    ]},
+    callback: function(response) { onPaymentSuccess(response); },
+    onClose:  function() { toast('Payment was not completed. Your cart is saved.'); pendingOrder = null; }
+  });
+  handler.openIframe();
+}
+
+async function onPaymentSuccess(paystackResponse) {
+  if (!pendingOrder) return;
+  const order = { ...pendingOrder, paystack_ref: paystackResponse.reference, status: 'Paid' };
+  try { if (sbClient) { const { error } = await sbClient.from('orders').insert([order]); if (error) console.error('Order save error:', error); } } catch(e) { console.error(e); }
+  sendOrderEmail(order);
+  showSuccess(order.ref);
+  pendingOrder = null;
+}
+
+function sendOrderEmail(order) {
+  try {
+    const itemsList = order.items.map(i => `• ${i.name} × ${i.qty}  →  ₦${((i.price||0)*i.qty).toLocaleString()}`).join('\n');
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: OWNER_EMAIL, to_name: 'Pinniture Team',
+      order_ref: order.ref, customer_name: order.customer_name,
+      customer_email: order.email, customer_phone: order.phone,
+      delivery_address: order.address, items_list: itemsList,
+      order_total: '₦' + order.total.toLocaleString(),
+      paystack_ref: order.paystack_ref || 'N/A',
+      order_date: new Date().toLocaleString('en-NG', { dateStyle:'full', timeStyle:'short' })
+    });
+  } catch(e) { console.error('EmailJS error:', e); }
+}
+
+function showSuccess(ref) {
+  document.getElementById('refId').textContent = ref;
+  document.getElementById('successM').classList.add('open');
+  cart = []; saveCart();
+}
 function closeSuccess() { document.getElementById('successM').classList.remove('open'); }
 function toast(msg) { const t = document.getElementById('toast'); if (!t) return; t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
@@ -834,7 +1071,7 @@ function closeMobNav() { document.getElementById('mobNav').classList.remove('ope
 function toggleMobCats() { const c = document.getElementById('mobCats'), b = document.getElementById('mobExpand'); const o = c.classList.toggle('open'); b.classList.toggle('open', o); }
 function renderWhy() {
   const g = document.getElementById('whyTrack'); if (!g) return;
-  const cards = [{icon:'fa-tree',title:'Solid Wood Craftsmanship',text:'Ethically sourced, hand-finished timber built to last generations.'},{icon:'fa-truck-fast',title:'Nationwide Delivery',text:'White-glove service included with every premium order.'},{icon:'fa-rotate-left',title:'2-Year Warranty',text:'Every custom piece backed by our manufacturer\'s guarantee.'},{icon:'fa-palette',title:'Custom Design Options',text:'Modify dimensions, fabrics, and finishes to your exact vision.'},{icon:'fa-shield-halved',title:'Quality Assured',text:'Every piece passes a rigorous quality inspection before dispatch.'},{icon:'fa-headset',title:'Dedicated Support',text:'Our design consultants are always a call or message away.'}];
+  const cards = [{icon:'fa-truck-fast',title:'Nationwide Delivery',text:'White-glove service included with every premium order.'},{icon:'fa-rotate-left',title:'2-Year Warranty',text:'Every custom piece backed by our manufacturer\'s guarantee.'},{icon:'fa-palette',title:'Custom Design Options',text:'Modify dimensions, fabrics, and finishes to your exact vision.'},{icon:'fa-shield-halved',title:'Quality Assured',text:'Every piece passes a rigorous quality inspection before dispatch.'},{icon:'fa-headset',title:'Dedicated Support',text:'Our design consultants are always a call or message away.'}];
   const html = cards.map(c => `<div class="why-card"><i class="fas ${c.icon} why-icon"></i><h3>${c.title}</h3><p>${c.text}</p></div>`).join('');
   g.innerHTML = html + html;
 }
@@ -863,6 +1100,18 @@ async function init() {
 }
 window.addEventListener('scroll', () => { document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50); }, {passive:true});
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
+
+/* ── Bottom Panels ── */
+function openPanel(type) {
+  document.getElementById('bpOverlay').classList.add('open');
+  document.getElementById(type + 'Panel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePanel() {
+  document.querySelectorAll('.bottom-panel').forEach(p => p.classList.remove('open'));
+  document.getElementById('bpOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 </script>
 <script src="https://js.paystack.co/v1/inline.js" async></script>
 </body>
