@@ -1097,16 +1097,7 @@ function renderVids() {
   const g = document.getElementById('vidGrid'); if (!g) return;
   let v; try { v = JSON.parse(localStorage.getItem('pinniture_videos')) || [{slot:1,id:'dQw4w9WgXcQ'}]; } catch(e) { v = [{slot:1,id:'dQw4w9WgXcQ'}]; }
   const m = v.find(x => x.slot === 1) || v[0];
-  g.innerHTML = `<iframe 
-  width="315" 
-  height="576" 
-  src="https://www.youtube.com/embed/${m.id}" 
-  title="YouTube video player" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-  allowfullscreen 
-  loading="lazy">
-</iframe>`;
+  g.innerHTML = `<iframe src="https://www.youtube.com/embed/RhcToWS_s5c"  allowfullscreen loading="lazy"></iframe>`;
 }
 function initAnim() {
   const obs = new IntersectionObserver(entries => {
