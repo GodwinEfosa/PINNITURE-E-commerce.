@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAVR - Feel Every Beat</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ===== CSS Custom Properties - Design System ===== */
+    :root {
+      /* Color Palette - Backgrounds */
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #1a1a1a;
+      
+      /* Color Palette - Accent */
+      --accent: #00f0ff;
+      --accent-glow: rgba(0, 240, 255, 0.3);
+      
+      /* Color Palette - Text */
+      --text-primary: #ffffff;
+      --text-muted: #888888;
+      
+      /* Color Palette - Borders */
+      --border: rgba(255, 255, 255, 0.08);
+      
+      /* Typography */
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    
+    /* ===== Base Styles ===== */
+    
+    /* Box-sizing reset */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Smooth scrolling behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Body base styles */
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* ===== Hero Section Styles ===== */
+    
+    /* Hero section layout - full viewport height with centered content */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    /* Hero content container */
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      max-width: 1200px;
+    }
+    
+    /* Hero headline - mobile-first (48px) */
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 48px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      text-transform: uppercase;
+    }
+    
+    /* Hero subtitle */
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    
+    /* CTA Button base styles */
+    .cta-button {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--bg-primary);
+      background-color: var(--accent);
+      border: none;
+      border-radius: 50px;
+      padding: 16px 48px;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--accent-glow);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+    
+    /* ===== CTA Button Pulsing Glow Animation ===== */
+    
+    /* Glow pulse keyframe animation */
+    @keyframes glowPulse {
+      0%, 100% {
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+      50% {
+        box-shadow: 0 0 40px var(--accent-glow);
+      }
+    }
+    
+    /* ===== Hero Entrance Animations ===== */
+    
+    /* Fade and slide-up keyframe animation */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Apply staggered animations to hero elements */
+    .hero-title {
+      animation: fadeSlideUp 0.8s ease-out 0.2s both;
+    }
+    
+    .hero-subtitle {
+      animation: fadeSlideUp 0.8s ease-out 0.4s both;
+    }
+    
+    .cta-button {
+      animation: fadeSlideUp 0.8s ease-out 0.6s both;
+    }
+    
+    /* ===== Responsive Typography ===== */
+    
+    /* Tablet breakpoint - 768px */
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 72px;
+      }
+      
+      .hero-subtitle {
+        font-size: 20px;
+      }
+    }
+    
+    /* Desktop breakpoint - 1024px */
+    @media (min-width: 1024px) {
+      .hero {
+        padding: 48px;
+      }
+      
+      .hero-title {
+        font-size: 96px;
+      }
+      
+      .hero-subtitle {
+        font-size: 22px;
+      }
+      
+      .cta-button {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Feel Every Beat.</h1>
+      <p class="hero-subtitle">Your soundtrack. Everywhere.</p>
+      <button class="cta-button">Start Listening</button>
+    </div>
+  </section>
+  
+</body>
+</html>

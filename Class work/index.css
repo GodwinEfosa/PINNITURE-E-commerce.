@@ -1,0 +1,534 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+section{
+    padding-left: 4em;
+    padding-right: 4em;
+}
+
+.nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 4em;
+    background-color: #dddada4b;
+}
+.nav-links ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+.nav-links ul li a::after{
+    content: "";
+    width: 0;
+    height: 0.1em;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(185, 33, 33, 0.705);
+    transition: all 0.3s ease-in-out;
+    border-radius: 0.2em;
+}
+.nav-links ul li a:hover::after{
+    width: 100%;
+}
+.nav-links ul li{
+    list-style: none;
+}
+.nav-links ul li a{
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: black;
+    position: relative;
+}
+.searchbox{
+    width: 12rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4rem;
+    background-color: #eee;
+}
+.searchbox input{
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+.search{
+    cursor:pointer;
+}
+.other-icons{
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
+/* === hero section ==== */
+.hero-section{
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10em;
+    margin-top: 5em;
+    padding: 10px 60px;
+}
+.the-scrollbar{
+    height: 100%;
+    position: relative;
+}
+.image-side::after{
+    content: "";
+    width: 0.2em;
+    height: 100%;
+    position: absolute;
+    left: -3em;
+    bottom: 0;
+    background-color: #2e2e2e60;
+    border-radius: 0.2em;
+}
+.the-scrollbar p{
+    margin-top: 1rem;
+}
+.the-scrollbar p a{
+    text-decoration: none;
+    color: #2e2e2e;
+}
+.image-side{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7em;
+    background-color: #000;
+    color: #fff;
+    position: relative;
+}
+.hero-content{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+.hero-content h1{
+    font-size: 3em;
+}
+.hero-content p span{
+    width: 100%;
+    font-size: 4em;
+}
+.hero-content button{
+    width: 9em;
+    font-size: 0.8em;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-decoration: underline;
+}
+.image-side img{
+    width: 20em;
+}
+
+
+/* ==== flash sales headings ==== */
+.flash-sales{
+    height: 130vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 8em 3em;
+}
+.span1 span{
+    font-size: 0.5em;
+    color: red;
+    position: relative;
+}
+.span1 span::after{
+    content: "";
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    left:-1em;
+    bottom: 0;
+    background-color: red;
+    border-radius: 0.2em;
+}
+.time-head{
+    display: flex;
+    align-items: center;
+    gap: 3em;
+}
+.time{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: 1.2em;
+}
+.time span{
+    font-size: 1.2em;
+    font-weight: 600;
+    color: red;
+}
+.time p{
+    font-size: 0.6em;
+}
+.viewall-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.3em;
+}
+.viewall-btn button{
+    background-color: red;
+    border: none;
+    color: #eee;
+    height: 3em;
+    width: 12em;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+/* ==== flash sales img ===== */
+.cards{
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 0.5fr));;
+    gap: 4em;
+}
+.card-img img{
+    width: 15em;
+    height: auto;
+}
+.card-img{
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+.img-icons{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+}
+.img-icons span{
+    width:3em;
+    margin-left: 1em;
+    height: 1.6em;
+    background-color: rgb(190, 3, 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.2em;
+    margin-top: 0.5em;
+    color: #fff;
+}
+.icons{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+    margin-right: 1.2em;
+    cursor: pointer;
+}
+.size{
+    width: 1.2em;
+    color: #000;
+}
+.each-card{
+    width: 15em;
+    background-color: #c2bebe27;
+    border-radius: 0.5em;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 2em;
+    padding-top: 0.5em;
+}
+.card-img button{
+    background: #000;
+    color: #eee;
+    width: 100%;
+    height: 2em;
+    border: none;
+    cursor: pointer;
+    
+}
+.card-texts{
+    margin-top: 1.3em;
+    margin-left: 0.4em;
+}
+.card-texts h1{
+    font-size: 1.5em;
+}
+.card-texts p{
+    font-size: 1em;
+    color: red;
+    margin-top: 0.5em;
+}
+.card-texts span{
+    color: #000;
+    margin-left: 1em;
+}
+.i-span{
+    display: flex;
+    align-items: center;
+    margin-top: 0.8em;
+}
+.i-span span{
+    font-size:0.9em;
+}
+.fill{
+    width: 1em;
+    color: rgb(218, 160, 3);
+    fill: rgb(218, 160, 3);
+}
+.fa-star{
+    color: rgb(226, 174, 4);
+}
+
+
+
+
+/* ==== category section ==== */
+.category{
+    width: 100%;
+    height: 50vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.category-head h1{
+    position: relative;
+    font-size: 1.1em;
+    color: red;
+}
+.category-head h1 span{
+    margin-left: 1em;
+}
+.category-head h1::after{
+    content: "";
+    width:0.8em;
+    height: 100%;
+    position: absolute;
+    left:0;
+    bottom: 0;
+    background-color: red;
+    border-radius: 0.2em;
+}
+.icon-box{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: 2em;
+}
+.each-icon-box{
+    width: 10em;
+    height: 10em;
+    border: 1px solid #000;
+    border-radius: 0.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1em;
+    box-shadow: 0 1px 3px rgba(10,0,8,10);
+}
+.each-icon-box i{
+    font-size: 1.6em;
+}
+.viewall-thismonth{
+    position: absolute;
+    right: 4.6em;
+}
+.viewall-thismonth button{
+    background-color: red;
+    border: none;
+    color: #eee;
+    height: 3em;
+    width: 12em;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+.flash-sale{
+    height: 110vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 8em 3em;
+    overflow: hidden;
+}
+
+
+
+/*===== JBL section =====*/
+.jbl{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.jblbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4em;
+    width: 95%;
+    height: 80%;
+    background-color: #000;
+    color: #fff;
+}
+.jbl-img img{
+    width: 35em;
+}
+.jbl-texts {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3em;
+}
+.jbl-texts h1{
+    font-size: 3em;
+}
+.jbl-texts p{
+    color: lightgreen;
+}
+.cycles{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.each-cycles{
+    width: 4em;
+    height: 4em;
+    background-color: #fff;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-direction: column;
+    color: #000;
+    
+}
+.each-cycles p{
+    color: #000;
+    font-size:0.8em;
+}
+.jbl button{
+    width: 7em;
+    height: 3.2em;
+    border: none;
+    background-color: lightgreen;
+    cursor: pointer;
+}
+
+
+
+
+
+
+/* ======== This is for more product ======= */
+.iconsinimg{
+    position: absolute;
+    top: 1.1em;
+    right: 0;
+}
+.more-product{
+    height: 200vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 2em 3em;
+}
+.discount{
+    width:3em;
+    margin-left: 1em;
+    height: 1.6em;
+    background-color: rgb(56, 190, 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.2em;
+    margin-top: 0.5em;
+    color: #fff;
+}
+
+
+
+
+/* ==== new arrival ===== */
+.new-arrival{
+    width: 100%;
+    height: 100vh;
+}
+.boxs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2em;
+    margin-top: 2em;
+}
+.first-box{
+    width: 100%;
+    height: 80%;
+    background-color: #000;
+    border-radius: 0.4em;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.first-box img{
+    width: 18em;
+}
+.ps5-texts{
+    position: absolute;
+    bottom:1;
+}
+.second-groupboxs{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    color: #fff;
+
+}
+.lady-img{
+    width: 100%;
+    height: 40%;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 30px 20px;
+}
+.lady-img img{
+    width: 14em;
+    
+}
+.each-box{
+    width: 100%;
+    border-radius: 0.4em;
+    background-color: #000;
+}
+.each-box img{
+    width: 10em;
+}
+.products{
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
