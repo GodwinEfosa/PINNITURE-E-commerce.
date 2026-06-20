@@ -641,7 +641,7 @@ function renderGrid(list) {
   }
   g.innerHTML = list.map((p, i) => {
     const img = Array.isArray(p.images) && p.images[0] ? p.images[0] : null;
-    return `<div class="p-card" style="animation:fadeUp .4s ${i*.04}s ease both" onclick="goToProduct('${p.id}')">
+    return `<div class="p-card" style="animation:fadeUp .4s ${i*.04}s ease both" onclick="openPD('${p.id}')">
       <button class="p-wish ${wishlist.includes(p.id)?'active':''}" onclick="event.stopPropagation();toggleWish('${p.id}',this)">
         <i class="${wishlist.includes(p.id)?'fas':'far'} fa-heart"></i>
       </button>
@@ -659,10 +659,6 @@ function renderGrid(list) {
       </div>
     </div>`;
   }).join('');
-}
-
-function goToProduct(id) {
-  window.location.href = 'product.html?id=' + id;
 }
 
 function setSort(type, el) {
@@ -1070,22 +1066,13 @@ async function sendCustomerReceipt(order) {
         '</tr>';
     });
 
-    const htmlParts = [
-      '<!DOCTYPE html>',
-      '<' + 'html><' + 'head><meta charset="UTF-8">',
-      '<meta name="viewport" content="width=device-width,initial-scale=1.0"></head>',
-      '<' + 'body style="margin:0;padding:0;background:#FAF7F2;font-family:Arial,sans-serif">',
-      '<div style="max-width:600px;margin:0 auto;padding:32px 16px">',
-      '<div style="background:#1C1C1E;border-radius:12px 12px 0 0;padding:28px 32px;text-align:center">',
-      '<h1 style="color:#fff;font-size:20px;margin:0">PINNITURE</h1></div>',
-      '<div style="background:#fff;padding:28px 32px;border-radius:0 0 12px 12px">',
-      '<p style="font-size:15px">Hi ' + firstName + ', your order is confirmed.</p>',
-      '<table style="width:100%;border-collapse:collapse;margin-top:14px">' + itemRows + '</table>',
-      '<p style="margin-top:16px;font-weight:700">Total: &#8358;' + order.total.toLocaleString() + '</p>',
-      '<p style="font-size:12px;color:#777">Order Ref: ' + order.ref + '</p>',
-      '</div></div></' + 'body></' + 'html>'
-    ];
-    const html = htmlParts.join('');
+    const html =
+      '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1.0"></head>' +
+      '<body style="margin:0;padding:0;background:#FAF7F2;font-family:Arial,sans-serif">' +
+      '<div style="max-width:600px;margin:0 auto;padding:32px 16px">' +
+
+      '<div style="background:#1C1C1E;border-radius:12px 12px 0 0;padding:28px 32px;text-align:center">' +
 
     await fetch(SENDGRID_RELAY, {
       method: 'POST',
