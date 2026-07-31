@@ -509,12 +509,12 @@ nav{position:fixed;top:0;width:100%;z-index:998;padding:14px 0;transition:var(--
 /* ══════════════════════════════════════
    CONFIG
 ══════════════════════════════════════ */
-const PAYSTACK_KEY     = 'pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const PAYSTACK_KEY     = 'pk_test_9478c79651f1dfef7e884b00152a2814ba5a1cc3';
 const EJS_SERVICE      = 'YOUR_SERVICE_ID';
 const EJS_TEMPLATE     = 'YOUR_TEMPLATE_ID';
 const EJS_PUBLIC       = 'YOUR_PUBLIC_KEY';
 const OWNER_EMAIL      = 'efosagodwin081@gmail.com';
-const SENDGRID_RELAY   = 'https://wwvquutrupwwziuiuucr.supabase.co/functions/v1/send-receipt';
+const SENDGRID_RELAY   = 'https://wwvquutrupwwziuiuucr.supabase.co/functions/v1/hyper-processor';
 
 /* ══════════════════════════════════════
    SUPABASE INIT
@@ -1006,25 +1006,42 @@ callback: function(response) {
 async function onPaymentSuccess(paystackResponse) {
   if (!pendingOrder) return;
 
-  const order = { ...pendingOrder, paystack_ref: paystackResponse.reference, status: 'Paid' };
-
-  // 1. Save order to Supabase
   try {
-    if (sbClient) {
-      const { error } = await sbClient.from('orders').insert([order]);
-      if (error) console.error('Order save error:', error);
+    const verifyRes = await fetch(
+      'https://wwvquutrupwwziuiuucr.supabase.co/functions/v1/verify-payment',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SB_KEY}`
+        },
+        body: JSON.stringify({
+          reference: paystackResponse.reference,
+          order: pendingOrder
+        })
+      }
+    );
+
+    const result = await verifyRes.json();
+
+    if (!verifyRes.ok || !result.success) {
+      console.error('Verification failed:', result);
+      toast('Payment verification failed. Please contact support with ref: ' + pendingOrder.ref);
+      pendingOrder = null;
+      return;
     }
-  } catch(e) { console.error('Supabase error:', e); }
 
-  // 2. Send owner notification via EmailJS (existing)
-  sendOrderEmail(order);
+    // Verified and saved successfully
+    const order = { ...pendingOrder, paystack_ref: paystackResponse.reference, status: 'Paid' };
+sendCustomerReceipt(order);   // sends the receipt to the customer via Resend
+showSuccess(order.ref);
+pendingOrder = null;
 
-  // 3. Send customer receipt via SendGrid ← NEW
-  sendCustomerReceipt(order);
-
-  // 4. Show success, clear cart
-  showSuccess(order.ref);
-  pendingOrder = null;
+  } catch (e) {
+    console.error('Verification request error:', e);
+    toast('Something went wrong verifying your payment. Please contact support with ref: ' + pendingOrder.ref);
+    pendingOrder = null;
+  }
 }
 
 /* ══════════════════════════════════════
@@ -1060,36 +1077,111 @@ async function sendCustomerReceipt(order) {
   try {
     const firstName = order.customer_name.split(' ')[0];
     const year = new Date().getFullYear();
+    const orderDate = new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' });
 
     let itemRows = '';
     order.items.forEach(function(i) {
       itemRows += '<tr>' +
-        '<td style="padding:8px 12px;border-bottom:1px solid #f0ede8;font-size:14px">' + i.name + '</td>' +
-        '<td style="padding:8px 12px;border-bottom:1px solid #f0ede8;text-align:center;font-size:14px">' + i.qty + '</td>' +
-        '<td style="padding:8px 12px;border-bottom:1px solid #f0ede8;text-align:right;font-size:14px">&#8358;' + ((i.price || 0) * i.qty).toLocaleString() + '</td>' +
+        '<td style="padding:14px 0;border-bottom:1px solid #EFE9DF;font-size:14px;color:#1A1A1A;font-family:Arial,sans-serif">' + i.name + '</td>' +
+        '<td style="padding:14px 0;border-bottom:1px solid #EFE9DF;text-align:center;font-size:14px;color:#6B6B6B;font-family:Arial,sans-serif">×' + i.qty + '</td>' +
+        '<td style="padding:14px 0;border-bottom:1px solid #EFE9DF;text-align:right;font-size:14px;color:#1A1A1A;font-family:Arial,sans-serif;font-weight:600">&#8358;' + ((i.price || 0) * i.qty).toLocaleString() + '</td>' +
         '</tr>';
     });
 
     const htmlParts = [
       '<!DOCTYPE html>',
       '<' + 'html><' + 'head><meta charset="UTF-8">',
-      '<meta name="viewport" content="width=device-width,initial-scale=1.0"></head>',
+      '<meta name="viewport" content="width=device-width,initial-scale=1.0">',
+      '<title>Your Pinniture Order</title></head>',
       '<' + 'body style="margin:0;padding:0;background:#FAF7F2;font-family:Arial,sans-serif">',
-      '<div style="max-width:600px;margin:0 auto;padding:32px 16px">',
-      '<div style="background:#1C1C1E;border-radius:12px 12px 0 0;padding:28px 32px;text-align:center">',
-      '<h1 style="color:#fff;font-size:20px;margin:0">PINNITURE</h1></div>',
-      '<div style="background:#fff;padding:28px 32px;border-radius:0 0 12px 12px">',
-      '<p style="font-size:15px">Hi ' + firstName + ', your order is confirmed.</p>',
-      '<table style="width:100%;border-collapse:collapse;margin-top:14px">' + itemRows + '</table>',
-      '<p style="margin-top:16px;font-weight:700">Total: &#8358;' + order.total.toLocaleString() + '</p>',
-      '<p style="font-size:12px;color:#777">Order Ref: ' + order.ref + '</p>',
-      '</div></div></' + 'body></' + 'html>'
+
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF7F2;padding:40px 16px">',
+      '<tr><td align="center">',
+      '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06)">',
+
+      // HEADER
+      '<tr><td style="background:#1C1C1E;padding:36px 40px;text-align:center">',
+      '<div style="font-family:Georgia,serif;font-size:26px;letter-spacing:2px;color:#ffffff;font-weight:700">PINNITURE</div>',
+      '<div style="font-size:10px;letter-spacing:2px;color:#C4973A;margin-top:4px;text-transform:uppercase">An Interior Design Company</div>',
+      '</td></tr>',
+      '<tr><td style="height:4px;background:linear-gradient(90deg,#C4973A,#E8B94A)"></td></tr>',
+
+      // HERO MESSAGE
+      '<tr><td style="padding:40px 40px 24px">',
+      '<div style="font-family:Georgia,serif;font-size:22px;color:#1A1A1A;margin-bottom:10px">Thank you, ' + firstName + '!</div>',
+      '<div style="font-size:14px;color:#6B6B6B;line-height:1.7">Your order has been received and payment confirmed. Our team is preparing your pieces with care, and we\'ll be in touch as your order moves through delivery.</div>',
+      '</td></tr>',
+
+      // ORDER DETAILS CARD
+      '<tr><td style="padding:0 40px 24px">',
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF7F2;border-radius:8px;border:1px solid #EFE9DF">',
+      '<tr>',
+      '<td style="padding:18px 20px;border-bottom:1px solid #EFE9DF">',
+      '<div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6B6B6B;margin-bottom:3px">Order Reference</div>',
+      '<div style="font-size:15px;font-weight:700;color:#C4973A">' + order.ref + '</div>',
+      '</td>',
+      '</tr>',
+      '<tr>',
+      '<td style="padding:18px 20px;border-bottom:1px solid #EFE9DF">',
+      '<div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6B6B6B;margin-bottom:3px">Order Date</div>',
+      '<div style="font-size:14px;color:#1A1A1A">' + orderDate + '</div>',
+      '</td>',
+      '</tr>',
+      '<tr>',
+      '<td style="padding:18px 20px">',
+      '<div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6B6B6B;margin-bottom:3px">Delivery Address</div>',
+      '<div style="font-size:14px;color:#1A1A1A;line-height:1.6">' + order.address + '</div>',
+      '</td>',
+      '</tr>',
+      '</table>',
+      '</td></tr>',
+
+      // ITEMS TABLE
+      '<tr><td style="padding:0 40px 8px">',
+      '<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6B6B6B;margin-bottom:10px">Order Summary</div>',
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">',
+      '<tr>',
+      '<td style="padding-bottom:10px;border-bottom:2px solid #1C1C1E;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1A1A1A">Item</td>',
+      '<td style="padding-bottom:10px;border-bottom:2px solid #1C1C1E;text-align:center;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1A1A1A">Qty</td>',
+      '<td style="padding-bottom:10px;border-bottom:2px solid #1C1C1E;text-align:right;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1A1A1A">Amount</td>',
+      '</tr>',
+      itemRows,
+      '</table>',
+      '</td></tr>',
+
+      // TOTAL
+      '<tr><td style="padding:20px 40px 36px">',
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">',
+      '<tr>',
+      '<td style="text-align:right;padding:14px 18px;background:#1C1C1E;border-radius:8px">',
+      '<span style="font-size:13px;color:#C4973A;letter-spacing:1px;text-transform:uppercase;margin-right:16px">Total Paid</span>',
+      '<span style="font-family:Georgia,serif;font-size:22px;color:#ffffff;font-weight:700">&#8358;' + order.total.toLocaleString() + '</span>',
+      '</td>',
+      '</tr>',
+      '</table>',
+      '</td></tr>',
+
+      // FOOTER
+      '<tr><td style="padding:28px 40px;background:#FAF7F2;border-top:1px solid #EFE9DF;text-align:center">',
+      '<div style="font-family:Georgia,serif;font-size:15px;color:#1A1A1A;margin-bottom:6px">PINNITURE</div>',
+      '<div style="font-size:12px;color:#6B6B6B;line-height:1.6;margin-bottom:14px">Lagos, Nigeria &nbsp;•&nbsp; hello@pinniture.ng</div>',
+      '<div style="font-size:11px;color:#9A9A9A">&copy; ' + year + ' Pinniture. All rights reserved.</div>',
+      '</td></tr>',
+
+      '</table>',
+      '</td></tr>',
+      '</table>',
+
+      '</' + 'body></' + 'html>'
     ];
     const html = htmlParts.join('');
 
     await fetch(SENDGRID_RELAY, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SB_KEY}`
+      },
       body: JSON.stringify({
         to:      order.email,
         toName:  order.customer_name,
@@ -1098,8 +1190,7 @@ async function sendCustomerReceipt(order) {
       })
     });
   } catch(e) {
-    console.error('SendGrid receipt error:', e);
-    // Non-fatal — order is already saved, don't block the user
+    console.error('Receipt email error:', e);
   }
 }
 
